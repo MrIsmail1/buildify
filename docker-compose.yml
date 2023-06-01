@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  site:
+    container_name: buildify.dev
+    build:
+      context: ./site
+      dockerfile: Dockerfile
+    ports:
+      - '8080:80'
+    volumes:
+      - ./site:/var/www/html
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+  composer:
+    container_name: composer
+    restart: always
+    image: composer:latest
+    command: ['install']
+    depends_on:
+      - db
+    volumes:
+      - ./site:/var/www/html
+    working_dir: /var/www/html
+
+  db:
+    container_name: postgres-Database
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pg-admin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - '8300:80'
+    depends_on:
+      - db
+
+volumes:
+  db_data:
