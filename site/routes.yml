@@ -1,0 +1,3 @@
+/:
+  controller: AuthController
+  action: login
