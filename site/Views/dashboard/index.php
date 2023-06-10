@@ -14,6 +14,7 @@
             <h2 class="text-2x1 p-5">Dashboard</h2>
             <?php include 'stats.php'; ?>
             <?php include 'recent_content.php';?>
+            <?php include 'dashboard.php' ;?>
         </div>
 
     </div>

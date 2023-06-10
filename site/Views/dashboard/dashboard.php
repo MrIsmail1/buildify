@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html>
+    <?php 
+    if (!empty($_POST['nom'])) {
+        setcookie('user', $_POST['nom']);
+    };
+    ?>
+
 <head>
     <title>Tableau de bord</title>
-    <!-- Ici, vous pouvez ajouter du CSS pour styliser votre tableau de bord. -->
+     
 </head>
 <body>
     <h1>Tableau de bord</h1>
