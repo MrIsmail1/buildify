@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Core\Sql;
+use App\Core\Db;
 
-class User extends Sql
+class User extends Db
 {
 
     protected Int $id;
@@ -109,5 +109,11 @@ class User extends Sql
     public function getDateUpdated()
     {
         return $this->date_updated;
+    }
+
+    public function getUserById($id)
+    {
+        $user = $this->read($id);
+        return $user;
     }
 }
