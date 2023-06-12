@@ -13,17 +13,38 @@ class AuthController
 
     public function login(): void
     {
+        // Check if user is already logged in
+        if (isset($_COOKIE['token'])) {
+            header('Location: /dashboard.php');
+            exit;
+        }
 
         $form = new LoginConfig();
         $view = new View("Auth/login", "front");
         $view->assign('form', $form->getConfig());
-
         if ($form->isSubmit()) {
             $errors = Verificator::form($form->getConfig(), $_POST);
             if (empty($errors)) {
-                /* $user = $userModel->getUserById($_POST['email']); */
                 $userModel = User::getInstance();
-                $user = $userModel->getUserById($_POST['id']);
+                $email = $_POST['email'];
+                $users = $userModel->read(null);
+                $user = null;
+                foreach ($users as $u) {
+                    if ($u['email'] === $email) {
+                        $user = $u;
+                        break;
+                    }
+                }
+                var_dump($user);
+                if ($user !== null && ($_POST['password'] === $user['password'])) {
+                    $token = $userModel->generateToken();
+                    $userModel->update(['token' => $token], "iduser", $user['iduser']);
+                    setcookie('token', $token, time() + 3600, '/');
+                    header('Location: /dashboard.php');
+                    exit;
+                } else {
+                    $view->assign('errors', ['Invalid email or password']);
+                }
             } else {
                 $view->assign('errors', $errors);
             }

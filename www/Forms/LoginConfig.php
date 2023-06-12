@@ -14,6 +14,7 @@ class LoginConfig extends FormAbs
         return [
             "config" => [
                 "method" => $this->getMethod(),
+                "autocomplete" => "off",
                 "action" => "",
                 "enctype" => "",
                 "submit" => "Se connecter",
@@ -25,7 +26,7 @@ class LoginConfig extends FormAbs
                     "placeholder" => "Votre email",
                     "error" => "Le format de votre email est incorrect"
                 ],
-                "pwd" => [
+                "password" => [
                     "type" => "password",
                     "placeholder" => "Votre mot de passe",
                     "error" => "Votre mot de passe est incorrect"

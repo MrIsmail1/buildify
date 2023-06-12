@@ -12,6 +12,7 @@ class User extends Db
     protected String $lastname;
     protected String $email;
     protected String $password;
+    protected String $token;
     protected $date_inserted;
     protected $date_updated;
 
@@ -96,6 +97,23 @@ class User extends Db
     }
 
     /**
+     * @return null
+     */
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param null
+     */
+    public function generateToken(): string
+    {
+        $bytes = random_bytes(128);
+        return $this->token = substr(str_shuffle(bin2hex($bytes)), 0, 255);
+    }
+
+    /**
      * @return mixed
      */
     public function getDateInserted()
@@ -109,11 +127,5 @@ class User extends Db
     public function getDateUpdated()
     {
         return $this->date_updated;
-    }
-
-    public function getUserById($id)
-    {
-        $user = $this->read($id);
-        return $user;
     }
 }

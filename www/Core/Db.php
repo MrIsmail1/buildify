@@ -18,7 +18,7 @@ abstract class Db
             die("Erreur SQL : " . $e->getMessage());
         }
         $classExploded = explode("\\", get_called_class());
-        $this->table = end($classExploded);
+        $this->table = "challenge_stack." . end($classExploded);
     }
 
     public static function getInstance(): self
@@ -29,21 +29,43 @@ abstract class Db
         return self::$instance;
     }
 
-    public function read($id = null): array
+    public function read($filter = null): array
     {
         $query = "SELECT * FROM " . $this->table;
         $params = [];
-        if ($id !== null) {
-            $query .= " WHERE id=:id";
-            $params[':id'] = $id;
+        if ($filter !== null) {
+            $query .= " WHERE ";
+            $conditions = [];
+            foreach ($filter as $key => $value) {
+                $conditions[] = "$key=:$key";
+                $params[":$key"] = $value;
+            }
+            $query .= implode(" AND ", $conditions);
         }
         $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->execute($params);
         return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function update(array $data, string $idColumn, int $idValue): void
+    {
+        $query = "UPDATE " . $this->table . " SET ";
+        $params = [];
+        $set = [];
+        foreach ($data as $key => $value) {
+            $set[] = "$key=:$key";
+            $params[":$key"] = $value;
+        }
+        $query .= implode(", ", $set);
+        $query .= " WHERE $idColumn=:$idColumn";
+        $params[":$idColumn"] = $idValue;
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute($params);
+    }
 
-    /*   public function exists(): void
+
+
+    /* public function exists(): void
     {
         $columns = get_object_vars($this);
         $columnsToDeleted = get_class_vars(get_class());
