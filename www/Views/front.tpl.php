@@ -5,13 +5,11 @@
     <meta charset="UTF-8">
     <title>Ma super page</title>
     <meta name="description" content="Ceci est ma super page">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-    <h1>Template de front</h1>
-
     <?php include $this->view; ?>
-
 </body>
 
 </html>

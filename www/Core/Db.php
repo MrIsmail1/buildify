@@ -65,19 +65,4 @@ abstract class Db
 
 
 
-    /* public function exists(): void
-    {
-        $columns = get_object_vars($this);
-        $columnsToDeleted = get_class_vars(get_class());
-        $columns = array_diff_key($columns, $columnsToDeleted);
-        $query = "SELECT * FROM " . $this->table . " WHERE ";
-        $params = [];
-        foreach ($columns as $key => $value) {
-            $query .= $key . "=:" . $key . " AND ";
-            $params[":" . $key] = $value;
-        }
-        $query = rtrim($query, " AND ");
-        $queryPrepared = $this->pdo->prepare($query);
-        $queryPrepared->execute($params);
-    } */
 }

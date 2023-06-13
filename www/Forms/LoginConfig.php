@@ -18,20 +18,29 @@ class LoginConfig extends FormAbs
                 "action" => "",
                 "enctype" => "",
                 "submit" => "Se connecter",
-                "cancel" => "Annuler"
+                "class" => "space-y-6",
+            ],
+            "labels" => [
+                "email" => [
+                    "for" => "email",
+                    "text" => "Adresse e-mail :",
+                ],
+                "password" => [
+                    "for" => "password",
+                    "text" => "Mot de passe :",
+                ],
             ],
             "inputs" => [
                 "email" => [
                     "type" => "email",
-                    "placeholder" => "Votre email",
-                    "error" => "Le format de votre email est incorrect"
+                    "placeholder" => "Votre email...",
                 ],
                 "password" => [
                     "type" => "password",
-                    "placeholder" => "Votre mot de passe",
-                    "error" => "Votre mot de passe est incorrect"
+                    "placeholder" => "Votre mot de passe...",
                 ],
-            ]
+            ],
+            "resetPwd" => "/auth/reset_password",
         ];
     }
 }

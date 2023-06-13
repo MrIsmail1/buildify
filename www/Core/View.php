@@ -38,7 +38,7 @@ class View
         $this->template = $template;
     }
 
-    public function modal($name, $config): void
+    public function component($name, $config): void
     {
         include "Views/Components/" . $name . ".php";
     }

@@ -20,7 +20,7 @@ class AuthController
         }
 
         $form = new LoginConfig();
-        $view = new View("Auth/login", "front");
+        $view = new View("Auth/login", "back");
         $view->assign('form', $form->getConfig());
         if ($form->isSubmit()) {
             $errors = Verificator::form($form->getConfig(), $_POST);
@@ -35,7 +35,6 @@ class AuthController
                         break;
                     }
                 }
-                var_dump($user);
                 if ($user !== null && ($_POST['password'] === $user['password'])) {
                     $token = $userModel->generateToken();
                     $userModel->update(['token' => $token], "iduser", $user['iduser']);
@@ -43,7 +42,7 @@ class AuthController
                     header('Location: /dashboard.php');
                     exit;
                 } else {
-                    $view->assign('errors', ['Invalid email or password']);
+                    $view->assign('errors', ['E-mail ou mot de passe invalide']);
                 }
             } else {
                 $view->assign('errors', $errors);

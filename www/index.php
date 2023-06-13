@@ -21,8 +21,7 @@ spl_autoload_register(function ($class) {
 
 $uriExploded = explode("?", $_SERVER["REQUEST_URI"]);
 $uri = rtrim(strtolower(trim($uriExploded[0])), "/");
-$uri = (empty($uri)) ? "/auth" : $uri;
-
+$uri = (empty($uri)) ? "/" : $uri;
 
 
 
