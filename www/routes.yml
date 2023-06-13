@@ -1,3 +1,7 @@
 /auth:
   controller: AuthController
   action: login
+
+/register:
+  controller: AuthController
+  action: register
