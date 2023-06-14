@@ -6,10 +6,60 @@ use App\Core\Db;
 use App\Core\Verificator;
 use App\Core\View;
 use App\Forms\LoginConfig;
+use App\Forms\RegisterConfig;
 use App\Models\User;
 
-class AuthController
+
+class AuthController 
 {
+    public function register(): void
+    {
+
+    $form = new RegisterConfig();
+    $view = new View("Auth/register", "front");
+    $view->assign('form', $form->getConfig());
+    
+    if ($form->isSubmit()) {
+        $errors = Verificator::form($form->getConfig(), $_POST);
+        
+        if (empty($errors)) {
+            $userModel = User::getInstance();
+            $email = $_POST['email'];
+            
+            // Check if email is already registered
+            /* $existingUser = $userModel->getByEmail($email); */
+            $existingUser=NULL;
+            
+            if ($existingUser==NULL) {
+                // Create new user
+                $user = [
+                    'email' => $email,
+                    'motdepasse' => password_hash($_POST['password'], PASSWORD_DEFAULT),
+                    'firstname' => 'Hamza',
+                    'lastname' => 'Mahmood' // Assuming "pending" status until email verification
+                ];
+                
+                $userId = $userModel->create($user);
+                
+                if ($userId) {
+                    // Send verification email to user
+                    
+                    // Redirect to success page or display success message
+                    header('Location: /register-success.php');
+                    exit;
+                } else {
+                    $view->assign('errors', ['Failed to create user']);
+                }
+            } else {
+                $view->assign('errors', ['Email or username already registered']);
+            }
+        } else {
+            $view->assign('errors', $errors);
+        }
+    }
+    }
+
+
 
     public function login(): void
     {
@@ -49,28 +99,5 @@ class AuthController
                 $view->assign('errors', $errors);
             }
         }
-    }
-
-    public function register(): void
-    {
-        $form = new AddUser();
-        $view = new View("Auth/register", "front");
-        $view->assign('form', $form->getConfig());
-
-
-        if($form->isSubmit()){
-            $errors = Verificator::form($form->getConfig(), $_POST);
-            if(empty($errors)){
-                echo "Insertion en BDD";
-            }else{
-                $view->assign('errors', $errors);
-            }
-        }
-        /*
-        $user = new User();
-        $user->setId(2);
-        $user->setEmail("test@gmail.com");
-        $user->save();
-        */
     }
 }
