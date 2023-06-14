@@ -7,7 +7,7 @@ use App\Core\Db;
 class User extends Db
 {
 
-    protected Int $id;
+    protected Int $id = 0;
     protected String $firstname;
     protected String $lastname;
     protected String $email;
@@ -31,6 +31,8 @@ class User extends Db
     {
         $this->id = $id;
     }
+
+    
 
     /**
      * @return String

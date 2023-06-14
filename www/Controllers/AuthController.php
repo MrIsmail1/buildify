@@ -33,14 +33,16 @@ class AuthController
             if ($existingUser==NULL) {
                 // Create new user
                 $user = [
+                    'id' => 0,
                     'email' => $email,
                     'motdepasse' => password_hash($_POST['password'], PASSWORD_DEFAULT),
                     'firstname' => 'Hamza',
-                    'lastname' => 'Mahmood' // Assuming "pending" status until email verification
+                    'lastname' => 'Mahmood'
                 ];
-                
+                /* var_dump($user); */
+
                 $userId = $userModel->create($user);
-                
+                var_dump($userId);
                 if ($userId) {
                     // Send verification email to user
                     
