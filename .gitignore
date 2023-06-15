@@ -6,6 +6,7 @@
 
 # Ignore les fichiers de package et de dépendances
 package-lock.json
+package.json
 /www/composer.lock
 
 
