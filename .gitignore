@@ -2,10 +2,11 @@
 /node_modules
 /build
 /dist
+/www/vendor
 
 # Ignore les fichiers de package et de dépendances
 package-lock.json
-package.json
+/www/composer.lock
 
 
 # Ignore les fichiers d'environnement spécifiques à chaque utilisateur
