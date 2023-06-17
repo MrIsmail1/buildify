@@ -25,6 +25,8 @@ class AuthController
         if (empty($errors)) {
             $userModel = User::getInstance();
             $email = $_POST['email'];
+            $firstname = $_POST['firstname'];
+            $lastname = $_POST['lastname'];
             
             // Check if email is already registered
             /* $existingUser = $userModel->getByEmail($email); */
@@ -35,11 +37,11 @@ class AuthController
                 $user = [
                     'id' => 0,
                     'email' => $email,
-                    'motdepasse' => password_hash($_POST['password'], PASSWORD_DEFAULT),
-                    'firstname' => 'Hamza',
-                    'lastname' => 'Mahmood'
+                    'motdepasse' => password_hash($_POST['motdepasse'], PASSWORD_DEFAULT),
+                    'firstname' => $firstname,
+                    'lastname' => $lastname
                 ];
-                /* var_dump($user); */
+                var_dump($user);
 
                 $userId = $userModel->create($user);
                 var_dump($userId);

@@ -7,14 +7,14 @@ use App\Core\Db;
 class User extends Db
 {
 
-    protected Int $id = 0;
+    protected Int $id;
     protected String $firstname;
     protected String $lastname;
     protected String $email;
     protected String $password;
-    protected String $token;
-    protected $date_inserted;
-    protected $date_updated;
+    // protected String $token;
+    // protected $date_inserted;
+    // protected $date_updated;
 
     /**
      * @return int
@@ -98,36 +98,36 @@ class User extends Db
         $this->password = password_hash($password, PASSWORD_DEFAULT);
     }
 
-    /**
-     * @return null
-     */
-    public function getToken(): ?string
-    {
-        return $this->token;
-    }
+    // /**
+    //  * @return null
+    //  */
+    // public function getToken(): ?string
+    // {
+    //     return $this->token;
+    // }
 
-    /**
-     * @param null
-     */
-    public function generateToken(): string
-    {
-        $bytes = random_bytes(128);
-        return $this->token = substr(str_shuffle(bin2hex($bytes)), 0, 255);
-    }
+    // /**
+    //  * @param null
+    //  */
+    // public function generateToken(): string
+    // {
+    //     $bytes = random_bytes(128);
+    //     return $this->token = substr(str_shuffle(bin2hex($bytes)), 0, 255);
+    // }
 
-    /**
-     * @return mixed
-     */
-    public function getDateInserted()
-    {
-        return $this->date_inserted;
-    }
+    // /**
+    //  * @return mixed
+    //  */
+    // public function getDateInserted()
+    // {
+    //     return $this->date_inserted;
+    // }
 
-    /**
-     * @return mixed
-     */
-    public function getDateUpdated()
-    {
-        return $this->date_updated;
-    }
+    // /**
+    //  * @return mixed
+    //  */
+    // public function getDateUpdated()
+    // {
+    //     return $this->date_updated;
+    // }
 }

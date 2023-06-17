@@ -10,6 +10,7 @@ abstract class Db
     private $pdo;
     private $table;
 
+    //Connection à la Base de données et dans quelle table 
     protected function __construct()
     {
         try {
@@ -66,25 +67,25 @@ abstract class Db
     public function create(): void
     {
         $columns = get_object_vars($this);
-        $columnsToDeleted =get_class_vars(get_class());
-        $columns = array_diff_key($columns, $columnsToDeleted);
-        unset($columns["id"]);
+        $columnsToExclude = get_class_vars(get_class());
+        $columns = array_diff_key($columns, $columnsToExclude);
 
-        if(is_numeric($this->getId()) && $this->getId()>0)
-        {
-            $columnsUpdate = [];
-            foreach ($columns as $key=>$value)
-            {
-                $columnsUpdate[]= $key."=:".$key;
+        if(is_numeric($this->getId()) && $this->getId()>0) {
+            $sqlUpdate = [];
+            foreach ($columns as $column=>$value) {
+                $sqlUpdate[] = $column."=:".$column;
             }
-            $queryPrepared = $this->pdo->prepare("UPDATE ".$this->table." SET ".implode(",",$columnsUpdate)." WHERE id=".$this->getId());
-
+            $queryPrepared = $this->pdo->prepare("UPDATE ".$this->table.
+                " SET ".implode(",", $sqlUpdate). " WHERE id=".$this->getId());
         }else{
-            $queryPrepared = $this->pdo->prepare("INSERT INTO ".$this->table." (".implode(",", array_keys($columns)).") 
-                            VALUES (:".implode(",:", array_keys($columns)).")");
+            $queryPrepared = $this->pdo->prepare("INSERT INTO ".$this->table.
+                " (".implode("," , array_keys($columns) ).") 
+            VALUES
+             (:".implode(",:" , array_keys($columns) ).") ");
         }
 
         $queryPrepared->execute($columns);
+
     }
 
 
