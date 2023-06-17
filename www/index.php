@@ -28,3 +28,4 @@ $uri = (empty($uri)) ? "/" : $uri;
 $routing = new Routing();
 $routing->setAction($uri);
 $routing->run();
+?>

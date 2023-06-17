@@ -7,13 +7,14 @@ use PDO;
 abstract class Db
 {
     private static $instance = null;
-    private $pdo;
-    private $table;
+    protected $pdo;
+    protected $table;
 
-    protected function __construct()
+    public function __construct()
     {
         try {
-            $this->pdo = new \PDO("pgsql:host=postgres-Database;dbname=Challenge_Stack;port=5432", "ESGI", "ESGI2023");
+            $this->pdo = new PDO("pgsql:host=postgres-Database;dbname=Challenge_Stack;port=5432", "ESGI", "ESGI2023");
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (\Exception $e) {
             die("Erreur SQL : " . $e->getMessage());
         }
@@ -63,6 +64,8 @@ abstract class Db
         $queryPrepared->execute($params);
     }
 
-
-
+    protected function getPDO(): PDO
+    {
+        return $this->pdo;
+    }
 }
