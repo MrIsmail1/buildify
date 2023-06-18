@@ -36,7 +36,7 @@ class RegisterConfig extends FormAbs
                     "placeholder" => "Votre email",
                     "error" => "Le format de votre email est incorrect"
                 ],
-                "motdepasse" => [
+                "password" => [
                     "type" => "password",
                     "placeholder" => "Votre mot de passe",
                     "error" => "Votre mot de passe est incorrect"

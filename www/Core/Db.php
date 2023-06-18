@@ -65,28 +65,18 @@ abstract class Db
     }
 
     public function create(): void
-    {
-        $columns = get_object_vars($this);
-        $columnsToExclude = get_class_vars(get_class());
-        $columns = array_diff_key($columns, $columnsToExclude);
+{
+    $columns = get_object_vars($this);
+    
+    $columnsToExclude = get_class_vars(get_class());
+    $columns = array_diff_key($columns, $columnsToExclude);
 
-        if(is_numeric($this->getId()) && $this->getId()>0) {
-            $sqlUpdate = [];
-            foreach ($columns as $column=>$value) {
-                $sqlUpdate[] = $column."=:".$column;
-            }
-            $queryPrepared = $this->pdo->prepare("UPDATE ".$this->table.
-                " SET ".implode(",", $sqlUpdate). " WHERE id=".$this->getId());
-        }else{
-            $queryPrepared = $this->pdo->prepare("INSERT INTO ".$this->table.
-                " (".implode("," , array_keys($columns) ).") 
-            VALUES
-             (:".implode(",:" , array_keys($columns) ).") ");
-        }
-
-        $queryPrepared->execute($columns);
-
-    }
+    $queryPrepared = $this->pdo->prepare("INSERT INTO ".$this->table." (".implode(",", array_keys($columns)).") 
+                            VALUES (:".implode(",:", array_keys($columns)).")");
+   
+    var_dump($columns);
+    $queryPrepared->execute($columns);
+}
 
 
 

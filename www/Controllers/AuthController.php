@@ -15,52 +15,50 @@ class AuthController
     public function register(): void
     {
 
-    $form = new RegisterConfig();
-    $view = new View("Auth/register", "front");
-    $view->assign('form', $form->getConfig());
-    
-    if ($form->isSubmit()) {
-        $errors = Verificator::form($form->getConfig(), $_POST);
-        
-        if (empty($errors)) {
-            $userModel = User::getInstance();
-            $email = $_POST['email'];
-            $firstname = $_POST['firstname'];
-            $lastname = $_POST['lastname'];
-            
-            // Check if email is already registered
-            /* $existingUser = $userModel->getByEmail($email); */
-            $existingUser=NULL;
-            
-            if ($existingUser==NULL) {
-                // Create new user
-                $user = [
-                    'id' => 0,
-                    'email' => $email,
-                    'motdepasse' => password_hash($_POST['motdepasse'], PASSWORD_DEFAULT),
-                    'firstname' => $firstname,
-                    'lastname' => $lastname
-                ];
-                var_dump($user);
+        $form = new RegisterConfig();
+        $view = new View("Auth/register", "front");
+        $view->assign('form', $form->getConfig());
 
-                $userId = $userModel->create($user);
-                var_dump($userId);
-                if ($userId) {
-                    // Send verification email to user
-                    
-                    // Redirect to success page or display success message
-                    header('Location: /register-success.php');
-                    exit;
+        if ($form->isSubmit()) {
+            $errors = Verificator::form($form->getConfig(), $_POST);
+
+            if (empty($errors)) {
+                $userModel = User::getInstance();
+                $email = $_POST['email'];
+                $password = $_POST['password'];
+                $firstname = $_POST['firstname'];
+                $lastname = $_POST['lastname'];
+
+                // Check if email is already registered
+                $verify = ["email" => $email];
+                $exist = $userModel->read($verify);
+                if (empty($exist)) {
+
+                        // Create new user
+                        $userModel->setEmail($email);
+                        $userModel->setPassword($password);
+                        $userModel->setFirstname($firstname);
+                        $userModel->setLastname($lastname);
+
+                        $user = $userModel->create();
+                        var_dump($user);
+                   
+                    // if ($user) {
+                    //     // Send verification email to user
+
+                    //     // Redirect to success page or display success message
+                    //     header('Location: /register-success.php');
+                    //     exit;
+                    // } else {
+                    //     $view->assign('errors', ['Failed to create user']);
+                    // }
                 } else {
-                    $view->assign('errors', ['Failed to create user']);
+                    $view->assign('errors', ['Email or username already registered']);
                 }
             } else {
-                $view->assign('errors', ['Email or username already registered']);
+                $view->assign('errors', $errors);
             }
-        } else {
-            $view->assign('errors', $errors);
         }
-    }
     }
 
 
