@@ -18,7 +18,8 @@ class RegisterConfig extends FormAbs
                 "action" => "",
                 "enctype" => "",
                 "submit" => "S'inscrire",
-                "cancel" => "Annuler"
+                "cancel" => "Annuler",
+                "class" => "space-y-6",
             ],
             "labels" => [
                 "firstname" => [
@@ -29,7 +30,7 @@ class RegisterConfig extends FormAbs
                     "for" => "lastname",
                     "text" => "Nom :",
                 ],
-                 "email" => [
+                "email" => [
                     "for" => "email",
                     "text" => "Adresse e-mail :",
                 ],
