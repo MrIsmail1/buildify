@@ -20,10 +20,32 @@ class RegisterConfig extends FormAbs
                 "submit" => "S'inscrire",
                 "cancel" => "Annuler"
             ],
+            "labels" => [
+                "firstname" => [
+                    "for" => "firstname",
+                    "text" => "Prénom :",
+                ],
+                "lastname" => [
+                    "for" => "lastname",
+                    "text" => "Nom :",
+                ],
+                 "email" => [
+                    "for" => "email",
+                    "text" => "Adresse e-mail :",
+                ],
+                "password" => [
+                    "for" => "password",
+                    "text" => "Mot de passe :",
+                ],
+                "passwordConfirm" => [
+                    "for" => "passwordConfirm",
+                    "text" => "Confirmation mot de passe :",
+                ],
+            ],
             "inputs" => [
                 "firstname" => [
                     "type" => "text",
-                    "placeholder" => "Entrez votre prénom",
+                    "placeholder" => "Entrez votre prénom...",
                     "required" => true,
                     "min" => 2,
                     "max" => 25,
@@ -31,7 +53,7 @@ class RegisterConfig extends FormAbs
                 ],
                 "lastname" => [
                     "type" => "text",
-                    "placeholder" => "Entrez votre nom",
+                    "placeholder" => "Entrez votre nom...",
                     "required" => true,
                     "min" => 2,
                     "max" => 100,
@@ -39,19 +61,19 @@ class RegisterConfig extends FormAbs
                 ],
                 "email" => [
                     "type" => "email",
-                    "placeholder" => "Votre email",
+                    "placeholder" => "Votre email...",
                     "required" => true,
                     "error" => "Le format de votre email est incorrect"
                 ],
                 "password" => [
                     "type" => "password",
-                    "placeholder" => "Votre mot de passe",
+                    "placeholder" => "Votre mot de passe...",
                     "required" => true,
                     "error" => "Votre mot de passe doit faire au min 8 caratères avec une majuscule et un chiffre"
                 ],
                 "passwordConfirm" => [
                     "type" => "password",
-                    "placeholder" => "Confirmation de mot de passe",
+                    "placeholder" => "Confirmation de mot de passe...",
                     "required" => true,
                     "error" => "Votre confirmation de mot de passe ne correspond pas",
                 ]
