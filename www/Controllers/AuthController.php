@@ -10,11 +10,10 @@ use App\Forms\RegisterConfig;
 use App\Models\User;
 
 
-class AuthController 
+class AuthController
 {
     public function register(): void
     {
-
         $form = new RegisterConfig();
         $view = new View("Auth/register", "front");
         $view->assign('form', $form->getConfig());
@@ -30,36 +29,28 @@ class AuthController
                 $lastname = $_POST['lastname'];
 
                 // Check if email is already registered
-                $verify = ["email" => $email];
-                $exist = $userModel->read($verify);
+
+                $exist = $userModel->getUserByEmail($email);
                 if (empty($exist)) {
+                    // Create new user
+                    $userModel->setEmail($email);
+                    $userModel->setPassword($password);
+                    $userModel->setFirstname($firstname);
+                    $userModel->setLastname($lastname);
+                    $userModel->create();
+                    // Send verification email to user
 
-                        // Create new user
-                        $userModel->setEmail($email);
-                        $userModel->setPassword($password);
-                        $userModel->setFirstname($firstname);
-                        $userModel->setLastname($lastname);
-
-                        $user = $userModel->create();
-                        var_dump($user);
-                   
-                    // if ($user) {
-                    //     // Send verification email to user
-
-                    //     // Redirect to success page or display success message
+                    //Redirect to success page or display success message
                     //     header('Location: /register-success.php');
-                    //     exit;
-                    // } else {
-                    //     $view->assign('errors', ['Failed to create user']);
-                    // }
                 } else {
-                    $view->assign('errors', ['Email or username already registered']);
+                    $view->assign('errors', ['L\'utilisateur existe déjà !']);
                 }
             } else {
                 $view->assign('errors', $errors);
             }
         }
     }
+
 
 
 

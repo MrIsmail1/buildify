@@ -32,7 +32,7 @@ class User extends Db
         $this->id = $id;
     }
 
-    
+
 
     /**
      * @return String
@@ -130,4 +130,8 @@ class User extends Db
     // {
     //     return $this->date_updated;
     // }
+    public function getUserByEmail(string $email)
+    {
+        return $this->read(["email" => $email]);
+    }
 }
