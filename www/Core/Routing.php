@@ -22,6 +22,8 @@ class Routing
 
     public function setAction(string $uri): array
     {
+        
+        
         if (
             empty($this->routes[$uri])
             || empty($this->routes[$uri]["controller"])
@@ -74,4 +76,5 @@ class Routing
         }
         $object->$action();
     }
+    
 }

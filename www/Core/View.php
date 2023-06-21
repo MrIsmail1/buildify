@@ -43,9 +43,17 @@ class View
         include "Views/Components/" . $name . ".php";
     }
 
-    public function __destruct()
+    
+
+    public function render(): void
     {
         extract($this->data);
         include $this->template;
     }
+
+    public function __destruct()
+    {
+        
+    }
+
 }
