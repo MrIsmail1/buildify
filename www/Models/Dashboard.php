@@ -135,9 +135,9 @@ class Dashboard extends Db
         return $result->fetchColumn();
     }
 
-    public function create(array $data): bool
-    {
-    $sql = "INSERT INTO challenge_stack.dashboard (id_pages, date_publication, dashboardcol, id_commentpage, commentaireamoderer) VALUES (:id_pages, :date_publication, :dashboardcol, :id_commentpage, :commentaireamoderer)";
+    public function create(string $tableName, array $data): bool
+{
+    $sql = "INSERT INTO $tableName (id_pages, date_publication, dashboardcol, id_commentpage, commentaireamoderer) VALUES (:id_pages, :date_publication, :dashboardcol, :id_commentpage, :commentaireamoderer)";
     $query = $this->getPDO()->prepare($sql);
     return $query->execute([
         'id_pages' => $data['id_pages'],
@@ -146,44 +146,65 @@ class Dashboard extends Db
         'id_commentpage' => $data['id_commentpage'],
         'commentaireamoderer' => $data['commentaireamoderer']
     ]);
-    }
+}
 
 
     public function update(array $data, string $idColumn, int $idValue): void
     {
-        $sql = "UPDATE dashboard SET id_pages = :id_pages, date_publication = :date_publication, dashboardcol = :dashboardcol, id_commentpage = :id_commentpage, commentaireamoderer = :commentaireamoderer WHERE $idColumn = :conditionValue";
-        $query = $this->getPDO()->prepare($sql);
-        $query->execute([
-            'id_pages' => $data['id_pages'],
-            'date_publication' => $data['date_publication'],
-            'dashboardcol' => $data['dashboardcol'],
-            'id_commentpage' => $data['id_commentpage'],
-            'commentaireamoderer' => $data['commentaireamoderer'],
-            'conditionValue' => $idValue
-        ]);
+    $sql = "UPDATE challenge_stack.dashboard SET id_pages = :id_pages, date_publication = :date_publication, dashboardcol = :dashboardcol, id_commentpage = :id_commentpage, commentaireamoderer = :commentaireamoderer WHERE $idColumn = :conditionValue";
+    $query = $this->getPDO()->prepare($sql);
+    $query->execute([
+        'id_pages' => $data['id_pages'],
+        'date_publication' => $data['date_publication'],
+        'dashboardcol' => $data['dashboardcol'],
+        'id_commentpage' => $data['id_commentpage'],
+        'commentaireamoderer' => $data['commentaireamoderer'],
+        'conditionValue' => $idValue
+    ]);
     }
 
-    public function delete(string $conditionColumn, $conditionValue): bool
+    public function delete(string $tableName, string $idColumn, $idValue): bool
     {
-        $sql = "DELETE FROM dashboard WHERE $conditionColumn = :conditionValue";
+        $allowedColumns = ['iddashboard', 'id_pages', 'date_publication', 'dashboardcol', 'id_commentpage', 'commentaireamoderer'];
+        if (!in_array($idColumn, $allowedColumns)) {
+            throw new \InvalidArgumentException("Invalid column name $idColumn");
+        }
+
+        $sql = "DELETE FROM $tableName WHERE $idColumn = :conditionValue";
         $query = $this->getPDO()->prepare($sql);
-        return $query->execute(['conditionValue' => $conditionValue]);
+        return $query->execute(['conditionValue' => $idValue]);
     }
+
 
     public function getDashboardById($id)
     {
-        $sql = "SELECT * FROM dashboard WHERE iddashboard = :id";
-        $query = $this->getPDO()->prepare($sql);
-        $query->execute(['id' => $id]);
-        return $query->fetch();
+    $sql = "SELECT * FROM challenge_stack.dashboard WHERE iddashboard = :id";
+    $query = $this->getPDO()->prepare($sql);
+    $query->execute(['id' => $id]);
+    return $query->fetch();
     }
 
     public function getAllDashboards()
     {
-        $sql = "SELECT * FROM dashboard";
+    $sql = "SELECT * FROM challenge_stack.dashboard";
+    $query = $this->getPDO()->prepare($sql);
+    $query->execute();
+    return $query->fetchAll();
+    }
+    
+    public function getLatestPosts(){
+        $sql = "SELECT * FROM challenge_stack.comment_page ORDER BY idcomment_page DESC LIMIT 5"; 
         $query = $this->getPDO()->prepare($sql);
         $query->execute();
         return $query->fetchAll();
+
     }
     
+    public function getLatestComments(){
+        $sql = "SELECT * FROM challenge_stack.page ORDER BY idpage DESC LIMIT 5"; 
+        $query = $this->getPDO()->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
+
+    }
 }

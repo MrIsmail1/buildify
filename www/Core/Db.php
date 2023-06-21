@@ -64,6 +64,28 @@ abstract class Db
         $queryPrepared->execute($params);
     }
 
+    public function delete(string $tableName, string $idColumn, $idValue): bool
+    {
+        $query = "DELETE FROM " . $tableName . " WHERE $idColumn=:idValue";
+        $queryPrepared = $this->pdo->prepare($query);
+        return $queryPrepared->execute(['idValue' => $idValue]);
+    }
+
+
+    public function create(string $challenge_stack, array $data): bool
+    {
+    // Prepare SQL statement and params
+    $params = [];
+    foreach ($data as $key => $value) {
+        $params[":$key"] = $value;
+    }
+    $query = "INSERT INTO " . $challenge_stack . " (" . implode(', ', array_keys($data)) . ") VALUES (" . implode(', ', array_keys($params)) . ")";
+    $queryPrepared = $this->pdo->prepare($query);
+
+    // Execute SQL statement
+    return $queryPrepared->execute($params);
+    }
+
     protected function getPDO(): PDO
     {
         return $this->pdo;

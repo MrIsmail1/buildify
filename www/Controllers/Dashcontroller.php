@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use App\Core\Db;
 use App\Models\Dashboard;
 use App\Core\View;
 
@@ -21,12 +22,16 @@ class DashController
     $totalPages = $dashboardModel->getTotalPages();
     $totalPosts = $dashboardModel->getTotalPosts();
     $totalComments = $dashboardModel->getTotalComments();
+    $latestComments = $dashboardModel->getLatestComments(); 
+    $latestPages = $dashboardModel->getLatestPosts();
 
     // Chargez la vue et transmettez les données
     $view = new View('Dashboard/dashboard', 'back');
     $view->assign('totalPages', $totalPages);
     $view->assign('totalPosts', $totalPosts);
     $view->assign('totalComments', $totalComments);
+    $view->assign('latestComments', $latestComments); 
+    $view->assign('latestPages', $latestPages);
     $view->render();
     }
 
@@ -44,7 +49,7 @@ class DashController
         $view->render();
     }
     public function showDashboard()
-{
+    {
     // Instanciez le modèle Dashboard pour récupérer les données du tableau de bord
     $dashboardModel = new Dashboard();
 
