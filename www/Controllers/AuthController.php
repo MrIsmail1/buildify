@@ -2,11 +2,22 @@
 
 namespace App\Controllers;
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 use App\Core\Verificator;
 use App\Core\View;
 use App\Forms\LoginConfig;
 use App\Forms\RegisterConfig;
 use App\Models\User;
+
+require_once 'vendor/autoload.php';
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
+
+
 
 class AuthController
 {
@@ -53,8 +64,8 @@ class AuthController
 
                     // Configuration de l'e-mail
                     $mail->setFrom('hamzamahmood93150@gmail.com', 'Hamza Mahmood'); // Votre adresse e-mail et votre nom
-                    $mail->addAddress('hamza.mahmood@outlook.fr', 'Tetst'); // Adresse e-mail et nom du destinataire
-                    $mail->Subject = 'Test Email'; // Objet de l'e-mail
+                    $mail->addAddress($email, 'Tetst'); // Adresse e-mail et nom du destinataire
+                    $mail->Subject = 'Email de vérification'; // Objet de l'e-mail
                     $mail->Body = 'This is a test email.'; // Corps de l'e-mail
 
                     // Envoyer l'e-mail

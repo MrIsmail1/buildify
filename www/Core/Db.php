@@ -74,7 +74,7 @@ abstract class Db
     $queryPrepared = $this->pdo->prepare("INSERT INTO ".$this->table." (".implode(",", array_keys($columns)).") 
                             VALUES (:".implode(",:", array_keys($columns)).")");
    
-    var_dump($columns);
+    /* var_dump($columns); */
     $queryPrepared->execute($columns);
 }
 
