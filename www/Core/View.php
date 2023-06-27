@@ -44,16 +44,12 @@ class View
     }
 
     
-
-    public function render(): void
+    public function __destruct()
     {
         extract($this->data);
         include $this->template;
     }
 
-    public function __destruct()
-    {
-        
-    }
+    
 
 }
