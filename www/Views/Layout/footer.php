@@ -3,6 +3,3 @@
     <p>© 2023 Votre nom</p>
 </footer>
 
-</body>
-
-</html>
