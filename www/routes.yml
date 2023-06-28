@@ -5,3 +5,7 @@
 /register:
   controller: AuthController
   action: register
+
+/verif:
+  controller: AuthController
+  action: mailverification

@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+/* use PHPMailer\PHPMailer\Exception; */
 use App\Core\Verificator;
 use App\Core\View;
 use App\Forms\LoginConfig;
@@ -12,9 +12,9 @@ use App\Models\User;
 
 require_once 'vendor/autoload.php';
 
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
+/* require 'PHPMailer/src/Exception.php'; */
+require 'vendor/PHPMailer/src/PHPMailer.php';
+require 'vendor/PHPMailer/src/SMTP.php';
 
 
 
@@ -32,7 +32,7 @@ class AuthController
 
             //Recupère les infos dans le form
             if (empty($errors)) {
-                $userModel = User::getInstance();
+                $userModel = User::getInstance(); 
                 $email = $_POST['email'];
                 $password = $_POST['password'];
                 $firstname = $_POST['firstname'];
@@ -47,32 +47,39 @@ class AuthController
                     $userModel->setPassword($password);
                     $userModel->setFirstname($firstname);
                     $userModel->setLastname($lastname);
-                    $userModel->create();
-                   
-                    // Send verification email to user
 
+                    // Créer un token de connexion pour l'utilisateur 
+                    $token = $userModel->generateToken();
+                    $userModel->setToken($token);
+
+                    // Insérer l'utilisateur dans la base de données
+                    $userModel->create();
+
+                    // Send verification email to user
                     $mail = new PHPMailer;
 
                     // Configuration du serveur SMTP
                     $mail->isSMTP();
                     $mail->SMTPSecure = 'ssl';
-                    $mail->Host = 'smtp.gmail.com'; // Remplacez par votre serveur SMTP
-                    $mail->Port = 465; // Port SMTP (utilisez 465 pour SSL)
-                    $mail->SMTPAuth = true; // Activer l'authentification SMTP
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->Port = 465;
+                    $mail->SMTPAuth = true;
                     $mail->Username = 'hamzamahmood93150@gmail.com'; // Votre adresse e-mail
-                    $mail->Password = 'tmaakvgtnmffcylp'; // Votre mot de passe e-mail
+                    $mail->Password = getenv('VERIF_MAIL'); // Votre mot de passe e-mail
 
                     // Configuration de l'e-mail
                     $mail->setFrom('hamzamahmood93150@gmail.com', 'Hamza Mahmood'); // Votre adresse e-mail et votre nom
-                    $mail->addAddress($email, 'Tetst'); // Adresse e-mail et nom du destinataire
-                    $mail->Subject = 'Email de vérification'; // Objet de l'e-mail
-                    $mail->Body = 'This is a test email.'; // Corps de l'e-mail
+                    $mail->addAddress($email, 'Test'); // Adresse e-mail et nom du destinataire
+                    $mail->Subject = 'Email de vérification buildify'; // Objet de l'e-mail
+                    $mail->Body = 'Lien de vérification de compte : http://localhost:8080/verif?token='.$token ; // Corps de l'e-mail
 
                     // Envoyer l'e-mail
                     if ($mail->send()) {
+                        header('Location: /login');
                         echo 'E-mail sent successfully';
                     } else {
-                        echo 'Error sending e-mail: ' . $mail->ErrorInfo;
+                        $view->assign('errors', ['Echec d\'envoie d\'email !']);
+                        http_response_code(404);
                     }
 
                     //Redirect to success page or display success message
@@ -126,4 +133,36 @@ class AuthController
             }
         }
     }
+
+    public function mailverification(): void {
+
+        $view = new View("Auth/verif", "front");
+        $token = $_GET['token'];
+
+        $userModel = User::getInstance(); 
+        $findUserByToken = $userModel->findUserByToken($token);
+        var_dump($findUserByToken);
+
+        if (!empty($findUserByToken)) {
+            $confirmation = $findUserByToken[0]['confirmation'];
+            $id=$findUserByToken[0]['id'];
+
+            if ($confirmation !== true) {
+                // Confirmation not yet done, you can update the confirmation status here if needed
+                $userModel->updateUserConfirmation(true,$id);
+                // Redirect to index
+                header('Location: /index');
+                exit;
+            } else {
+                // User is already confirmed, handle accordingly
+                header('Location: /index');
+                exit;
+            }
+        } else {
+            $view->assign('errors', ['L\'utilisateur n\'existe pas !']);
+            http_response_code(404);
+        }
+}
+
+
 }
