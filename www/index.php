@@ -4,6 +4,7 @@ namespace App;
 
 use App\Core\Routing;
 
+session_start();
 define('ROOT', dirname(
     __DIR__
 ));
@@ -28,4 +29,3 @@ $uri = (empty($uri)) ? "/" : $uri;
 $routing = new Routing();
 $routing->setAction($uri);
 $routing->run();
-?>

@@ -4,12 +4,11 @@ namespace App\Core;
 
 class Routing
 {
-
     private $routeFile = "routes.yml";
     private $routes = [];
     private $controller;
     private $action;
-
+    private $security;
 
     public function __construct()
     {
@@ -17,13 +16,11 @@ class Routing
             die("Fichier " . $this->routeFile . " introuvable");
         }
         $this->routes = yaml_parse_file($this->routeFile);
+        $this->security = new Security($this->routes);
     }
-
 
     public function setAction(string $uri): array
     {
-        
-        
         if (
             empty($this->routes[$uri])
             || empty($this->routes[$uri]["controller"])
@@ -32,8 +29,17 @@ class Routing
             die("404 page not found");
             http_response_code(404);
         }
-        $this->controller = $this->routes[$uri]["controller"]; //Main
-        $this->action = $this->routes[$uri]["action"]; //index
+
+        // Check if the user is connected for the route
+        if ($this->security->checkRoute($uri)) {
+            // User is connected, proceed with the route logic
+            $this->controller = $this->routes[$uri]["controller"];
+            $this->action = $this->routes[$uri]["action"];
+        } else {
+            // User is not connected, handle the unauthorized access
+            die("Unauthorized access");
+            http_response_code(401);
+        }
 
         return [$this->controller, $this->action];
     }
@@ -76,5 +82,4 @@ class Routing
         }
         $object->$action();
     }
-    
 }

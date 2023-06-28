@@ -2,9 +2,30 @@
   controller: AuthController
   action: login
 
-
 /dashboard:
   controller: DashController
   action: dashboard
+  security: true
 
+/pages:
+  controller: PagesController
+  action: ViewPages
+  security: true
 
+/pages/add:
+  controller: PagesController
+  action: AddPage
+  security: true
+
+/pages/delete:
+  controller: PagesController
+  action: DeletePage
+  security: true
+/pages/edit:
+  controller: PagesController
+  action: EditPage
+  security: true
+
+/testing:
+  controller: PagesController
+  action: Testing

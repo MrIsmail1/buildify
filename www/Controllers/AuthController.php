@@ -20,7 +20,7 @@ class AuthController
         }
 
         $form = new LoginConfig();
-        $view = new View("Auth/login", "back");
+        $view = new View("Auth/login", "front");
         $view->assign('form', $form->getConfig());
         if ($form->isSubmit()) {
             $errors = Verificator::form($form->getConfig(), $_POST);
@@ -37,8 +37,9 @@ class AuthController
                 }
                 if ($user !== null && ($_POST['password'] === $user['password'])) {
                     $token = $userModel->generateToken();
-                    $userModel->update(['token' => $token], "iduser", $user['iduser']);
+                    $userModel->update(['token' => $token], "id", $user['id']);
                     setcookie('token', $token, time() + 3600, '/');
+                    $_SESSION['user'] = $user;
                     header('Location: /dashboard');
                     exit;
                 } else {
