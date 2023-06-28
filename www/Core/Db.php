@@ -64,30 +64,34 @@ abstract class Db
         $queryPrepared->execute($params);
     }
 
-    public function delete(string $tableName, string $idColumn, $idValue): bool
+    public function delete($filter = null): int
     {
-        $query = "DELETE FROM " . $tableName . " WHERE $idColumn=:idValue";
+        $query = "DELETE FROM " . $this->table;
+        $params = [];
+        if ($filter !== null) {
+            $query .= " WHERE ";
+            $conditions = [];
+            foreach ($filter as $key => $value) {
+                $conditions[] = "$key=:$key";
+                $params[":$key"] = $value;
+            }
+            $query .= implode(" AND ", $conditions);
+        }
         $queryPrepared = $this->pdo->prepare($query);
-        return $queryPrepared->execute(['idValue' => $idValue]);
+        $queryPrepared->execute($params);
+        return $queryPrepared->rowCount();
     }
 
-
-    public function create(string $challenge_stack, array $data): bool
+    public function create(): void
     {
-    // Prepare SQL statement and params
-    $params = [];
-    foreach ($data as $key => $value) {
-        $params[":$key"] = $value;
-    }
-    $query = "INSERT INTO " . $challenge_stack . " (" . implode(', ', array_keys($data)) . ") VALUES (" . implode(', ', array_keys($params)) . ")";
-    $queryPrepared = $this->pdo->prepare($query);
+        $columns = get_object_vars($this);
 
-    // Execute SQL statement
-    return $queryPrepared->execute($params);
-    }
+        $columnsToExclude = get_class_vars(get_class());
+        $columns = array_diff_key($columns, $columnsToExclude);
 
-    protected function getPDO(): PDO
-    {
-        return $this->pdo;
+        $queryPrepared = $this->pdo->prepare("INSERT INTO " . $this->table . " (" . implode(",", array_keys($columns)) . ") 
+                                VALUES (:" . implode(",:", array_keys($columns)) . ")");
+
+        $queryPrepared->execute($columns);
     }
 }

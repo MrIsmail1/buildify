@@ -128,4 +128,9 @@ class User extends Db
     {
         return $this->date_updated;
     }
+
+    public function findUserById(Int $id)
+    {
+        return $this->read(["id" => $id]);
+    }
 }
