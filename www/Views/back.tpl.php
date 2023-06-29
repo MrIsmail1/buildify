@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="../public/DataTables/datatables.min.css">
     <script src="../public/DataTables/datatables.min.js" defer></script>
     <script src="../public/js/jquery-3.6.0.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/29.2.0/classic/ckeditor.js"></script>
+
 
 </head>
 

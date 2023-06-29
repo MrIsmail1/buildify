@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Core\Verificator;
 use App\Core\View;
 use App\Models\Page;
+use App\Models\User;
 use App\DataTable\PagesTableConfig;
 use App\Forms\PageConfig;
 use App\Forms\EditPageConfig;
@@ -17,7 +18,6 @@ class PagesController
         $view = new View("Pages/pages", 'back');
         $pageModel = Page::getInstance();
         $pages = $pageModel->getAllPages();
-        var_dump($pages);
         $dataTable = new PagesTableConfig($pages);
         $view->assign('dataTable', $dataTable->getConfig());
     }
@@ -32,7 +32,7 @@ class PagesController
                 $pageModel = Page::getInstance();
                 $pageModel->setPageTitle($_POST['titre']);
                 $pageModel->setContent($_POST['content']);
-                $pageModel->setSlug($_POST['slug']);
+                $pageModel->setSlug($_POST['titre']);
                 $pageModel->setUserId($_SESSION["user"]["id"]);
                 $pageModel->setPageAuthor($_SESSION["user"]["firstname"]);
                 $pageModel->create();
@@ -51,7 +51,6 @@ class PagesController
         $id = $_REQUEST['id'];
         $pageModel = Page::getInstance();
         $page = $pageModel->getPageById($id);
-        var_dump($page);
         $view = new View("Pages/singlePage", 'back');
         $form = new EditPageConfig($page);
         $view->assign('form', $form->getConfig());
