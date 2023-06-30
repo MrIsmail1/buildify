@@ -2,6 +2,13 @@
   controller: AuthController
   action: login
 
+/register:
+  controller: AuthController
+  action: register
+
+/verif:
+  controller: AuthController
+  action: mailverification
 /dashboard:
   controller: DashController
   action: dashboard

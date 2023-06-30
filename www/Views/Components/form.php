@@ -1,4 +1,5 @@
 <form method="<?= $config["config"]["method"] ?? "GET" ?>" action="<?= $config["config"]["action"] ?>" autocomplete="<?= $config["config"]["autocomplete"] ?>" class="<?= $config["config"]["class"] ?>">
+<form method="<?= $config["config"]["method"] ?? "GET" ?>" action="<?= $config["config"]["action"] ?>" autocomplete="<?= $config["config"]["autocomplete"] ?>" class="<?= $config["config"]["class"] ?>">
     <?php foreach ($config["inputs"] as $name => $input) : ?>
         <?php $label = $config["labels"][$name]; ?>
         <?php $for = $name; ?>

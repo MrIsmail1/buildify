@@ -19,9 +19,10 @@ abstract class Db
             die("Erreur SQL : " . $e->getMessage());
         }
         $classExploded = explode("\\", get_called_class());
-        $this->table = "challenge_stack." . end($classExploded);
+        $this->table = "challenge_stack." . end($classExploded); // Détermination du nom de la table en fonction du nom de la classe
     }
 
+    // Méthode pour récupérer l'instance de la classe
     public static function getInstance(): self
     {
         if (self::$instance === null) {
@@ -30,6 +31,7 @@ abstract class Db
         return self::$instance;
     }
 
+    // Méthode pour récupérer les enregistrements de la table
     public function read($filter = null): array
     {
         $query = "SELECT * FROM " . $this->table;
@@ -48,6 +50,7 @@ abstract class Db
         return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Méthode pour mettre à jour un enregistrement dans la table
     public function update(array $data, string $idColumn, int $idValue): void
     {
         $query = "UPDATE " . $this->table . " SET ";
