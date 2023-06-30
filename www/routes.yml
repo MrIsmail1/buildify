@@ -29,3 +29,14 @@
 /testing:
   controller: PagesController
   action: Testing
+
+
+/comments:
+    controller: CommentsController
+    action: getComments
+    security: true
+
+/comments/add:
+    controller: CommentsController
+    action: addComment
+    security: true
