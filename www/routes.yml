@@ -30,6 +30,9 @@
   controller: PagesController
   action: Testing
 
+/comments:
+  controller: CommentsController
+  action: getComments
 
 /comments:
     controller: CommentsController

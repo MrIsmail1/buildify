@@ -18,13 +18,8 @@ class DashController
    
 
     // Récupérez les données du tableau de bord à afficher dans la vue
-    $dashboardModel = Dashboard::getInstance();
-     
-    $view = new View("Dashboard/dashboard", "back");
-    
-    
-    
-  
-}
+    $dashboardModel = Dashboard::getInstance();    
+    $view = new View("Dashboard/dashboard", "back");  
+    }
 }
 ?>

@@ -1,6 +1,4 @@
 
-
-
     <!-- Header -->
     <header class="bg-gray-800 py-1 px-4 flex justify-between items-center">
         <h1 class="text-xl font-bold text-white">Dashboard</h1>

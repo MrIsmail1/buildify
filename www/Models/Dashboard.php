@@ -108,4 +108,58 @@ class Dashboard extends Db
     {
         $this->commentaireamoderer = $commentaireamoderer;
     }
+
+    /*public function getTotalPages()
+    {
+        ;
+    }
+
+
+
+    public function getTotalPosts()
+    {
+       
+    }
+
+    public function getTotalComments()
+    {
+       
+    }
+
+    public function create(string $tableName, array $data): bool
+{
+    
+    ]);
+}
+
+
+    public function update(array $data, string $idColumn, int $idValue): void
+    {
+    
+    ]);
+    }
+
+    public function delete(string $tableName, string $idColumn, $idValue): bool
+    {
+        
+    }
+
+
+    public function getDashboardById($id)
+    {
+    
+    }
+
+    public function getAllDashboards()
+    {
+    
+    }
+    
+    public function getLatestPosts(){
+        
+    }
+    
+    public function getLatestComments(){
+        
+    }*/
 }
