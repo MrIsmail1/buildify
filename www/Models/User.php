@@ -155,27 +155,11 @@ class User extends Db
     //     return $this->date_updated;
     // }
 
-    public function getUserByEmail(string $email)
-    {
-        return $this->read(["email" => $email]);
-    }
-
     // Permet (read) d'accèder au Token spécifique du User  
     /* public function getUserToken(string $token)
     {
         return $this->read(["token" => $token]);
     } */
-    public function getUserToken(string $token): string
-    {
-        $user = $this->read(["token" => $token]);
-        return $user ? $user[0]['token'] : null;
-        
-    }
-
-    public function findUserByToken(string $token)
-    {
-        return $this->read(["token" => $token]);
-    }
 
     /**
      * @return null

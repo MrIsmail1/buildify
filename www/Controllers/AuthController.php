@@ -98,7 +98,7 @@ class AuthController
     {
         // Check if user is already logged in
         if (isset($_COOKIE['token'])) {
-            header('Location: /dashboard.php');
+            header('Location: /dashboard');
             exit;
         }
 
@@ -124,7 +124,7 @@ class AuthController
                     $token = $userModel->generateToken();
                     $userModel->update(['token' => $token], "id", $user['id']);
                     setcookie('token', $token, time() + 3600, '/');
-                    header('Location: /dashboard.php');
+                    header('Location: /dashboard');
                     exit;
                 } else {
                     $view->assign('errors', ['Invalid email or password']);

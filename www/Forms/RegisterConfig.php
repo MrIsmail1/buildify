@@ -19,28 +19,34 @@ class RegisterConfig extends FormAbs
                 "enctype" => "",
                 "submit" => "S'inscrire",
                 "cancel" => "Annuler",
+                "buttonClass" => "flex w-1/2 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
                 "class" => "space-y-6",
             ],
             "labels" => [
                 "firstname" => [
                     "for" => "firstname",
                     "text" => "Prénom :",
+                    "class" => "block text-sm font-medium leading-6 text-gray-900"
                 ],
                 "lastname" => [
                     "for" => "lastname",
                     "text" => "Nom :",
+                    "class" => "block text-sm font-medium leading-6 text-gray-900"
                 ],
                 "email" => [
                     "for" => "email",
                     "text" => "Adresse e-mail :",
+                    "class" => "block text-sm font-medium leading-6 text-gray-900"
                 ],
                 "password" => [
                     "for" => "password",
                     "text" => "Mot de passe :",
+                    "class" => "block text-sm font-medium leading-6 text-gray-900"
                 ],
                 "passwordConfirm" => [
                     "for" => "passwordConfirm",
                     "text" => "Confirmation mot de passe :",
+                    "class" => "block text-sm font-medium leading-6 text-gray-900"
                 ],
             ],
             "inputs" => [

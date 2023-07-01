@@ -4,7 +4,7 @@
         <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Welcome to buildify</h2>
     </div>
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <?php $this->modal("form", $form); ?>
+        <?php $this->component("form", $form); ?>
         <div class="mt-3 flex flex-col space-x-1">
             <?php if (isset($errors)) : ?>
                 <?php foreach ($errors as $error) : ?>
