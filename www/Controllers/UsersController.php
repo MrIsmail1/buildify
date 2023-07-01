@@ -1,30 +1,46 @@
-<?php
+<?php 
 
 namespace App\Controllers;
 
-use PHPMailer\PHPMailer\PHPMailer;
-/* use PHPMailer\PHPMailer\Exception; */
+// Importation des classes nécessaires
+Use App\Core\View;
+Use App\Models\User;
+use App\Forms\UserConfig;
+use App\Forms\EditUserConfig;
 use App\Core\Verificator;
-use App\Core\View;
-use App\Forms\LoginConfig;
-use App\Forms\RegisterConfig;
-use App\Models\User;
+use App\DataTable\UsersTableConfig;
+use PHPMailer\PHPMailer\PHPMailer;
 
 require_once 'vendor/autoload.php';
 
-/* require 'PHPMailer/src/Exception.php'; */
 require 'vendor/PHPMailer/src/PHPMailer.php';
 require 'vendor/PHPMailer/src/SMTP.php';
 
+class UsersController {
 
+    public function ViewUsers() {
+        // Création d'une instance de la classe View pour afficher la vue des utilisateurs
+        $view = new View("Users/users", 'back');
 
+        // Configuration du filtre pour récupérer uniquement les utilisateurs confirmés
+        $filter = ['confirmation' => true];
+        
+        // Récupération des utilisateurs depuis le modèle User (commenté pour le moment)
+        $userModel = User::getInstance();
+        $users = $userModel->read($filter);
+        
+        // Création d'une instance de UsersTableConfig pour la configuration du tableau de données
+        $dataTable = new UsersTableConfig($users);
+        
+        // Assignation de la configuration du tableau de données à la vue
+        $view->assign('dataTable', $dataTable->getConfig());
+    }
 
-class AuthController
-{
-    public function register(): void
+    public function AddUser()
     {
-        $form = new RegisterConfig();
-        $view = new View("Auth/register", "front");
+        
+        $form = new UserConfig();
+        $view = new View("Users/singleUsers", "back");
         $view->assign('form', $form->getConfig());
 
         if ($form->isSubmit()) {
@@ -37,6 +53,7 @@ class AuthController
                 $password = $_POST['password'];
                 $firstname = $_POST['firstname'];
                 $lastname = $_POST['lastname'];
+                $role = $_POST['role'];
 
                 // Check if email is already registered
                 $exist = $userModel->getUserByEmail($email);
@@ -47,7 +64,7 @@ class AuthController
                     $userModel->setPassword($password);
                     $userModel->setFirstname($firstname);
                     $userModel->setLastname($lastname);
-
+                    $userModel->setRole($role);
                     // Créer un token de connexion pour l'utilisateur 
                     $token = $userModel->generateToken();
                     $userModel->setToken($token);
@@ -75,8 +92,7 @@ class AuthController
 
                     // Envoyer l'e-mail
                     if ($mail->send()) {
-                        header('Location: /login');
-                        echo 'E-mail sent successfully';
+                        header('Location: /users');
                     } else {
                         $view->assign('errors', ['Echec d\'envoie d\'email !']);
                         http_response_code(404);
@@ -94,44 +110,54 @@ class AuthController
         }
     }
 
-    public function login(): void
+    public function DeleteUser()
     {
-        // Check if user is already logged in
-        if (isset($_COOKIE['token'])) {
-            header('Location: /dashboard.php');
-            exit;
-        }
+        $id = $_REQUEST['id'];
+        $userModel = User::getInstance();
+        $userModel->deleteUserById($id);
+        header('Location:/users');
+    }
 
-        $form = new LoginConfig();
-        $view = new View("Auth/login", "front");
+    public function EditUser()
+    {
+        // Récupération de l'ID de l'utilisateur à modifier depuis la requête
+        $id = $_REQUEST['id'];
+
+        // Obtention de l'instance du modèle User
+        $userModel = User::getInstance();
+
+        // Récupération des informations de l'utilisateur à partir de son ID
+        $user = $userModel->getUserById($id);
+
+        // Création d'une instance de la classe View pour afficher la page de modification de l'utilisateur
+        $view = new View("Users/singleUsers", 'back');
+
+        // Création d'une instance de la classe EditUserConfig pour obtenir la configuration du formulaire de modification de l'utilisateur
+        $form = new EditUserConfig($user);
+
+        // Assignation de la configuration du formulaire à la vue
         $view->assign('form', $form->getConfig());
+
+        // Vérification si le formulaire a été soumis
         if ($form->isSubmit()) {
+            // Validation du formulaire en utilisant la classe Verificator et obtention des éventuelles erreurs
             $errors = Verificator::form($form->getConfig(), $_POST);
+
+            // Vérification si aucune erreur n'est présente dans le formulaire
             if (empty($errors)) {
-                $userModel = User::getInstance();
+                // Traitement à effectuer lorsque le formulaire est soumis et valide
                 $email = $_POST['email'];
-                $users = $userModel->read(null);
-                $user = null;
-                foreach ($users as $u) {
-                    if ($u['email'] === $email) {
-                        $user = $u;
-                        break;
-                    }
-                }
-                
-                if ($user !== null && ($_POST['password'] === $user['password'])) {
-                    //fonction password verify a faire ici 
-                    $token = $userModel->generateToken();
-                    $userModel->update(['token' => $token], "id", $user['id']);
-                    setcookie('token', $token, time() + 3600, '/');
-                    header('Location: /dashboard.php');
-                    exit;
-                } else {
-                    $view->assign('errors', ['Invalid email or password']);
-                }
-            } else {
-                $view->assign('errors', $errors);
-            }
+                $firstname = $_POST['firstname'];
+                $lastname = $_POST['lastname'];
+                $role = $_POST['role'];
+                // Vous pouvez ajouter votre logique de mise à jour des informations de l'utilisateur ici
+                $userModel->updateEmail($email,$id);
+                $userModel->updateFirstname($firstname,$id);
+                $userModel->updateLastname($lastname,$id);
+                $userModel->updateRole($role,$id);
+                header('Location: /users');
         }
     }
+}
+
 }

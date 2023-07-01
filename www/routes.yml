@@ -28,6 +28,7 @@
   controller: PagesController
   action: DeletePage
   security: true
+  
 /pages/edit:
   controller: PagesController
   action: EditPage
@@ -36,3 +37,23 @@
 /testing:
   controller: PagesController
   action: Testing
+
+/users:
+  controller: UsersController
+  action: ViewUsers
+  security: true
+
+/users/add:
+  controller: UsersController
+  action: AddUser
+  security: true
+
+/users/delete:
+  controller: UsersController
+  action: DeleteUser
+  security: true
+
+/users/edit:
+  controller: UsersController
+  action: EditUser
+  security: true
