@@ -38,6 +38,10 @@
   controller: PagesController
   action: Testing
 
+/sitemap.xml:
+  controller: SitemapController
+  action: ViewSitemap
+
 /users:
   controller: UsersController
   action: ViewUsers
