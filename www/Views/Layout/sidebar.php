@@ -8,10 +8,10 @@
             <a href="/pages" class="block text-gray-799 hover:bg-gray-300">Pages</a>
         </li>
         <li class="py-1">
-            <a href="/posts" class="block text-gray-800 hover:bg-gray-300">Articles</a>
+            <a href="/comments" class="block text-gray-800 hover:bg-gray-300">Commentaires</a>
         </li>
         <li class="py-1">
-            <a href="/comments" class="block text-gray-800 hover:bg-gray-300">Commentaires</a>
+            <a href="/users" class="block text-gray-800 hover:bg-gray-300">Users</a>
         </li>
         <li class="py-1">
             <a href="/settings" class="block text-gray-800 hover:bg-gray-300">Paramètres</a>

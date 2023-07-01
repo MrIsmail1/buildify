@@ -60,6 +60,7 @@ class PagesController
         if ($form->isSubmit()) {
             $errors = Verificator::form($form->getConfig(), $_POST);
             if (empty($errors)) {
+                
             }
         }
     }
