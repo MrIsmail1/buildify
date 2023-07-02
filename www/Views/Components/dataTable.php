@@ -25,7 +25,7 @@
     $(document).ready(function() {
         $("<?= "#" . $config["config"]["id"] ?>").DataTable({
             ordering: false,
-            paging: true,
+            paging: false,
             info: false,
         });
     });

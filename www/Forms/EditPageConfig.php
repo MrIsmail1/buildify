@@ -40,11 +40,6 @@ class EditPageConfig extends FormAbs
                     "text" => "Le slug de la page :",
                     "class" => "block text-sm font-medium leading-6 text-gray-900"
                 ],
-                "content" => [
-                    "for" => "content",
-                    "text" => "Le contenu de la page :",
-                    "class" => "block text-sm font-medium leading-6 text-gray-900"
-                ]
             ],
             "inputs" => [
                 "titre" => [
@@ -59,14 +54,14 @@ class EditPageConfig extends FormAbs
                     "value" => $this->page[0]['slug'],
                     "class" => "block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 ],
-                "content" => [
-                    "id" => "content",
-                    "type" => "textarea",
-                    "rows" => "50",
-                    "cols" => "125",
-                    "value" => $this->page[0]["content"],
-                    "class" => "block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                ],
+            ],
+            "content" => [
+                "label" => "Contenu de la page...",
+                "id" => "content",
+                "rows" => "50",
+                "cols" => "125",
+                "value" => $this->page[0]["content"],
+                "class" => "block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             ],
         ];
     }
