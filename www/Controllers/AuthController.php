@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Core\Db;
+
 use App\Core\Verificator;
 use App\Core\View;
 use App\Forms\LoginConfig;
@@ -27,10 +27,12 @@ class AuthController
             if (empty($errors)) {
                 $userModel = User::getInstance();
                 $email = $_POST['email'];
+                var_dump($email);
                 $users = $userModel->read(null);
                 $user = null;
                 foreach ($users as $u) {
-                    if ($u['email'] === $email) {
+                    var_dump($u["email"]);
+                    if (rtrim($u['email']) === $email) {
                         $user = $u;
                         break;
                     }
