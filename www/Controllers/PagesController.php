@@ -36,6 +36,9 @@ class PagesController
                 $pageModel->setUserId($_SESSION["user"]["id"]);
                 $pageModel->setPageAuthor($_SESSION["user"]["firstname"]);
                 $pageModel->create();
+                header("location:/pages");
+            } else {
+                $view->assign('errors', $errors);
             }
         }
     }
@@ -59,6 +62,23 @@ class PagesController
         if ($form->isSubmit()) {
             $errors = Verificator::form($form->getConfig(), $_POST);
             if (empty($errors)) {
+                $pageModel = Page::getInstance();
+                $pageModel->setPageTitle($_POST['titre']);
+                $pageModel->setContent($_POST['content']);
+                $pageModel->setSlug($_POST['slug']);
+
+                // Prepare the data for the update
+                $data = [
+                    'pagetitle' => $pageModel->getPageTitle(),
+                    'content' => $pageModel->getContent(),
+                    'slug' => $pageModel->getSlug(),
+                ];
+
+                // Call the update function
+                $pageModel->update($data, 'id', $id);
+                header("location:/pages/edit?id={$id}");
+            } else {
+                $view->assign('errors', $errors);
             }
         }
     }

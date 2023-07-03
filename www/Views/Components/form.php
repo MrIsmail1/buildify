@@ -26,7 +26,7 @@
                     <div>
                         <label for=" <?= $for; ?>  " class="<?= $label["class"] ?>"> <?= $label["text"] ?> </label>
                         <div class=" mt-2">
-                            <textarea name="<?= $name; ?>" id="<?= $input["id"] ?>" rows="<?= $input["rows"] ?>" cols="<?= $input["cols"] ?>" class="<?= $input["class"] ?>" <?php if (isset($input["value"])) : ?> value="<?= $input["value"] ?>" <?php endif ?>></textarea>
+                            <textarea name="<?= $name; ?>" id="<?= $input["id"] ?>" rows="<?= $input["rows"] ?>" cols="<?= $input["cols"] ?>" class="<?= $input["class"] ?>" <?php if (isset($input["value"])) : ?> value="<?= $input["value"] ?>" <?php endif ?>> <?= $input["value"] ?? "" ?> </textarea>
                         </div>
                     </div>
                 <?php else : ?>

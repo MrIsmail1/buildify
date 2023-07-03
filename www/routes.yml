@@ -21,6 +21,7 @@
   controller: PagesController
   action: DeletePage
   security: true
+  
 /pages/edit:
   controller: PagesController
   action: EditPage
