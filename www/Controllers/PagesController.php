@@ -5,10 +5,12 @@ namespace App\Controllers;
 use App\Core\Verificator;
 use App\Core\View;
 use App\Models\Page;
-use App\Models\User;
 use App\DataTable\PagesTableConfig;
 use App\Forms\PageConfig;
 use App\Forms\EditPageConfig;
+use App\Forms\TemplateConfig;
+use App\Models\Template;
+use App\Renderer\RenderConfig;
 
 class PagesController
 {
@@ -36,7 +38,10 @@ class PagesController
                 $pageModel->setUserId($_SESSION["user"]["id"]);
                 $pageModel->setPageAuthor($_SESSION["user"]["firstname"]);
                 $pageModel->create();
-                header("location:/pages");
+                $id = $pageModel->getLastCreatedId();
+                $templateModel = new Template();
+                $templateModel->setPageId($id);
+                $templateModel->create();
             } else {
                 $view->assign('errors', $errors);
             }
@@ -45,6 +50,8 @@ class PagesController
     public function DeletePage()
     {
         $id = $_REQUEST['id'];
+        $templateModel = new Template();
+        $templateModel->deleteTemplateByPageId($id);
         $pageModel = Page::getInstance();
         $pageModel->deletePageById($id);
         header('Location:/pages');
@@ -81,5 +88,43 @@ class PagesController
                 $view->assign('errors', $errors);
             }
         }
+    }
+
+    public function ViewPage()
+    {
+        $id = $_REQUEST['id'];
+        $view = new View('Pages/page', 'back');
+
+        /* front edit */
+        $templateModel = new Template();
+        $template = $templateModel->getTemplatePageById($id);
+        $form = new TemplateConfig($template);
+        $view->assign('form', $form->getConfig());
+        if ($form->isSubmit()) {
+            $errors = Verificator::form($form->getConfig(), $_POST);
+            if (empty($errors)) {
+                $templateModel->setColor($_POST['color']);
+                $templateModel->setFontFamily($_POST['font_family']);
+                $templateModel->setFontSize($_POST['font_size']);
+
+                // Prepare the data for the update
+                $data = [
+                    'color' => $templateModel->getColor(),
+                    'font_family' => $templateModel->getFontFamily(),
+                    'font_size' => $templateModel->getFontSize(),
+                ];
+
+                // Call the update function
+                $templateModel->update($data, 'id', $template[0]["id"]);
+                header("location: /pages/view?id={$id}");
+            } else {
+                $view->assign('errors', $errors);
+            }
+        }
+
+        $pageModel = Page::getInstance();
+        $page = $pageModel->getPageById($id);
+        $render = new RenderConfig($page, $template);
+        $view->assign('render', $render->getConfig());
     }
 }

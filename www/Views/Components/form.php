@@ -3,9 +3,12 @@
         <?php $label = $config["labels"][$name]; ?>
         <?php $for = $name; ?>
         <?php if ($input["type"] == "select") : ?>
+            <label for="<?= $for; ?> " class="<?= $label["class"] ?>"> <?= $label["text"] ?></label>
             <select name="<?= $name; ?>">
-                <?php foreach ($input["options"] as $option) : ?>
-                    <option><?= $option; ?></option>
+                <?php foreach ($input["options"] as $value => $label) : ?>
+                    <option value="<?= $value; ?>" <?php if ($value == $input["value"]) echo "selected"; ?>>
+                        <?= $label; ?>
+                    </option>
                 <?php endforeach; ?>
             </select>
         <?php else : ?>

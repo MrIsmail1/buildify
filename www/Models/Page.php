@@ -94,4 +94,8 @@ class Page extends Db
     {
         return $this->delete(["id" => $id]);
     }
+    public function getLastCreatedId()
+    {
+        return $this->pdo->LastInsertId();
+    }
 }
