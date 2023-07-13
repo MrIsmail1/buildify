@@ -28,15 +28,15 @@
   controller: PagesController
   action: DeletePage
   security: true
-  
 /pages/edit:
   controller: PagesController
   action: EditPage
   security: true
 
-/testing:
+/pages/view:
   controller: PagesController
-  action: Testing
+  action: ViewPage
+  security: true
 
 /sitemap.xml:
   controller: SitemapController

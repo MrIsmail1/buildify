@@ -34,6 +34,7 @@ class PagesTableConfig extends DataTableAbs
             "actions" => [
                 "delete" => "/pages/delete?id=",
                 "edit" => "/pages/edit?id=",
+                "view" => "/pages/view?id=",
             ]
         ];
     }

@@ -26,8 +26,8 @@ class Routing
             || empty($this->routes[$uri]["controller"])
             || empty($this->routes[$uri]["action"])
         ) {
-            die("404 page not found");
             http_response_code(404);
+            die("404 page not found");
         }
 
         // Check if the user is connected for the route
@@ -37,8 +37,8 @@ class Routing
             $this->action = $this->routes[$uri]["action"];
         } else {
             // User is not connected, handle the unauthorized access
-            die("Unauthorized access");
             http_response_code(401);
+            die("Unauthorized access");
         }
 
         return [$this->controller, $this->action];

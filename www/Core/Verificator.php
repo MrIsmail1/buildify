@@ -31,7 +31,7 @@ class Verificator
             if ($configInput["type"] == "email" && !self::checkEmail($data[$name])) {
                 $errors[] = $configInput["error"];
             }
-            if ($configInput["type"] == "password" &&  !self::checkPwd($data[$name]) && empty($input["passwordConfirm"])) {
+            if ($configInput["type"] == "password" &&  !self::checkPwd($data[$name]) && empty($configInput["passwordConfirm"])) {
                 $errors[] = $configInput["error"];
             }
         }

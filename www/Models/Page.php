@@ -79,7 +79,8 @@ class Page extends Db
     }
     public function setSlug($slug)
     {
-        $this->slug = $slug;
+        $slug = preg_replace('/[^a-z0-9]+/i', '-', strtolower($slug));
+        $this->slug = trim($slug, '-');
     }
     public function getAllPages()
     {
@@ -92,5 +93,9 @@ class Page extends Db
     public function deletePageById(Int $id)
     {
         return $this->delete(["id" => $id]);
+    }
+    public function getLastCreatedId()
+    {
+        return $this->pdo->LastInsertId();
     }
 }
