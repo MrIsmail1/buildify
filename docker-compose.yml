@@ -20,7 +20,7 @@ services:
 
   composer:
     container_name: composer
-    restart: always
+    restart: no
     image: composer:latest
     command: ['install']
     depends_on:

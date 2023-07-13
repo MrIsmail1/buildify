@@ -13,8 +13,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 require_once 'vendor/autoload.php';
 
-require 'vendor/PHPMailer/src/PHPMailer.php';
-require 'vendor/PHPMailer/src/SMTP.php';
 
 class UsersController {
 

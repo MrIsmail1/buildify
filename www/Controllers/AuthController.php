@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use PHPMailer\PHPMailer\PHPMailer;
-/* use PHPMailer\PHPMailer\Exception; */
 use App\Core\Verificator;
 use App\Core\View;
 use App\Forms\LoginConfig;
@@ -11,13 +10,6 @@ use App\Forms\RegisterConfig;
 use App\Models\User;
 
 require_once 'vendor/autoload.php';
-
-/* require 'PHPMailer/src/Exception.php'; */
-require 'vendor/PHPMailer/src/PHPMailer.php';
-require 'vendor/PHPMailer/src/SMTP.php';
-
-
-
 
 class AuthController
 {
