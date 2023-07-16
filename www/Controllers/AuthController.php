@@ -46,7 +46,7 @@ class AuthController
 
                     // Insérer l'utilisateur dans la base de données
                     $userModel->create();
-
+                    var_dump($userModel);
                     // Send verification email to user
                     $mail = new PHPMailer;
 

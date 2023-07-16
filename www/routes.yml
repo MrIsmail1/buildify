@@ -61,3 +61,7 @@
   controller: UsersController
   action: EditUser
   security: true
+
+/404: 
+  controller: ErrorController
+  action: NotFound
