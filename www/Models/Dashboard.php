@@ -6,27 +6,26 @@ use App\Core\Db;
 
 class Dashboard extends Db
 {
-    protected int $iddashboard;
-    protected ?string $id_page;
-    protected ?string $date_publication;
-    protected ?string $dashboardcol;
-    protected ?string $id_commentpage;
-    protected ?string $commentaireamoderer;
+    protected int $id;
+    protected int $idpage;
+    protected int $idcommment;
+    protected string $date;
+    protected string $commentaireamoderer;
 
     /**
      * @return int
      */
     public function getIddashboard(): int
     {
-        return $this->iddashboard;
+        return $this->id;
     }
 
     /**
      * @param int $iddashboard
      */
-    public function setIddashboard(int $iddashboard): void
+    public function setIddashboard(int $id): void
     {
-        $this->iddashboard = $iddashboard;
+        $this->id = $id;
     }
 
     /**
@@ -34,15 +33,15 @@ class Dashboard extends Db
      */
     public function getIdPages(): ?string
     {
-        return $this->id_pages;
+        return $this->idpages;
     }
 
     /**
-     * @param string|null $id_pages
+     * @param string|null $id_page
      */
-    public function setIdPages(?string $id_pages): void
+    public function setIdPages(?string $idpage): void
     {
-        $this->id_pages = $id_pages;
+        $this->idpage = $idpage;
     }
 
     /**
@@ -50,47 +49,33 @@ class Dashboard extends Db
      */
     public function getDatePublication(): ?string
     {
-        return $this->date_publication;
+        return $this->date;
     }
 
     /**
      * @param string|null $date_publication
      */
-    public function setDatePublication(?string $date_publication): void
+    public function setDatePublication(?string $date): void
     {
-        $this->date_publication = $date_publication;
+        $this->date = $date;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDashboardCol(): ?string
-    {
-        return $this->dashboardcol;
-    }
-
-    /**
-     * @param string|null $dashboardcol
-     */
-    public function setDashboardCol(?string $dashboardcol): void
-    {
-        $this->dashboardcol = $dashboardcol;
-    }
+    
 
     /**
      * @return string|null
      */
     public function getIdCommentPage(): ?string
     {
-        return $this->id_commentpage;
+        return $this->idcomment;
     }
 
     /**
      * @param string|null $id_commentpage
      */
-    public function setIdCommentPage(?string $id_commentpage): void
+    public function setIdCommentPage(?string $idcomment): void
     {
-        $this->id_commentpage = $id_commentpage;
+        $this->idcomment = $idcomment;
     }
 
     /**
@@ -109,57 +94,23 @@ class Dashboard extends Db
         $this->commentaireamoderer = $commentaireamoderer;
     }
 
-    /*public function getTotalPages()
+    public function getTotalPages()
     {
-        ;
+        return $this->read();
     }
 
+    public function getLastPages(){
 
-
-    public function getTotalPosts()
-    {
-       
     }
 
+    
     public function getTotalComments()
     {
-       
+       return $this->read();
     }
 
-    public function create(string $tableName, array $data): bool
-{
-    
-    ]);
-}
-
-
-    public function update(array $data, string $idColumn, int $idValue): void
-    {
-    
-    ]);
-    }
-
-    public function delete(string $tableName, string $idColumn, $idValue): bool
-    {
         
-    }
-
-
-    public function getDashboardById($id)
-    {
-    
-    }
-
-    public function getAllDashboards()
-    {
-    
-    }
-    
-    public function getLatestPosts(){
-        
-    }
-    
     public function getLatestComments(){
         
-    }*/
+    }
 }

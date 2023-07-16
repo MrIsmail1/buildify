@@ -5,8 +5,8 @@ use App\Core\Db;
 
 class Comments extends Db
 {
-    protected int $idCommentPage;
-    protected int $idUser; 
+    protected int $id;
+    protected int $userid; 
     protected int $idPage ;
     protected string $content;
     protected string $date;
@@ -16,15 +16,15 @@ class Comments extends Db
      */
     public function getIdCommentPage(): int
     {
-        return $this->idCommentPage;
+        return $this->id;
     }
 
     /**
      * @param int $idCommentPage
      */
-    public function setIdCommentPage(int $idCommentPage): void
+    public function setIdCommentPage(int $id): void
     {
-        $this->idCommentPage = $idCommentPage;
+        $this->id = $id;
     }
 
     /**
@@ -33,15 +33,15 @@ class Comments extends Db
     public function getIdUser(): int
     {
         
-        return $this->idUser;
+        return $this->userid;
     }
 
     /**
      * @param int $idUser
      */
-    public function setIdUser(int $idUser): void
+    public function setIdUser(int $userid): void
     {
-        $this->idUser = $idUser;
+        $this->userid = $userid;
     }
 
     /**
@@ -79,7 +79,7 @@ class Comments extends Db
     /**
      * @return string
      */
-    public function getDateCreationPublication(): string
+    public function getDate(): string
     {
         return $this->date;
     }
@@ -87,7 +87,7 @@ class Comments extends Db
     /**
      * @param string $date
      */
-    public function setDateCreationPublication(string $date): void
+    public function setDate(string $date): void
     {
         $this->date = $date;
     }  
@@ -102,6 +102,10 @@ class Comments extends Db
     
     public function getAllComments(){
         return $this->read();
+    }
+
+    public function deleteCommentById(int $id){
+        return $this->delete(["id" => $id]);
     }
     // Autres méthodes liées aux commentaires (suppression, modification, etc.)
 }

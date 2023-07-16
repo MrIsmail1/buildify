@@ -11,15 +11,16 @@ class DashController
     public function dashboard() 
     {
 
-        /*if (!isset($_COOKIE['token'])) {
+        if (!isset($_COOKIE['token'])) {
             header('Location: /auth');
             exit;
-        }*/
+        }
    
 
     // Récupérez les données du tableau de bord à afficher dans la vue
     $dashboardModel = Dashboard::getInstance();    
     $view = new View("Dashboard/dashboard", "back");  
+    $dashboard = $dashboardModel->getTotalPages();
     }
 }
 ?>

@@ -16,6 +16,7 @@
                 <td class="border-b border-gray-600">
                     <a href="<?= $config["actions"]["edit"] . $row['id'] ?>"><i class="fas fa-edit"></i></a>
                     <a href="<?= $config["actions"]["delete"] . $row['id'] ?>"><i class="fas fa-trash-alt"></i></a>
+                    <a href="/comments/add?page_id=<?= $row['id'] ?>"><i class="fas fa-comment"></i></a>
                 </td>
             </tr>
         <?php endforeach; ?>

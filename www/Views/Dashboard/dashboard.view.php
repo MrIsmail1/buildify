@@ -1,12 +1,8 @@
-    <?php 
-         require __DIR__ . '/../Layout/header.php';
-    ?>
+
     
     <!-- Main Content -->
     <div class="flex flex-grow">
-        <?php
-            require __DIR__ . '/../Layout/sidebar.php'
-        ?>
+        
 
         <!-- Content -->
         <div class="flex-grow p-1">
@@ -15,15 +11,12 @@
                 <div class="grid grid-cols-3 gap-4">
                     <div>
                         <h3 class="text-sm text-gray-500">Total des Pages</h3>
-                        <p class="text-3xl font-semibold text-gray-900"><?= $totalPages ?></p>
+                        <p class="text-3xl font-semibold text-gray-900"><?= $idpage ?></p>
                     </div>
-                    <div>
-                        <h3 class="text-sm text-gray-500">Total des Articles</h3>
-                        <p class="text-3xl font-semibold text-gray-900"><?= $totalPosts ?></p>
-                    </div>
+                    
                     <div>
                         <h3 class="text-sm text-gray-500">Total des Commentaires</h3>
-                        <p class="text-3xl font-semibold text-gray-900"><?= $totalComments ?></p>
+                        <p class="text-3xl font-semibold text-gray-900"><?= $idcomment ?></p>
                     </div>
                 </div>
 
@@ -58,7 +51,5 @@
         </div>
     </div>
 
-    <?php
-        require __DIR__ . '/../Layout/footer.php' ;
-    ?>
+    
 </html>

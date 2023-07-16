@@ -34,12 +34,18 @@
   controller: CommentsController
   action: getComments
 
-/comments:
-    controller: CommentsController
-    action: getComments
-    security: true
+
 
 /comments/add:
     controller: CommentsController
     action: addComment
+    security: true
+
+/comments/delete:
+    controller: CommentsController
+    action: DeleteComment
+    security: true
+/comments/edit:
+    controller: CommentsController
+    action: EditComment
     security: true

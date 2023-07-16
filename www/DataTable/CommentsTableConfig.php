@@ -22,20 +22,21 @@ class CommentsTableConfig extends DataTableAbs
             ],
             "headers" => [
                 "user_id" => "ID utilisateur",
-                "page_id" => "ID page",
+                "idpage" => "ID page",
                 "content" => "Contenu",
-                "date_creation_publication" => "Date de création",
+                "date" => "Date de création",
             ],
             "tbody" => [
-                "user_id" => "user_id",
-                "page_id" => "page_id",
+                "user_id" => "userid",
+                "idpage" => "idpage",
                 "content" => "content",
-                "date_creation_publication" => "date_creation_publication",
+                "date" => "date",
             ],
             "data" => $this->comments,
             "actions" => [
                 "delete" => "/comments/delete?id=",
                 "edit" => "/comments/edit?id=",
+                "comment" => "/comments/add?id=",
             ]
         ];
         

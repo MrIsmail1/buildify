@@ -7,6 +7,7 @@ use App\Forms\CommentsConfig;
 use App\DataTable\CommentsTableConfig;
 
 
+
 class CommentsController
 {
      
@@ -40,17 +41,19 @@ class CommentsController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
            // Récupérer les données du formulaire
-           $idUser = $_SESSION['user']['id'];
+           $userid = $_SESSION['user']['id'];
            //$idUser = $CommentsModel->getIdUser();
            $content = $_POST['content'];
+           $pageId = $_GET['page_id'];
 
            
 
            //ajouter le comment à la bdd
-           if ($idUser && $content) {
+           if ($userid && $content) {
                 // Ajouter le commentaire à la base de données
                 $CommentsModel->setContent($content);
-                $CommentsModel->setIdUser($idUser);
+                $CommentsModel->setIdUser($userid);
+                $CommentsModel->setIdPage($pageId);
                 $CommentsModel->create();
 
                 echo "Comment added successfully.";
@@ -62,7 +65,14 @@ class CommentsController
         
         
     }
-    private function getUserId(){
+    public function DeleteComment(){
+        $id = $_REQUEST["id"];
+        $CommentsModel = Comments::getInstance();
+        $CommentsModel->deleteCommentById($id);
+        header('Location:/comments');
+    }
+    
+    public function EditComment(){
 
     }
 }
