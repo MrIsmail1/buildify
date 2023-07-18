@@ -6,8 +6,6 @@ use App\Forms\Abstract\FormAbs;
 
 class EditPageConfig extends FormAbs
 {
-
-
     protected $method = "POST";
     private $page;
 
@@ -17,7 +15,6 @@ class EditPageConfig extends FormAbs
     }
 
     public function getConfig(): array
-
     {
         return [
             "config" => [
@@ -44,7 +41,17 @@ class EditPageConfig extends FormAbs
                     "for" => "content",
                     "text" => "Le contenu de la page :",
                     "class" => "block text-sm font-medium leading-6 text-gray-900"
-                ]
+                ],
+                "seo_title" => [
+                    "for" => "seo_title",
+                    "text" => "Titre SEO :",
+                    "class" => "block text-sm font-medium leading-6 text-gray-900"
+                ],
+                "meta_description" => [ // Nouveau champ pour la méta description
+                    "for" => "meta_description",
+                    "text" => "Méta Description :",
+                    "class" => "block text-sm font-medium leading-6 text-gray-900"
+                ],
             ],
             "inputs" => [
                 "titre" => [
@@ -69,6 +76,21 @@ class EditPageConfig extends FormAbs
                     "value" => $this->page[0]["content"],
                     "class" => "block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
                     "required" => "true",
+                ],
+                "seo_title" => [
+                    "type" => "text",
+                    "placeholder" => "Titre SEO...",
+                    "value" => $this->page[0]['seo_title'],
+                    "class" => "block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+                    "required" => "true",
+                ],
+                "meta_description" => [ // Nouveau champ pour la méta description
+                    "id" => "meta_description",
+                    "type" => "textarea",
+                    "rows" => "3",
+                    "cols" => "50",
+                    "value" => $this->page[0]['meta_description'],
+                    "class" => "block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
                 ],
             ],
             "content" => [

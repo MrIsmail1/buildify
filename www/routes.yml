@@ -1,4 +1,4 @@
-/auth:
+/login:
   controller: AuthController
   action: login
 
@@ -61,3 +61,7 @@
   controller: UsersController
   action: EditUser
   security: true
+
+/logout:
+  controller: AuthController
+  action: logout

@@ -56,39 +56,75 @@ class PagesController
         $pageModel->deletePageById($id);
         header('Location:/pages');
     }
-    public function EditPage()
-    {
-        $id = $_REQUEST['id'];
-        $pageModel = Page::getInstance();
-        $page = $pageModel->getPageById($id);
-        $view = new View("Pages/singlePage", 'back');
-        $form = new EditPageConfig($page);
-        $view->assign('form', $form->getConfig());
 
+   public function EditPage()
+{
+    $id = $_REQUEST['id'];
+    $pageModel = Page::getInstance();
+    $page = $pageModel->getPageById($id);
+    $view = new View("Pages/singlePage", 'back');
+    $form = new EditPageConfig($page);
+    $view->assign('form', $form->getConfig());
 
-        if ($form->isSubmit()) {
-            $errors = Verificator::form($form->getConfig(), $_POST);
-            if (empty($errors)) {
-                $pageModel = Page::getInstance();
-                $pageModel->setPageTitle($_POST['titre']);
-                $pageModel->setContent($_POST['content']);
-                $pageModel->setSlug($_POST['slug']);
+    if ($form->isSubmit()) {
+        $errors = Verificator::form($form->getConfig(), $_POST);
+        if (empty($errors)) {
+            $pageModel = Page::getInstance();
+            $pageModel->setPageTitle($_POST['titre']);
+            $pageModel->setContent($_POST['content']);
+            $pageModel->setSlug($_POST['slug']);
 
-                // Prepare the data for the update
-                $data = [
-                    'pagetitle' => $pageModel->getPageTitle(),
-                    'content' => $pageModel->getContent(),
-                    'slug' => $pageModel->getSlug(),
-                ];
+            // Update the SEO title and meta description
+            $seoTitle = $_POST['seo_title'];
+            $metaDescription = $_POST['meta_description'];
 
-                // Call the update function
-                $pageModel->update($data, 'id', $id);
-                header("location:/pages/edit?id={$id}");
-            } else {
-                $view->assign('errors', $errors);
-            }
+            // Update the page data
+            $pageModel->setSeoTitle($seoTitle);
+            $pageModel->setMetaDescription($metaDescription);
+
+            // Prepare the data for the update
+            $data = [
+                'pagetitle' => $pageModel->getPageTitle(),
+                'content' => $pageModel->getContent(),
+                'slug' => $pageModel->getSlug(),
+                'seo_title' => $pageModel->getSeoTitle(),
+                'meta_description' => $pageModel->getMetaDescription()
+            ];
+            // Call the update function
+            $pageModel->update($data, 'id', $id);
+
+            // Assign the data to the view
+            $view->assign('seoTitle', $pageModel->getSeoTitle());
+            $view->assign('metaDescription', $pageModel->getMetaDescription());
+
+            // Get the current page's HTML content
+            ob_start();
+            $view->renderSeo(); // Render the page's HTML
+            $currentPageContent = ob_get_clean();
+
+            // Update the page's HTML content with the updated SEO tags
+            $updatedContent = $this->updatePageSeoTags($currentPageContent, $seoTitle, $metaDescription);
+
+            // Output the updated content
+            echo $updatedContent;
+        } else {
+            $view->assign('errors', $errors);
         }
     }
+}
+ 
+
+   private function updatePageSeoTags($currentPageContent, $seoTitle, $metaDescription)
+    {
+        // Update the <title> tag with the SEO title
+        $updatedContent = preg_replace('/<title>(.*?)<\/title>/i', '<title>' . $seoTitle . '</title>', $currentPageContent);
+
+        // Update the <meta name="description"> tag with the meta description
+        $updatedContent = preg_replace('/<meta name="description" content="(.*?)">/i', '<meta name="description" content="' . $metaDescription . '">', $updatedContent);
+
+        return $updatedContent;
+    }
+
 
     public function ViewPage()
     {
@@ -127,4 +163,5 @@ class PagesController
         $render = new RenderConfig($page, $template);
         $view->assign('render', $render->getConfig());
     }
+
 }

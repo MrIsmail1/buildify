@@ -48,7 +48,7 @@ class LoginConfig extends FormAbs
                     "error" => "E-mail ou mot de passe invalide"
                 ],
             ],
-            "resetPwd" => "/auth/reset_password",
+            "resetPwd" => "/login/reset_password",
         ];
     }
 }

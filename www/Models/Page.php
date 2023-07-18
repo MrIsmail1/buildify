@@ -15,6 +15,8 @@ class Page extends Db
     protected String $content;
     protected String $slug;
     protected Int $user_id;
+    protected String $metaDescription;
+    protected string $seoTitle;
 
     public function getId()
     {
@@ -98,4 +100,25 @@ class Page extends Db
     {
         return $this->pdo->LastInsertId();
     }
+
+    public function getMetaDescription()
+    {
+        return $this->metaDescription;
+    }
+
+    public function setMetaDescription($metaDescription)
+    {
+        $this->metaDescription = $metaDescription;
+    }
+
+    public function getSeoTitle(): string
+    {
+        return $this->seoTitle;
+    }
+
+    public function setSeoTitle(string $seoTitle): void
+    {
+        $this->seoTitle = $seoTitle;
+    }
+    
 }

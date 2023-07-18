@@ -30,7 +30,7 @@ class Security
                 if ($this->isUserConnected()) {
                     return true;
                 } else {
-                    header("location:/auth");
+                    header("location:/login");
                     return false;
                 }
             }

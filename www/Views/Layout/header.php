@@ -11,9 +11,9 @@
             <a href="/notifications" class="text-white">
                 <i class="fas fa-bell"></i>
             </a>
-            <a href="/profile" class="text-white flex items-center">
+            <a href="/logout" class="text-white flex items-center">
                 <i class="fas fa-user-circle mr-2"></i>
-                Profil
+                Logout
             </a>
         </div>
     </header>

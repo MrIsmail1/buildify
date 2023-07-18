@@ -102,30 +102,75 @@ class AuthController
             if (empty($errors)) {
                 $userModel = User::getInstance();
                 $email = $_POST['email'];
-                var_dump($email);
                 $users = $userModel->read(null);
                 $user = null;
                 foreach ($users as $u) {
-                    var_dump($u["email"]);
                     if (rtrim($u['email']) === $email) {
                         $user = $u;
                         break;
                     }
                 }
-                
-                if ($user !== null && ($_POST['password'] === $user['password'])) {
-                    //fonction password verify a faire ici 
+                if ($user !== null && password_verify($_POST['password'], $user['password'])) {
+                // Check if user is confirmed
+                if ($user['confirmation'] === true) {
+                    $_SESSION["user"] = $user;
                     $token = $userModel->generateToken();
                     $userModel->update(['token' => $token], "id", $user['id']);
                     setcookie('token', $token, time() + 3600, '/');
                     header('Location: /dashboard');
                     exit;
                 } else {
-                    $view->assign('errors', ['Invalid email or password']);
+                    $view->assign('errors', ['Account not confirmed. Please check your email for verification.']);
                 }
+            } else {
+                $view->assign('errors', ['Invalid email or password']);
+            }
             } else {
                 $view->assign('errors', $errors);
             }
         }
     }
+
+    public function mailverification(): void {
+
+        $view = new View("Auth/verif", "front");
+        $token = $_GET['token'];
+
+        $userModel = User::getInstance(); 
+        $findUserByToken = $userModel->findUserByToken($token);
+        var_dump($findUserByToken);
+
+        if (!empty($findUserByToken)) {
+            $confirmation = $findUserByToken[0]['confirmation'];
+            $id=$findUserByToken[0]['id'];
+
+            if ($confirmation !== true) {
+                // Confirmation not yet done, you can update the confirmation status here if needed
+                $userModel->updateUserConfirmation(true,$id);
+                // Redirect to dashboard
+                header('Location: /login');
+                exit;
+            } else {
+                // User is already confirmed, handle accordingly
+                header('Location: /login');
+                exit;
+            }
+        } else { 
+            $view->assign('errors', ['L\'utilisateur n\'existe pas !']);
+            http_response_code(404);
+        }
+    }
+
+    public function logout(): void
+        {
+            // Supprimer le cookie de token et la session utilisateur
+            setcookie('token', '', time() - 3600, '/');
+            session_unset();
+            session_destroy();
+
+            // Rediriger vers la page de connexion
+            header('Location: /login');
+            exit;
+        }
+
 }

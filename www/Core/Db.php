@@ -13,7 +13,7 @@ abstract class Db
     public function __construct()
     {
         try {
-            $this->pdo = new PDO("pgsql:host=postgres-Database;dbname=Challenge_Stack;port=5432", "ESGI", "ESGI2023");
+            $this->pdo = new PDO("pgsql:host=postgres-Database;dbname=Challenge_stack;port=5432", "ESGI", "ESGI2023");
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (\Exception $e) {
             die("Erreur SQL : " . $e->getMessage());
