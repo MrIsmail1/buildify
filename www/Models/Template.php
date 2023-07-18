@@ -62,4 +62,8 @@ class Template extends Db
     {
         return $this->delete(["page_id" => $id]);
     }
+    public function getTemplatePage($page_id)
+    {
+        return $this->read(["page_id" => $page_id]);
+    }
 }

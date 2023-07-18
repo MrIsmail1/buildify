@@ -4,7 +4,7 @@ namespace App\Renderer;
 
 use App\Renderer\Abstract\RenderAbs;
 
-class RenderConfig extends RenderAbs
+class MainConfig extends RenderAbs
 {
     private $page;
     private $template;
@@ -22,7 +22,7 @@ class RenderConfig extends RenderAbs
                 "class" => "text-xl",
             ],
             "title" => [
-                "id" => "",
+                "id" => "title",
                 "class" => "text-[" . $this->template[0]["color"] . "] text-[" . $this->template[0]["font_size"] . "px] font-[" . $this->template[0]["font_family"] . "]",
                 "text" => $this->page[0]["pagetitle"],
             ],

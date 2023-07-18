@@ -9,8 +9,9 @@ use App\DataTable\PagesTableConfig;
 use App\Forms\PageConfig;
 use App\Forms\EditPageConfig;
 use App\Forms\TemplateConfig;
+use App\Models\Menu;
 use App\Models\Template;
-use App\Renderer\RenderConfig;
+use App\Renderer\MainConfig;
 
 class PagesController
 {
@@ -37,11 +38,17 @@ class PagesController
                 $pageModel->setSlug($_POST['titre']);
                 $pageModel->setUserId($_SESSION["user"]["id"]);
                 $pageModel->setPageAuthor($_SESSION["user"]["firstname"]);
-                $pageModel->create();
-                $id = $pageModel->getLastCreatedId();
-                $templateModel = new Template();
-                $templateModel->setPageId($id);
-                $templateModel->create();
+                $createdSlug = $pageModel->getSlug();
+                $exist = $pageModel->findSlug($createdSlug);
+                if (empty($exist)) {
+                    $pageModel->create();
+                    $id = $pageModel->getLastCreatedId();
+                    $templateModel = new Template();
+                    $templateModel->setPageId($id);
+                    $templateModel->create();
+                } else {
+                    $view->assign('errors', ["Cette page existe déjà"]);
+                }
             } else {
                 $view->assign('errors', $errors);
             }
@@ -54,7 +61,7 @@ class PagesController
         $templateModel->deleteTemplateByPageId($id);
         $pageModel = Page::getInstance();
         $pageModel->deletePageById($id);
-        header('Location:/pages');
+        header('Location:/bdfy-admin/pages');
     }
     public function EditPage()
     {
@@ -83,7 +90,7 @@ class PagesController
 
                 // Call the update function
                 $pageModel->update($data, 'id', $id);
-                header("location:/pages/edit?id={$id}");
+                header("location:/bdfy-admin/pages/edit?id={$id}");
             } else {
                 $view->assign('errors', $errors);
             }
@@ -116,7 +123,7 @@ class PagesController
 
                 // Call the update function
                 $templateModel->update($data, 'id', $template[0]["id"]);
-                header("location: /pages/view?id={$id}");
+                header("location: /bdfy-admin/pages/view?id={$id}");
             } else {
                 $view->assign('errors', $errors);
             }
@@ -124,7 +131,7 @@ class PagesController
 
         $pageModel = Page::getInstance();
         $page = $pageModel->getPageById($id);
-        $render = new RenderConfig($page, $template);
-        $view->assign('render', $render->getConfig());
+        $main = new MainConfig($page, $template);
+        $view->assign('main', $main->getConfig());
     }
 }

@@ -24,7 +24,7 @@ class AuthController
 
             //Recupère les infos dans le form
             if (empty($errors)) {
-                $userModel = User::getInstance(); 
+                $userModel = User::getInstance();
                 $email = $_POST['email'];
                 $password = $_POST['password'];
                 $firstname = $_POST['firstname'];
@@ -63,7 +63,7 @@ class AuthController
                     $mail->setFrom('hamzamahmood93150@gmail.com', 'Hamza Mahmood'); // Votre adresse e-mail et votre nom
                     $mail->addAddress($email, 'Test'); // Adresse e-mail et nom du destinataire
                     $mail->Subject = 'Email de vérification buildify'; // Objet de l'e-mail
-                    $mail->Body = 'Lien de vérification de compte : http://localhost:8080/verif?token='.$token ; // Corps de l'e-mail
+                    $mail->Body = 'Lien de vérification de compte : http://localhost:8080/verif?token=' . $token; // Corps de l'e-mail
 
                     // Envoyer l'e-mail
                     if ($mail->send()) {
@@ -76,7 +76,7 @@ class AuthController
 
                     //Redirect to success page or display success message
                     //     header('Location: /register-success.php');
-                    
+
                 } else {
                     $view->assign('errors', ['L\'utilisateur existe déjà !']);
                 }
@@ -90,7 +90,7 @@ class AuthController
     {
         // Check if user is already logged in
         if (isset($_COOKIE['token'])) {
-            header('Location: /dashboard');
+            header('Location: /bdfy-admin/dashboard');
             exit;
         }
 
@@ -102,23 +102,22 @@ class AuthController
             if (empty($errors)) {
                 $userModel = User::getInstance();
                 $email = $_POST['email'];
-                var_dump($email);
                 $users = $userModel->read(null);
                 $user = null;
                 foreach ($users as $u) {
-                    var_dump($u["email"]);
                     if (rtrim($u['email']) === $email) {
                         $user = $u;
                         break;
                     }
                 }
-                
+
                 if ($user !== null && ($_POST['password'] === $user['password'])) {
                     //fonction password verify a faire ici 
+                    $_SESSION["user"] = $user;
                     $token = $userModel->generateToken();
                     $userModel->update(['token' => $token], "id", $user['id']);
                     setcookie('token', $token, time() + 3600, '/');
-                    header('Location: /dashboard');
+                    header('Location: /bdfy-admin/dashboard');
                     exit;
                 } else {
                     $view->assign('errors', ['Invalid email or password']);

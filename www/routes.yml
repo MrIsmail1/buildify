@@ -1,63 +1,88 @@
-/auth:
+/{slug}:
+  controller: FrontController
+  action: index
+  security: false
+
+/bdfy-admin/login:
   controller: AuthController
   action: login
+  security: false
 
-/register:
+/bdfy-admin/register:
   controller: AuthController
   action: register
+  security: false
 
 /verif:
   controller: AuthController
   action: mailverification
-/dashboard:
+  security: false
+  
+/bdfy-admin/dashboard:
   controller: DashController
   action: dashboard
   security: true
 
-/pages:
+/bdfy-admin/pages:
   controller: PagesController
   action: ViewPages
   security: true
 
-/pages/add:
+/bdfy-admin/pages/add:
   controller: PagesController
   action: AddPage
   security: true
 
-/pages/delete:
+/bdfy-admin/pages/delete:
   controller: PagesController
   action: DeletePage
   security: true
-/pages/edit:
+/bdfy-admin/pages/edit:
   controller: PagesController
   action: EditPage
   security: true
 
-/pages/view:
+/bdfy-admin/pages/view:
   controller: PagesController
   action: ViewPage
   security: true
 
-/sitemap.xml:
+/bdfy-admin/menus:
+  controller: MenuController
+  action: ViewMenus
+  security: true
+/bdfy-admin/menus/add:
+  controller: MenuController
+  action: CreateMenu
+  security: true
+/bdfy-admin/menu/edit:
+  controller: MenuController
+  action: EditMenu
+  security: true
+/bdfy-admin/menu/delete:
+  controller: MenuController
+  action: DeleteMenu
+  security: true
+/bdfy-admin/sitemap.xml:
   controller: SitemapController
   action: ViewSitemap
 
-/users:
+/bdfy-admin/users:
   controller: UsersController
   action: ViewUsers
   security: true
 
-/users/add:
+/bdfy-admin/users/add:
   controller: UsersController
   action: AddUser
   security: true
 
-/users/delete:
+/bdfy-admin/users/delete:
   controller: UsersController
   action: DeleteUser
   security: true
 
-/users/edit:
+/bdfy-admin/users/edit:
   controller: UsersController
   action: EditUser
   security: true
