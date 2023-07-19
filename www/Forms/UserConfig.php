@@ -43,10 +43,11 @@ class UserConfig extends FormAbs
                     "class" => "block text-sm font-medium leading-6 text-gray-900"
                 ],
                 "role" => [
-                    "for" => "role",
-                    "text" => "Rôle :",
-                    
-                ],
+                "for" => "role",
+                "text" => "Rôle :",
+                "class" => "block text-sm font-medium leading-6 text-gray-900"
+            ],
+
 
             ],
             "inputs" => [
@@ -73,6 +74,7 @@ class UserConfig extends FormAbs
                         "admin" => "Admin",
                         "editor" => "Editor",
                     ],
+                    "value" =>"admin",
                 ],
             ],
         ];

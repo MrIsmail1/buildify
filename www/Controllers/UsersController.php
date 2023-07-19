@@ -90,14 +90,11 @@ class UsersController {
 
                     // Envoyer l'e-mail
                     if ($mail->send()) {
-                        header('Location: /users');
+                        header('Location: /bdfy-admin/users');
                     } else {
                         $view->assign('errors', ['Echec d\'envoie d\'email !']);
                         http_response_code(404);
                     }
-
-                    //Redirect to success page or display success message
-                    //     header('Location: /register-success.php');
                     
                 } else {
                     $view->assign('errors', ['L\'utilisateur existe déjà !']);
@@ -113,7 +110,7 @@ class UsersController {
         $id = $_REQUEST['id'];
         $userModel = User::getInstance();
         $userModel->deleteUserById($id);
-        header('Location:/users');
+        header('Location:/bdfy-admin/users');
     }
 
     public function EditUser()
@@ -153,7 +150,7 @@ class UsersController {
                 $userModel->updateFirstname($firstname,$id);
                 $userModel->updateLastname($lastname,$id);
                 $userModel->updateRole($role,$id);
-                header('Location: /users');
+                header('Location: /bdfy-admin/users');
         }
     }
 }

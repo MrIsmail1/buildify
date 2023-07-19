@@ -1,7 +1,3 @@
-<head>
-    <?= $html ?>
-</head>
-
 <header>
     <?php $this->component("menu", $menu); ?>
 </header>

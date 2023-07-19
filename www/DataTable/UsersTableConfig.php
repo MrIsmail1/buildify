@@ -36,8 +36,8 @@ class UsersTableConfig extends DataTableAbs
             ],
             "data" => $this->users,
             "actions" => [
-                "delete" => "/users/delete?id=",
-                "edit" => "/users/edit?id=",
+                "delete" => "/bdfy-admin/users/delete?id=",
+                "edit" => "/bdfy-admin/users/edit?id=",
             ]
         ];
     }

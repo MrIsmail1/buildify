@@ -40,12 +40,10 @@ class FrontController
         
         ob_start(); // Démarrer la capture de la sortie
 
-        echo "<html>";
         echo "<head>";
         echo "<title>" . htmlentities($seoTitle) . "</title>";
         echo "<meta name='description' content='" . htmlentities($metaDescription) . "'>";
         echo "</head>";
-
         $html = ob_get_clean(); // Récupérer la sortie capturée
 
         $view->assign('html', $html);

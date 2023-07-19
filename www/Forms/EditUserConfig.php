@@ -72,18 +72,18 @@ class EditUserConfig extends FormAbs
                     "class" => "block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 ],
                 "role" => [
-                    "type" => "select",
-                    "placeholder" => "Select a role...",
-                    "options" => [
-                        "admin" => "Admin",
-                        "editor" => "Editor",
-                    "value" => $this->user[0]["role"],
-                    "class" => ""
-                    ],
+                "type" => "select",
+                "placeholder" => "Select a role...",
+                "options" => [
+                    "admin" => "Admin",
+                    "editor" => "Editor",
                 ],
+                "value" => $this->user[0]["role"],
+                "class" => ""
+                ],
+
+                
             ],
         ];
     }
 }
-
-
