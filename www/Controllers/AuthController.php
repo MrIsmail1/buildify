@@ -24,7 +24,7 @@ class AuthController
 
             //Recupère les infos dans le form
             if (empty($errors)) {
-                $userModel = User::getInstance(); 
+                $userModel = User::getInstance();
                 $email = $_POST['email'];
                 $password = $_POST['password'];
                 $firstname = $_POST['firstname'];
@@ -46,7 +46,6 @@ class AuthController
 
                     // Insérer l'utilisateur dans la base de données
                     $userModel->create();
-
                     // Send verification email to user
                     $mail = new PHPMailer;
 
@@ -63,20 +62,17 @@ class AuthController
                     $mail->setFrom('hamzamahmood93150@gmail.com', 'Hamza Mahmood'); // Votre adresse e-mail et votre nom
                     $mail->addAddress($email, 'Test'); // Adresse e-mail et nom du destinataire
                     $mail->Subject = 'Email de vérification buildify'; // Objet de l'e-mail
-                    $mail->Body = 'Lien de vérification de compte : http://localhost:8080/verif?token='.$token ; // Corps de l'e-mail
+                    $mail->Body = 'Lien de vérification de compte : http://localhost:8080/bdfy-admin/verif?token=' . $token; // Corps de l'e-mail
 
                     // Envoyer l'e-mail
                     if ($mail->send()) {
-                        header('Location: /login');
+                        header('Location: /bdfy-admin/login');
                         echo 'E-mail sent successfully';
                     } else {
                         $view->assign('errors', ['Echec d\'envoie d\'email !']);
                         http_response_code(404);
                     }
 
-                    //Redirect to success page or display success message
-                    //     header('Location: /register-success.php');
-                    
                 } else {
                     $view->assign('errors', ['L\'utilisateur existe déjà !']);
                 }
@@ -90,7 +86,7 @@ class AuthController
     {
         // Check if user is already logged in
         if (isset($_COOKIE['token'])) {
-            header('Location: /dashboard');
+            header('Location: /bdfy-admin/dashboard');
             exit;
         }
 
@@ -117,7 +113,7 @@ class AuthController
                     $token = $userModel->generateToken();
                     $userModel->update(['token' => $token], "id", $user['id']);
                     setcookie('token', $token, time() + 3600, '/');
-                    header('Location: /dashboard');
+                    header('Location: /bdfy-admin/dashboard');
                     exit;
                 } else {
                     $view->assign('errors', ['Account not confirmed. Please check your email for verification.']);
@@ -138,7 +134,6 @@ class AuthController
 
         $userModel = User::getInstance(); 
         $findUserByToken = $userModel->findUserByToken($token);
-        var_dump($findUserByToken);
 
         if (!empty($findUserByToken)) {
             $confirmation = $findUserByToken[0]['confirmation'];
@@ -148,11 +143,11 @@ class AuthController
                 // Confirmation not yet done, you can update the confirmation status here if needed
                 $userModel->updateUserConfirmation(true,$id);
                 // Redirect to dashboard
-                header('Location: /login');
+                header('Location: /bdfy-admin/login');
                 exit;
             } else {
                 // User is already confirmed, handle accordingly
-                header('Location: /login');
+                header('Location: /bdfy-admin/login');
                 exit;
             }
         } else { 
@@ -169,7 +164,7 @@ class AuthController
             session_destroy();
 
             // Rediriger vers la page de connexion
-            header('Location: /login');
+            header('Location: /bdfy-admin/login');
             exit;
         }
 

@@ -65,7 +65,8 @@ class Page extends Db
     }
     public function setLast_published($last_published)
     {
-        $this->last_published = $last_published;
+        $date = new \DateTime($last_published);
+        $this->last_published = $date->format('Y-m-d H:i:s');
     }
     public function getContent()
     {
@@ -108,7 +109,7 @@ class Page extends Db
 
     public function setMetaDescription($metaDescription)
     {
-        $this->metaDescription = $metaDescription;
+        $this->metaDescription = trim($metaDescription);
     }
 
     public function getSeoTitle(): string
@@ -118,7 +119,15 @@ class Page extends Db
 
     public function setSeoTitle(string $seoTitle): void
     {
-        $this->seoTitle = $seoTitle;
+    $this->seoTitle = trim($seoTitle);
     }
     
+    public function findPageByUrl($url)
+    {
+        return $this->read(["slug" => $url]);
+    }
+    public function findSlug($slug)
+    {
+        return $this->read(["slug" => $slug]);
+    }
 }

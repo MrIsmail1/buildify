@@ -11,7 +11,7 @@
             <a href="/notifications" class="text-white">
                 <i class="fas fa-bell"></i>
             </a>
-            <a href="/logout" class="text-white flex items-center">
+            <a href="/bdfy-admin/logout" class="text-white flex items-center">
                 <i class="fas fa-user-circle mr-2"></i>
                 Logout
             </a>

@@ -9,8 +9,9 @@ use App\DataTable\PagesTableConfig;
 use App\Forms\PageConfig;
 use App\Forms\EditPageConfig;
 use App\Forms\TemplateConfig;
+use App\Models\Menu;
 use App\Models\Template;
-use App\Renderer\RenderConfig;
+use App\Renderer\MainConfig;
 
 class PagesController
 {
@@ -37,11 +38,18 @@ class PagesController
                 $pageModel->setSlug($_POST['titre']);
                 $pageModel->setUserId($_SESSION["user"]["id"]);
                 $pageModel->setPageAuthor($_SESSION["user"]["firstname"]);
-                $pageModel->create();
-                $id = $pageModel->getLastCreatedId();
-                $templateModel = new Template();
-                $templateModel->setPageId($id);
-                $templateModel->create();
+                $createdSlug = $pageModel->getSlug();
+                $exist = $pageModel->findSlug($createdSlug);
+                if (empty($exist)) {
+                    $pageModel->create();
+                    $id = $pageModel->getLastCreatedId();
+                    $templateModel = new Template();
+                    $templateModel->setPageId($id);
+                    $templateModel->create();
+                    header('Location:/bdfy-admin/pages');
+                } else {
+                    $view->assign('errors', ["Cette page existe déjà"]);
+                }
             } else {
                 $view->assign('errors', $errors);
             }
@@ -54,10 +62,10 @@ class PagesController
         $templateModel->deleteTemplateByPageId($id);
         $pageModel = Page::getInstance();
         $pageModel->deletePageById($id);
-        header('Location:/pages');
+        header('Location:/bdfy-admin/pages');
     }
 
-   public function EditPage()
+    public function EditPage()
 {
     $id = $_REQUEST['id'];
     $pageModel = Page::getInstance();
@@ -92,39 +100,12 @@ class PagesController
             ];
             // Call the update function
             $pageModel->update($data, 'id', $id);
-
-            // Assign the data to the view
-            $view->assign('seoTitle', $pageModel->getSeoTitle());
-            $view->assign('metaDescription', $pageModel->getMetaDescription());
-
-            // Get the current page's HTML content
-            ob_start();
-            $view->renderSeo(); // Render the page's HTML
-            $currentPageContent = ob_get_clean();
-
-            // Update the page's HTML content with the updated SEO tags
-            $updatedContent = $this->updatePageSeoTags($currentPageContent, $seoTitle, $metaDescription);
-
-            // Output the updated content
-            echo $updatedContent;
+            header("location:/bdfy-admin/pages/edit?id={$id}");
         } else {
             $view->assign('errors', $errors);
         }
     }
 }
- 
-
-   private function updatePageSeoTags($currentPageContent, $seoTitle, $metaDescription)
-    {
-        // Update the <title> tag with the SEO title
-        $updatedContent = preg_replace('/<title>(.*?)<\/title>/i', '<title>' . $seoTitle . '</title>', $currentPageContent);
-
-        // Update the <meta name="description"> tag with the meta description
-        $updatedContent = preg_replace('/<meta name="description" content="(.*?)">/i', '<meta name="description" content="' . $metaDescription . '">', $updatedContent);
-
-        return $updatedContent;
-    }
-
 
     public function ViewPage()
     {
@@ -152,7 +133,7 @@ class PagesController
 
                 // Call the update function
                 $templateModel->update($data, 'id', $template[0]["id"]);
-                header("location: /pages/view?id={$id}");
+                header("location: /bdfy-admin/pages/view?id={$id}");
             } else {
                 $view->assign('errors', $errors);
             }
@@ -160,8 +141,8 @@ class PagesController
 
         $pageModel = Page::getInstance();
         $page = $pageModel->getPageById($id);
-        $render = new RenderConfig($page, $template);
-        $view->assign('render', $render->getConfig());
+        $main = new MainConfig($page, $template);
+        $view->assign('main', $main->getConfig());
     }
 
 }

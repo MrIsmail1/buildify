@@ -21,28 +21,47 @@ class Routing
 
     public function setAction(string $uri): array
     {
-        if (
-            empty($this->routes[$uri])
-            || empty($this->routes[$uri]["controller"])
-            || empty($this->routes[$uri]["action"])
-        ) {
+        $routeFound = false;
+        $routeRequiresAuthentication = false;
+
+        foreach ($this->routes as $route => $routeConfig) {
+            $routePattern = preg_replace('/{.*?}/', '[^/]+', $route);
+
+            if (preg_match("#^$routePattern$#", $uri)) {
+                $routeFound = true;
+                $this->controller = $routeConfig["controller"];
+                $this->action = $routeConfig["action"];
+                if (isset($routeConfig["security"]) && $routeConfig["security"] === true) {
+                    $routeRequiresAuthentication = true;
+                }
+
+                break;
+            }
+        }
+
+        if (!$routeFound) {
             http_response_code(404);
             die("404 page not found");
         }
 
-        // Check if the user is connected for the route
-        if ($this->security->checkRoute($uri)) {
-            // User is connected, proceed with the route logic
-            $this->controller = $this->routes[$uri]["controller"];
-            $this->action = $this->routes[$uri]["action"];
-        } else {
-            // User is not connected, handle the unauthorized access
-            http_response_code(401);
-            die("Unauthorized access");
+        if ($routeRequiresAuthentication) {
+            if ($this->security->checkRoute($uri)) {
+                // User is connected, proceed with the route logic
+                $this->controller = $this->routes[$uri]["controller"];
+                $this->action = $this->routes[$uri]["action"];
+            } else {
+                // User is not connected, handle the unauthorized access
+                http_response_code(401);
+                header("location: /bdfy-admin/login");
+            }
         }
+
+        // Check if the user is connected for the route
+
 
         return [$this->controller, $this->action];
     }
+
 
     public function getUri(string $controller, string $action): ?string
     {

@@ -32,9 +32,9 @@ class PagesTableConfig extends DataTableAbs
             ],
             "data" => $this->pages,
             "actions" => [
-                "delete" => "/pages/delete?id=",
-                "edit" => "/pages/edit?id=",
-                "view" => "/pages/view?id=",
+                "delete" => "/bdfy-admin/pages/delete?id=",
+                "edit" => "/bdfy-admin/pages/edit?id=",
+                "view" => "/bdfy-admin/pages/view?id=",
             ]
         ];
     }
