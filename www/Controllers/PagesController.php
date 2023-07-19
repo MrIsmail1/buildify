@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\PageMemento;
 use App\Core\Verificator;
 use App\Core\View;
 use App\Models\Page;
@@ -9,7 +10,6 @@ use App\DataTable\PagesTableConfig;
 use App\Forms\PageConfig;
 use App\Forms\EditPageConfig;
 use App\Forms\TemplateConfig;
-use App\Models\Menu;
 use App\Models\Template;
 use App\Renderer\MainConfig;
 
@@ -66,29 +66,29 @@ class PagesController
     }
 
     public function EditPage()
-{
-    $id = $_REQUEST['id'];
-    $pageModel = Page::getInstance();
-    $page = $pageModel->getPageById($id);
-    $view = new View("Pages/singlePage", 'back');
-    $form = new EditPageConfig($page);
-    $view->assign('form', $form->getConfig());
+    {
+        $id = $_REQUEST['id'];
+        $pageModel = Page::getInstance();
+        $page = $pageModel->getPageById($id);
+        $view = new View("Pages/singlePage", 'back');
+        $view->assign('id', $id);
+        $form = new EditPageConfig($page);
+        $view->assign('form', $form->getConfig());
 
-    if ($form->isSubmit()) {
-        $errors = Verificator::form($form->getConfig(), $_POST);
-        if (empty($errors)) {
-            $pageModel = Page::getInstance();
-            $pageModel->setPageTitle($_POST['titre']);
-            $pageModel->setContent($_POST['content']);
-            $pageModel->setSlug($_POST['slug']);
-
-            // Update the SEO title and meta description
-            $seoTitle = $_POST['seo_title'];
-            $metaDescription = $_POST['meta_description'];
-
-            // Update the page data
-            $pageModel->setSeoTitle($seoTitle);
-            $pageModel->setMetaDescription($metaDescription);
+        if ($form->isSubmit()) {
+            $errors = Verificator::form($form->getConfig(), $_POST);
+            if (empty($errors)) {
+                // Create a memento before updating the page
+                $mementoModel = new PageMemento();
+                $mementoModel->setPageTitle($page[0]['pagetitle']);
+                $mementoModel->setContent($page[0]['content']);
+                $mementoModel->setSlug($page[0]['slug']);
+                $mementoModel->setPageId($page[0]['id']);
+                $mementoModel->setSaveDate(date("F j, Y, g:i a"));
+                $mementoModel->create();
+                $pageModel->setPageTitle($_POST['titre']);
+                $pageModel->setContent($_POST['content']);
+                $pageModel->setSlug($_POST['slug']);
 
             // Prepare the data for the update
             $data = [
