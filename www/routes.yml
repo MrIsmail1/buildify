@@ -47,6 +47,16 @@
   action: ViewPage
   security: true
 
+/bdfy-admin/pages/history:
+  controller: PagesController
+  action: ViewHistory
+  security: true
+
+/bdfy-admin/pages/history/apply:
+  controller: PagesController
+  action: ApplyHistory
+  security: true
+
 /bdfy-admin/menus:
   controller: MenuController
   action: ViewMenus

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\PageMemento;
 use App\Core\Verificator;
 use App\Core\View;
 use App\Models\Page;
@@ -9,7 +10,6 @@ use App\DataTable\PagesTableConfig;
 use App\Forms\PageConfig;
 use App\Forms\EditPageConfig;
 use App\Forms\TemplateConfig;
-use App\Models\Menu;
 use App\Models\Template;
 use App\Renderer\MainConfig;
 
@@ -69,14 +69,21 @@ class PagesController
         $pageModel = Page::getInstance();
         $page = $pageModel->getPageById($id);
         $view = new View("Pages/singlePage", 'back');
+        $view->assign('id', $id);
         $form = new EditPageConfig($page);
         $view->assign('form', $form->getConfig());
-
 
         if ($form->isSubmit()) {
             $errors = Verificator::form($form->getConfig(), $_POST);
             if (empty($errors)) {
-                $pageModel = Page::getInstance();
+                // Create a memento before updating the page
+                $mementoModel = new PageMemento();
+                $mementoModel->setPageTitle($page[0]['pagetitle']);
+                $mementoModel->setContent($page[0]['content']);
+                $mementoModel->setSlug($page[0]['slug']);
+                $mementoModel->setPageId($page[0]['id']);
+                $mementoModel->setSaveDate(date("F j, Y, g:i a"));
+                $mementoModel->create();
                 $pageModel->setPageTitle($_POST['titre']);
                 $pageModel->setContent($_POST['content']);
                 $pageModel->setSlug($_POST['slug']);
@@ -96,6 +103,39 @@ class PagesController
             }
         }
     }
+
+    public function ViewHistory()
+    {
+        $id = $_REQUEST['id'];
+        $view = new View("Pages/history", "back");
+        $mementoModel = PageMemento::getInstance();
+        $history = $mementoModel->read(['page_id' => $id]);
+        $view->assign('history', $history);
+    }
+    public function ApplyHistory()
+    {
+        $id = $_REQUEST['id'];
+        $pageModel = Page::getInstance();
+        $mementoModel = new PageMemento();
+        $memento = $mementoModel->read(['id' => $id]);
+        $page_id = $memento[0]["page_id"];
+        $title = $memento[0]["pagetitle"];
+        $content = $memento[0]["content"];
+        $slug = $memento[0]["slug"];
+        $pageModel->setPageTitle($title);
+        $pageModel->setContent($content);
+        $pageModel->setSlug($slug);
+
+        $data = [
+            'pagetitle' => $pageModel->getPageTitle(),
+            'content' => $pageModel->getContent(),
+            'slug' => $pageModel->getSlug(),
+        ];
+        var_dump($data);
+        $pageModel->update($data, 'id', $page_id);
+        header("location:/bdfy-admin/pages");
+    }
+
 
     public function ViewPage()
     {
