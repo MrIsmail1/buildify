@@ -14,9 +14,11 @@
                     <td class="border-b border-gray-600"><?= $row[$tb] ?></td>
                 <?php endforeach; ?>
                 <td class="border-b border-gray-600">
-                    <a href="<?= $config["actions"]["edit"] . $row['id'] ?>"><i class="fas fa-edit"></i></a>
-                    <a href="<?= $config["actions"]["delete"] . $row['id'] ?>"><i class="fas fa-trash-alt"></i></a>
-                    <a href="/comments/add?page_id=<?= $row['id'] ?>"><i class="fas fa-comment"></i></a>
+                    <?php if (isset($config["actions"]["view"])) : ?>
+                        <a href="<?= $config["actions"]["view"] . $row['id'] ?>"><i class="fas fa-eye"></i>
+                        <?php endif; ?>
+                        <a href="<?= $config["actions"]["edit"] . $row['id'] ?>"><i class="fas fa-edit"></i></a>
+                        <a href="<?= $config["actions"]["delete"] . $row['id'] ?>"><i class="fas fa-trash-alt"></i></a>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -26,7 +28,7 @@
     $(document).ready(function() {
         $("<?= "#" . $config["config"]["id"] ?>").DataTable({
             ordering: false,
-            paging: false,
+            paging: true,
             info: false,
         });
     });

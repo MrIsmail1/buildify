@@ -63,7 +63,8 @@ class Page extends Db
     }
     public function setLast_published($last_published)
     {
-        $this->last_published = $last_published;
+        $date = new \DateTime($last_published);
+        $this->last_published = $date->format('Y-m-d H:i:s');
     }
     public function getContent()
     {
@@ -79,7 +80,8 @@ class Page extends Db
     }
     public function setSlug($slug)
     {
-        $this->slug = $slug;
+        $slug = preg_replace('/[^a-z0-9]+/i', '-', strtolower($slug));
+        $this->slug = trim($slug, '-');
     }
     public function getAllPages()
     {
@@ -92,5 +94,17 @@ class Page extends Db
     public function deletePageById(Int $id)
     {
         return $this->delete(["id" => $id]);
+    }
+    public function getLastCreatedId()
+    {
+        return $this->pdo->LastInsertId();
+    }
+    public function findPageByUrl($url)
+    {
+        return $this->read(["slug" => $url]);
+    }
+    public function findSlug($slug)
+    {
+        return $this->read(["slug" => $slug]);
     }
 }
