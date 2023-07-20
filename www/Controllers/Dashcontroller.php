@@ -21,9 +21,9 @@ class DashController
         $totalPages = $dashboardModel->getTotalPages();
         $totalComments = $dashboardModel->getTotalComments();
         $lastComments = $dashboardModel->getLastComments();
-        var_dump($lastComments);  
+        
         $lastPages = $dashboardModel->getLastPages();
-        var_dump($lastPages);
+        
 
         // Récupérez les données du tableau de bord à afficher dans la vue
         $dashboardModel = Dashboard::getInstance();    

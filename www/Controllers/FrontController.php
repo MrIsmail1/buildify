@@ -44,10 +44,10 @@ class FrontController
                 $comment->create();
             }
         }
-        
+
         //récupérer les comments de la page
         
-        var_dump($page[0]["id"]);
+        
         $commentsModel = new Comments();
         $comments = isset($page[0]["id"]) ? $commentsModel->getCommentsForPage($page[0]["id"]) : [];
 
