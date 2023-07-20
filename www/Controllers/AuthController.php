@@ -111,7 +111,7 @@ class AuthController
                     }
                 }
 
-                if ($user !== null && ($_POST['password'] === $user['password'])) {
+                if ($user !== null &&  password_verify($_POST['password'],$user['password'])) {
                     //fonction password verify a faire ici 
                     $_SESSION["user"] = $user;
                     $token = $userModel->generateToken();

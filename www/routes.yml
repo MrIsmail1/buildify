@@ -47,27 +47,6 @@
   action: ViewPage
   security: true
 
-/comments:
-  controller: CommentsController
-  action: getComments
-
-
-
-/comments/add:
-    controller: CommentsController
-    action: addComment
-    security: true
-
-/comments/delete:
-    controller: CommentsController
-    action: DeleteComment
-    security: true
-/comments/edit:
-    controller: CommentsController
-    action: EditComment
-    security: true
-
-
 /bdfy-admin/menus:
   controller: MenuController
   action: ViewMenus
@@ -112,22 +91,27 @@
   controller: ErrorController
   action: NotFound
 
-/comments:
+/bdfy-admin/comments:
   controller: CommentsController
   action: getComments
+  security: true 
 
 
+/bdfy-admin/comments/add:
+  controller: CommentsController
+  action: addComment
+  security: true
 
-/comments/add:
-    controller: CommentsController
-    action: addComment
-    security: true
+/bdfy-admin/comments/delete:
+  controller: CommentsController
+  action: DeleteComment
+  security: true
+/bdfy-admin/comments/edit:
+  controller: CommentsController
+  action: EditComment
+  security: true
+/bdfy-admin/comments/report:
+  controller: CommentsController
+  action: report
+  security : true
 
-/comments/delete:
-    controller: CommentsController
-    action: DeleteComment
-    security: true
-/comments/edit:
-    controller: CommentsController
-    action: EditComment
-    security: true

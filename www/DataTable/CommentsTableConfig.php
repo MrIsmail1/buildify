@@ -21,22 +21,21 @@ class CommentsTableConfig extends DataTableAbs
                 "id" => "commentsTable",
             ],
             "headers" => [
-                "user_id" => "ID utilisateur",
-                "idpage" => "ID page",
-                "content" => "Contenu",
+                "CommentAuthor" => "Auteur",
+                
+                "content" => "Commentaire",
                 "date" => "Date de création",
             ],
             "tbody" => [
-                "user_id" => "userid",
-                "idpage" => "idpage",
+                "comment_author" => "comment_author",
+                
                 "content" => "content",
                 "date" => "date",
             ],
             "data" => $this->comments,
             "actions" => [
-                "delete" => "/comments/delete?id=",
-                "edit" => "/comments/edit?id=",
-                "comment" => "/comments/add?id=",
+                "delete" => "/bdfy-admin/comments/delete?id=",
+                "report" => "/bdfy-admin/comments/report?id=",
             ]
         ];
         

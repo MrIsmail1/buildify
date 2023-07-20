@@ -3,19 +3,21 @@
 namespace App\Models;
 
 use App\Core\Db;
+use App\Models\Page;
+use App\Models\Comments;
+
 
 class Dashboard extends Db
 {
     protected int $id;
     protected int $idpage;
     protected int $idcommment;
-    protected string $date;
-    protected string $commentaireamoderer;
+    
 
     /**
      * @return int
      */
-    public function getIddashboard(): int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -23,7 +25,7 @@ class Dashboard extends Db
     /**
      * @param int $iddashboard
      */
-    public function setIddashboard(int $id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -31,86 +33,47 @@ class Dashboard extends Db
     /**
      * @return string|null
      */
-    public function getIdPages(): ?string
+    public function getIdPage(): int
     {
-        return $this->idpages;
+        return $this->idpage;
     }
-
+    
+    
     /**
      * @param string|null $id_page
      */
-    public function setIdPages(?string $idpage): void
+    public function setIdPages(int $idpage): void
     {
         $this->idpage = $idpage;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDatePublication(): ?string
-    {
-        return $this->date;
-    }
-
-    /**
-     * @param string|null $date_publication
-     */
-    public function setDatePublication(?string $date): void
-    {
-        $this->date = $date;
-    }
-
     
-
-    /**
-     * @return string|null
-     */
-    public function getIdCommentPage(): ?string
-    {
-        return $this->idcomment;
-    }
-
-    /**
-     * @param string|null $id_commentpage
-     */
-    public function setIdCommentPage(?string $idcomment): void
-    {
-        $this->idcomment = $idcomment;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCommentaireAModerer(): ?string
-    {
-        return $this->commentaireamoderer;
-    }
-
-    /**
-     * @param string|null $commentaireamoderer
-     */
-    public function setCommentaireAModerer(?string $commentaireamoderer): void
-    {
-        $this->commentaireamoderer = $commentaireamoderer;
-    }
-
     public function getTotalPages()
     {
-        return $this->read();
+
+        $page = new Page();
+        return count($page->getAllPages());
     }
-
-    public function getLastPages(){
-
-    }
-
+  
     
     public function getTotalComments()
     {
-       return $this->read();
+       $comment = new Comments();
+        return count($comment->getAllComments());
     }
 
         
-    public function getLatestComments(){
-        
+    public function getLastPages($limit = 5)
+    {
+        $page = new Page();
+        $allPages = $page->getAllPages();
+        return array_slice($allPages, -$limit);
+    }
+
+    public function getLastComments($limit = 5)
+    {
+        $comment = new Comments();
+        $allComments = $comment->getAllComments();
+        return array_slice($allComments, -$limit);
     }
 }

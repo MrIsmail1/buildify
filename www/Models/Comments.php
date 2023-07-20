@@ -7,9 +7,11 @@ class Comments extends Db
 {
     protected int $id;
     protected int $userid; 
-    protected int $idPage ;
+    protected int $idpage ;
     protected string $content;
     protected string $date;
+    protected string $comment_author;
+    protected bool $reported = false; 
 
     /**
      * @return int
@@ -49,15 +51,15 @@ class Comments extends Db
      */
     public function getIdPage(): int
     {
-        return $this->idPage;
+        return $this->idpage;
     }
 
     /**
      * @param int $idPage
      */
-    public function setIdPage(int $idPage): void
+    public function setIdPage(int $idpage): void
     {
-        $this->idPage = $idPage;
+        $this->idpage = $idpage;
     }
 
     /**
@@ -95,9 +97,13 @@ class Comments extends Db
     /**
      * Méthode pour récupérer les commentaires d'une page spécifique
      */
-    public function getCommentsForPage(int $idPage)
+    public function getCommentsForPage(int $idpage)
     {
-        return $this->read(["page_id" => $idPage]);
+        return $this->read(["idpage" => $idpage]);
+    }
+    
+    public function getCommentsByPageId(int $idpage){
+        return $this->read(["idpage" => $idpage]);
     }
     
     public function getAllComments(){
@@ -107,5 +113,56 @@ class Comments extends Db
     public function deleteCommentById(int $id){
         return $this->delete(["id" => $id]);
     }
-    // Autres méthodes liées aux commentaires (suppression, modification, etc.)
+    
+    public function getCommentAuthor()
+    {
+        return $this->comment_author;
+    }
+
+    public function setCommentAuthor($commentAuthor){
+        $this->comment_author = $commentAuthor;
+
+    }
+    
+    
+    
+    public function getReported(): bool
+    {
+        return $this->reported;
+    }
+
+    /**
+     * @param bool $reported
+     */
+    public function setReported(bool $reported): void
+    {
+        $this->reported = $reported;
+    }
+
+    public function reportCommentById(int $id) {
+        $this->update(["reported" => true], "id", $id);
+    }
+
+    public function CommentReported(int $id){
+        return $this->read(["id" => $id]);
+        $result = $this->read(["id" => $id]);
+        if (!empty($result)) {
+            return $result[0]["reported"];
+        } else {
+            return null;
+        }
+    }
+
+    public function addComment(string $content, string $author, int $pageId)
+    {
+        $commentData = [
+            "content" => $content,
+            "comment_author" => $author,
+            "idpage" => $pageId,
+            
+    ];
+
+    return $this->create($commentData);
 }
+}
+   

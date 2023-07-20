@@ -15,12 +15,25 @@ class DashController
             header('Location: /auth');
             exit;
         }
-   
+        
+        $dashboardModel = new Dashboard();
 
-    // Récupérez les données du tableau de bord à afficher dans la vue
-    $dashboardModel = Dashboard::getInstance();    
-    $view = new View("Dashboard/dashboard", "back");  
-    $dashboard = $dashboardModel->getTotalPages();
+        $totalPages = $dashboardModel->getTotalPages();
+        $totalComments = $dashboardModel->getTotalComments();
+        $lastComments = $dashboardModel->getLastComments();
+        var_dump($lastComments);  
+        $lastPages = $dashboardModel->getLastPages();
+        var_dump($lastPages);
+
+        // Récupérez les données du tableau de bord à afficher dans la vue
+        $dashboardModel = Dashboard::getInstance();    
+        $view = new View("Dashboard/dashboard", "back");
+        $view->assign('totalPages', $totalPages);
+        $view->assign('totalComments', $totalComments);
+        $view->assign('lastComments', $lastComments);
+        $view->assign('lastPages', $lastPages);
+        
+
     }
 }
 ?>

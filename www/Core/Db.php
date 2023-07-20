@@ -92,6 +92,12 @@ abstract class Db
         $columnsToExclude = get_class_vars(get_class());
         $columns = array_diff_key($columns, $columnsToExclude);
 
+        foreach ($columns as $key => $value) {
+        if (is_bool($value)) {
+            $columns[$key] = $value ? 1 : 0;
+        }
+        }
+
         $queryPrepared = $this->pdo->prepare("INSERT INTO " . $this->table . " (" . implode(",", array_keys($columns)) . ") 
                                 VALUES (:" . implode(",:", array_keys($columns)) . ")");
 
