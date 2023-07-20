@@ -76,7 +76,7 @@ class MenuController
                 }
                 $items_pg_array = '{' . implode(",", $items) . '}';
                 $menuModel->setItems($items_pg_array);
-                $active = isset($_POST['active']) && $_POST['active'] === 1 ? 1 : 0;
+                $active = isset($_POST['active']) && $_POST['active'] === 1 ? true : false;
                 $menuModel->setActive($active);
                 $data = [
                     'name' => $menuModel->getName(),

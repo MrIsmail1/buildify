@@ -86,7 +86,7 @@ class UsersController {
                     $mail->setFrom('hamzamahmood93150@gmail.com', 'Hamza Mahmood'); // Votre adresse e-mail et votre nom
                     $mail->addAddress($email, 'Test'); // Adresse e-mail et nom du destinataire
                     $mail->Subject = 'Email de vérification buildify'; // Objet de l'e-mail
-                    $mail->Body = 'Lien de vérification de compte : http://localhost:8080/verif?token='.$token ; // Corps de l'e-mail
+                    $mail->Body = 'Lien de vérification de compte : http://localhost:8080/bdfy-admin/verif?token='.$token ; // Corps de l'e-mail
 
                     // Envoyer l'e-mail
                     if ($mail->send()) {

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <?= $html ?>
+    <?= $html ?? null ?>
     <meta charset="UTF-8">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>

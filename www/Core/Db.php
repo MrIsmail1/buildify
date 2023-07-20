@@ -60,6 +60,11 @@ abstract class Db
             $set[] = "$key=:$key";
             $params[":$key"] = $value;
         }
+        foreach ($data as $key => $value) {
+        if (is_bool($value)) {
+            $data[$key] = $value ? 1 : 0;
+        }
+        }
         $query .= implode(", ", $set);
         $query .= " WHERE $idColumn=:$idColumn";
         $params[":$idColumn"] = $idValue;
@@ -91,6 +96,12 @@ abstract class Db
 
         $columnsToExclude = get_class_vars(get_class());
         $columns = array_diff_key($columns, $columnsToExclude);
+
+        foreach ($columns as $key => $value) {
+        if (is_bool($value)) {
+            $columns[$key] = $value ? 1 : 0;
+        }
+        }
 
         $queryPrepared = $this->pdo->prepare("INSERT INTO " . $this->table . " (" . implode(",", array_keys($columns)) . ") 
                                 VALUES (:" . implode(",:", array_keys($columns)) . ")");

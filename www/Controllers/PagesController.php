@@ -60,6 +60,8 @@ class PagesController
         $id = $_REQUEST['id'];
         $templateModel = new Template();
         $templateModel->deleteTemplateByPageId($id);
+        $pageMementoModel = new PageMemento();
+        $pageMementoModel->deletePageMementoByPageId($id);
         $pageModel = Page::getInstance();
         $pageModel->deletePageById($id);
         header('Location:/bdfy-admin/pages');
@@ -89,6 +91,8 @@ class PagesController
                 $pageModel->setPageTitle($_POST['titre']);
                 $pageModel->setContent($_POST['content']);
                 $pageModel->setSlug($_POST['slug']);
+                $pageModel->setSeoTitle($_POST['seo_title']);
+                $pageModel->setMetaDescription($_POST['meta_description']);
 
             // Prepare the data for the update
             $data = [
@@ -106,6 +110,38 @@ class PagesController
         }
     }
 }
+
+    public function ViewHistory()
+    {
+        $id = $_REQUEST['id'];
+        $view = new View("Pages/history", "back");
+        $mementoModel = PageMemento::getInstance();
+        $history = $mementoModel->read(['page_id' => $id]);
+        $view->assign('history', $history);
+    }
+    public function ApplyHistory()
+    {
+        $id = $_REQUEST['id'];
+        $pageModel = Page::getInstance();
+        $mementoModel = new PageMemento();
+        $memento = $mementoModel->read(['id' => $id]);
+        $page_id = $memento[0]["page_id"];
+        $title = $memento[0]["pagetitle"];
+        $content = $memento[0]["content"];
+        $slug = $memento[0]["slug"];
+        $pageModel->setPageTitle($title);
+        $pageModel->setContent($content);
+        $pageModel->setSlug($slug);
+
+        $data = [
+            'pagetitle' => $pageModel->getPageTitle(),
+            'content' => $pageModel->getContent(),
+            'slug' => $pageModel->getSlug(),
+        ];
+        var_dump($data);
+        $pageModel->update($data, 'id', $page_id);
+        header("location:/bdfy-admin/pages");
+    }
 
     public function ViewPage()
     {

@@ -64,4 +64,8 @@ class PageMemento extends Db
     {
         $this->save_date = $save_date;
     }
+
+    public function deletePageMementoByPageId($id) {
+        return $this->delete(['page_id'=> $id] );
+    }
 }
