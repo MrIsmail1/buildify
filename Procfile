@@ -1,1 +1,1 @@
-web: docker-compose up www
+web: docker-compose up site
