@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+.container h1 {
+    margin-left: 0;
+}
+.container div {
+    margin-right: 0;
+}
+#sidebar {
+    transition: width 0.5s;
+}
+#sidebar.hidden {
+    margin-left: -100%;
+}

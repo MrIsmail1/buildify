@@ -1,0 +1,109 @@
+/{slug}:
+  controller: FrontController
+  action: index
+  security: false
+
+/bdfy-admin/login:
+  controller: AuthController
+  action: login
+  security: false
+
+/bdfy-admin/register:
+  controller: AuthController
+  action: register
+  security: false
+
+/bdfy-admin/verif:
+  controller: AuthController
+  action: mailverification
+  security: false
+
+/bdfy-admin/dashboard:
+  controller: DashController
+  action: dashboard
+  security: true
+
+/bdfy-admin/pages:
+  controller: PagesController
+  action: ViewPages
+  security: true
+
+/bdfy-admin/pages/add:
+  controller: PagesController
+  action: AddPage
+  security: true
+
+/bdfy-admin/pages/delete:
+  controller: PagesController
+  action: DeletePage
+  security: true
+/bdfy-admin/pages/edit:
+  controller: PagesController
+  action: EditPage
+  security: true
+
+/bdfy-admin/pages/view:
+  controller: PagesController
+  action: ViewPage
+  security: true
+
+/bdfy-admin/pages/history:
+  controller: PagesController
+  action: ViewHistory
+  security: true
+
+/bdfy-admin/pages/history/apply:
+  controller: PagesController
+  action: ApplyHistory
+  security: true
+
+/bdfy-admin/menus:
+  controller: MenuController
+  action: ViewMenus
+  security: true
+/bdfy-admin/menus/add:
+  controller: MenuController
+  action: CreateMenu
+  security: true
+/bdfy-admin/menu/edit:
+  controller: MenuController
+  action: EditMenu
+  security: true
+/bdfy-admin/menu/delete:
+  controller: MenuController
+  action: DeleteMenu
+  security: true
+
+/sitemap.xml:
+  controller: SitemapController
+  action: ViewSitemap
+  security: false
+  
+/bdfy-admin/users:
+  controller: UsersController
+  action: ViewUsers
+  security: true
+
+/bdfy-admin/users/add:
+  controller: UsersController
+  action: AddUser
+  security: true
+
+/bdfy-admin/users/delete:
+  controller: UsersController
+  action: DeleteUser
+  security: true
+
+/bdfy-admin/users/edit:
+  controller: UsersController
+  action: EditUser
+  security: true
+
+/bdfy-admin/logout:
+  controller: AuthController
+  action: logout
+  security: false
+
+/404:
+  controller: ErrorController
+  action: NotFound
