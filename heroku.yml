@@ -4,6 +4,6 @@ setup:
       as: DATABASE
 build:
   docker:
-    site: site/
+    site: ./site
 run:
   site: apache2-foreground
