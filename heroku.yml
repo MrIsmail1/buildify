@@ -4,6 +4,6 @@ setup:
       as: DATABASE
 build:
   docker:
-    web: Dockerfile
+    site: Dockerfile
 run:
-  web: apache2-foreground
+  site: apache2-foreground
