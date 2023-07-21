@@ -147,7 +147,6 @@ class PagesController
     {
         $id = $_REQUEST['id'];
         $view = new View('Pages/page', 'back');
-
         /* front edit */
         $templateModel = new Template();
         $template = $templateModel->getTemplatePageById($id);
