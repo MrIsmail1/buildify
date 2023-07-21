@@ -138,7 +138,6 @@ class PagesController
             'content' => $pageModel->getContent(),
             'slug' => $pageModel->getSlug(),
         ];
-        var_dump($data);
         $pageModel->update($data, 'id', $page_id);
         header("location:/bdfy-admin/pages");
     }

@@ -23,7 +23,7 @@ class FrontController
         $pageModel = new Page();
         $urlPath = ltrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
         $page = $pageModel->findPageByUrl($urlPath);
-        
+
         if (!isset($page)) {
             http_response_code(404);
             header("location: /404");

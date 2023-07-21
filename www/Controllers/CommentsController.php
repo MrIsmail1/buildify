@@ -29,7 +29,7 @@ class CommentsController
         if ($comments) {
             
         } else {
-            echo "No comments found. ";
+            http_response_code(404);
         }
     }
 
