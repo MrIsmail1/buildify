@@ -107,3 +107,28 @@
 /404:
   controller: ErrorController
   action: NotFound
+
+/bdfy-admin/comments:
+  controller: CommentsController
+  action: getComments
+  security: true 
+
+
+/bdfy-admin/comments/add:
+  controller: CommentsController
+  action: addComment
+  security: true
+
+/bdfy-admin/comments/delete:
+  controller: CommentsController
+  action: DeleteComment
+  security: true
+/bdfy-admin/comments/edit:
+  controller: CommentsController
+  action: EditComment
+  security: true
+/bdfy-admin/comments/report:
+  controller: CommentsController
+  action: report
+  security : true
+

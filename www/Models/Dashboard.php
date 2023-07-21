@@ -3,109 +3,77 @@
 namespace App\Models;
 
 use App\Core\Db;
+use App\Models\Page;
+use App\Models\Comments;
+
 
 class Dashboard extends Db
 {
-    protected int $iddashboard;
-    protected ?string $id_page;
-    protected ?string $date_publication;
-    protected ?string $dashboardcol;
-    protected ?string $id_commentpage;
-    protected ?string $commentaireamoderer;
+    protected int $id;
+    protected int $idpage;
+    protected int $idcommment;
+    
 
     /**
      * @return int
      */
-    public function getIddashboard(): int
+    public function getId(): int
     {
-        return $this->iddashboard;
+        return $this->id;
     }
 
     /**
      * @param int $iddashboard
      */
-    public function setIddashboard(int $iddashboard): void
+    public function setId(int $id): void
     {
-        $this->iddashboard = $iddashboard;
+        $this->id = $id;
     }
 
     /**
      * @return string|null
      */
-    public function getIdPages(): ?string
+    public function getIdPage(): int
     {
-        return $this->id_pages;
+        return $this->idpage;
+    }
+    
+    
+    /**
+     * @param string|null $id_page
+     */
+    public function setIdPages(int $idpage): void
+    {
+        $this->idpage = $idpage;
     }
 
-    /**
-     * @param string|null $id_pages
-     */
-    public function setIdPages(?string $id_pages): void
+    
+    public function getTotalPages()
     {
-        $this->id_pages = $id_pages;
+
+        $page = new Page();
+        return count($page->getAllPages());
+    }
+  
+    
+    public function getTotalComments()
+    {
+       $comment = new Comments();
+        return count($comment->getAllComments());
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDatePublication(): ?string
+        
+    public function getLastPages($limit = 5)
     {
-        return $this->date_publication;
+        $page = new Page();
+        $allPages = $page->getAllPages();
+        return array_slice($allPages, -$limit);
     }
 
-    /**
-     * @param string|null $date_publication
-     */
-    public function setDatePublication(?string $date_publication): void
+    public function getLastComments($limit = 5)
     {
-        $this->date_publication = $date_publication;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDashboardCol(): ?string
-    {
-        return $this->dashboardcol;
-    }
-
-    /**
-     * @param string|null $dashboardcol
-     */
-    public function setDashboardCol(?string $dashboardcol): void
-    {
-        $this->dashboardcol = $dashboardcol;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getIdCommentPage(): ?string
-    {
-        return $this->id_commentpage;
-    }
-
-    /**
-     * @param string|null $id_commentpage
-     */
-    public function setIdCommentPage(?string $id_commentpage): void
-    {
-        $this->id_commentpage = $id_commentpage;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCommentaireAModerer(): ?string
-    {
-        return $this->commentaireamoderer;
-    }
-
-    /**
-     * @param string|null $commentaireamoderer
-     */
-    public function setCommentaireAModerer(?string $commentaireamoderer): void
-    {
-        $this->commentaireamoderer = $commentaireamoderer;
+        $comment = new Comments();
+        $allComments = $comment->getAllComments();
+        return array_slice($allComments, -$limit);
     }
 }

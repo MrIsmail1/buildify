@@ -50,6 +50,14 @@ class View
         include $this->template;
     }
 
-    
+    public function displayComments()
+    {
+    // Récupérez les commentaires assignés à la vue
+    $comments = $this->data['comments'];
+
+    // Incluez le fichier de la vue
+    include $this->view;
+    }
+ 
 
 }
