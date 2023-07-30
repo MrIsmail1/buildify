@@ -30,7 +30,9 @@ CREATE TABLE IF NOT EXISTS challenge_stack.user
     lastname character varying(45) COLLATE pg_catalog."default",
     email character varying(45) COLLATE pg_catalog."default",
     password character varying COLLATE pg_catalog."default",
-    token character varying COLLATE pg_catalog."default"
+    token character varying COLLATE pg_catalog."default",
+    confirmation boolean DEFAULT false,
+    role character varying COLLATE pg_catalog."default"
 );
 
 -- Table: challenge_stack.page
