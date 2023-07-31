@@ -9,7 +9,6 @@ class Component {
 
   display(newProps = this.props) {
     const domElement = this.render();
-    console.log(domElement);
     return this.render();
   }
 
