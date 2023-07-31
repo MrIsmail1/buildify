@@ -41,6 +41,8 @@ class Routing
 
         if (!$routeFound) {
             http_response_code(404);
+            sleep(2);
+            header("location:/404/not_found");
             die("404 page not found");
         }
 

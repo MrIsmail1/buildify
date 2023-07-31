@@ -23,9 +23,12 @@ spl_autoload_register(function ($class) {
 $uriExploded = explode("?", $_SERVER["REQUEST_URI"]);
 $uri = rtrim(strtolower(trim($uriExploded[0])), "/");
 $uri = (empty($uri)) ? "/" : $uri;
-
-
-
-$routing = new Routing();
-$routing->setAction($uri);
-$routing->run();
+$route = strtok($_SERVER['REQUEST_URI'], '?');
+if (str_starts_with($route, '/bdfy-admin/installer')) {
+    $basePath = "/bdfy-admin/installer";
+    require("./public/installer.php");
+} else {
+    $routing = new Routing();
+    $routing->setAction($uri);
+    $routing->run();
+}

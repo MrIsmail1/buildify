@@ -1,3 +1,7 @@
+/:
+  controller: FrontController
+  action: home
+  security: false
 /{slug}:
   controller: FrontController
   action: index
@@ -78,7 +82,7 @@
   controller: SitemapController
   action: ViewSitemap
   security: false
-  
+
 /bdfy-admin/users:
   controller: UsersController
   action: ViewUsers
@@ -104,15 +108,15 @@
   action: logout
   security: false
 
-/404:
+/404/not_found:
   controller: ErrorController
   action: NotFound
+  security: false
 
 /bdfy-admin/comments:
   controller: CommentsController
   action: getComments
-  security: true 
-
+  security: true
 
 /bdfy-admin/comments/add:
   controller: CommentsController
@@ -130,5 +134,4 @@
 /bdfy-admin/comments/report:
   controller: CommentsController
   action: report
-  security : true
-
+  security: true
