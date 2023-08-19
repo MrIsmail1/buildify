@@ -10,8 +10,8 @@ use App\Models\Comments;
 use App\Renderer\MainConfig;
 use App\Renderer\MenuConfig;
 use App\Forms\CommentsConfig;
-
-
+use App\Models\Article;
+use App\Models\Categorie;
 
 class FrontController
 {
@@ -73,14 +73,20 @@ class FrontController
         $templateModel = new Template();
         $template = $templateModel->getTemplatePage($page[0]["id"]);
         
-        $main = new MainConfig($page, $template);
+        $articleModel = new Article();
+        $allarticle = $articleModel->getAllArticles();
+
+        $categorieModel = new Categorie();
+        $categorie = $categorieModel->getAllCategories();
+
+        $main = new MainConfig($page, $template,$allarticle, $categorie);
         $menu = new MenuConfig($activeMenu);
 
         $view->assign('main', $main->getConfig());
         $view->assign('menu', $menu->getConfig());
         
 
-
+        // Gérer la partie SEO
         $seoTitle= $page[0]["seo_title"];
         $metaDescription= $page[0]["meta_description"]; 
         
@@ -96,7 +102,9 @@ class FrontController
 
         
     }
-     public function displayPage($slug)
+
+
+     public function displayPage($slug) // ne fonctionne pas 
     {
         $PageModel = Page::getInstance();
         $page = $PageModel->getPageBySlug($slug);

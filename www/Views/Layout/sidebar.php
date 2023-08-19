@@ -7,6 +7,12 @@
         <li class="py-1">
             <a href="/bdfy-admin/pages" class="block text-gray-799 hover:bg-gray-300">Pages</a>
         </li>
+         <li class="py-1">
+            <a href="/bdfy-admin/articles" class="block text-gray-799 hover:bg-gray-300">Article</a>
+        </li>
+        <li class="py-1">
+            <a href="/bdfy-admin/categories" class="block text-gray-799 hover:bg-gray-300">Categorie</a>
+        </li>
         <li class="py-1">
             <a href="/bdfy-admin/menus" class="block text-gray-800 hover:bg-gray-300">Menus</a>
         </li>
