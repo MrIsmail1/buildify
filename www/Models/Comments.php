@@ -9,7 +9,6 @@ class Comments extends Db
     protected int $article_id;
     protected int $userid; 
     protected int $idpage ;
-    protected int $article_id;
     protected string $content;
     protected string $date;
     protected string $comment_author;

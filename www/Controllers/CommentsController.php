@@ -42,39 +42,9 @@ class CommentsController
         $view = new View("/bdfy-admin/Comments/add", "back");
         $form = new CommentsConfig();
         $view->assign('form', $form->getConfig());
-<<<<<<< Updated upstream
-        
-
-        if ((isset($_REQUEST['content']))) {
-           // Récupérer les données du formulaire
-                      
-           //$idUser = $CommentsModel->getIdUser();
-           $commentAuthor = $_POST['commentAuthor'];
-           $content = $_POST['content'];
-           $idPage = (int)$_REQUEST['id'];
-
-           
-
-           //ajouter le comment à la bdd
-           if ($commentAuthor && $content && $id) {
-                // Ajouter le commentaire à la base de données
-                $CommentsModel = Comments::getInstance();
-                
-                $comment = new Comments();
-                
-                //assigner les attributs
-                $CommentsModel->setContent($content);
-                $CommentsModel->setIdUser($userid);
-                $CommentsModel->setCommentAuthor($commentAuthor);
-                $CommentsModel->setIdPage($idPage);
-                //$CommentsModel->setCommentAuthor($_SESSION["user"]["firstname"]);
-                $CommentsModel->setReported(false);
-                
-=======
         if ($form->isSubmit()) {
             $errors = Verificator::form($form->getConfig(), $_POST);
             if (empty($errors)) {
->>>>>>> Stashed changes
                 $CommentsModel = Comments::getInstance();
                 $CommentsModel->setContent($_POST["content"]);                
                 $CommentsModel->setCommentAuthor($_POST["commentAuthor"]);
