@@ -15,7 +15,7 @@ class CommentsConfig extends FormAbs
             "config" => [
                 "method" => $this->getMethod(),
                 "autocomplete" => "off",
-                "action" => $_SERVER['REQUEST_URI'],
+                "action" => "",
                 "enctype" => "",
                 "submit" => "Ajouter un commentaire",
                 "class" => "space-y-6",

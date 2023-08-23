@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use App\Core\Verificator;
 use App\Models\Comments;
 use App\Core\View;
 use App\Forms\CommentsConfig;
@@ -37,9 +38,11 @@ class CommentsController
 
     public function addComment()
     {
+        
         $view = new View("/bdfy-admin/Comments/add", "back");
         $form = new CommentsConfig();
         $view->assign('form', $form->getConfig());
+<<<<<<< Updated upstream
         
 
         if ((isset($_REQUEST['content']))) {
@@ -67,21 +70,25 @@ class CommentsController
                 //$CommentsModel->setCommentAuthor($_SESSION["user"]["firstname"]);
                 $CommentsModel->setReported(false);
                 
+=======
+        if ($form->isSubmit()) {
+            $errors = Verificator::form($form->getConfig(), $_POST);
+            if (empty($errors)) {
+>>>>>>> Stashed changes
                 $CommentsModel = Comments::getInstance();
-                $CommentsModel->create($comment);
-
-                echo "Comment added successfully.";
+                $CommentsModel->setContent($_POST["content"]);                
+                $CommentsModel->setCommentAuthor($_POST["commentAuthor"]);
+                $pageModel= new Page();
+                $slug= $_REQUEST['slug'];
+                $page= $pageModel->findSlug($slug);
+                $CommentsModel->setIdPage($page["id"]);
+                     
             } else {
-                echo "Please fill in all the required fields.";
-            }
-
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                header("Location: " . $_SERVER['REQUEST_URI'], true, 303);
-            exit;
+                $view->assign('errors', $errors);
             }
         }
     }
-
+    
 
     public function DeleteComment(){
         $id = $_REQUEST["id"];

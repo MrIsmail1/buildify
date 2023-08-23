@@ -9,6 +9,7 @@ class Comments extends Db
     protected int $article_id;
     protected int $userid; 
     protected int $idpage ;
+    protected int $article_id;
     protected string $content;
     protected string $date;
     protected string $comment_author;
@@ -106,7 +107,8 @@ class Comments extends Db
     public function getCommentsByPageId(int $idpage){
         return $this->read(["idpage" => $idpage]);
     }
-    
+
+        
     public function getAllComments(){
         return $this->read();
     }
@@ -154,15 +156,17 @@ class Comments extends Db
         }
     }
 
-    public function addComment(string $content, string $author, int $pageId)
+    public function addComment(string $content, string $author, int $articleId)
     {
         $commentData = [
             "content" => $content,
             "comment_author" => $author,
-            "idpage" => $pageId,
+            "idpage" => $articleId,            
         ];
-    return $this->create($commentData);
+        return $this->create($commentData);
     }
+    
+    
 
     public function getCommentsForArticle(int $article_id){
         return $this->read(["article_id" => $article_id]);
