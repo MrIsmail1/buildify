@@ -6,6 +6,7 @@ use App\Core\Db;
 class Comments extends Db
 {
     protected int $id;
+    protected int $article_id;
     protected int $userid; 
     protected int $idpage ;
     protected string $content;
@@ -159,10 +160,17 @@ class Comments extends Db
             "content" => $content,
             "comment_author" => $author,
             "idpage" => $pageId,
-            
-    ];
-
+        ];
     return $this->create($commentData);
-}
+    }
+
+    public function getCommentsForArticle(int $article_id){
+        return $this->read(["article_id" => $article_id]);
+    }
+
+    public function setIdArticle(int $article_id)
+    {
+        $this->article_id = $article_id; 
+    }
 }
    

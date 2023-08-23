@@ -9,7 +9,9 @@ use App\Models\Categorie;
 use App\Models\ArticleCategorie;
 use App\DataTable\ArticlesTableConfig;
 use App\Forms\ArticleConfig;
+use App\Forms\CommentsConfig;
 use App\Forms\EditArticleConfig;
+use App\Models\Comments;
 use App\Renderer\RealSingleArticleConfig;
 
 class ArticleController
@@ -143,17 +145,29 @@ class ArticleController
 {
     $id = $_REQUEST['id'];
     $articleModel = new Article();
+    $commentsModel = new Comments();
+    
 
     // Récupération de l'article à partir de son ID
     $article = $articleModel->getArticleById($id);
 
     // Vérifiez si l'article existe
     if ($article) {
+        $comments = $commentsModel->getCommentsForArticle($id);
+
         // Stockez l'URL précédente dans une variable de session
         $_SESSION['previous_url'] = $_SERVER['HTTP_REFERER'];
+
         // Créez une instance de vue pour afficher l'article
         $view = new View("Articles/realSingleArticle", 'front');
         $view->assign('article', $article);
+        $view->assign('comments', $comments);
+
+        $commentForm = new CommentsConfig();
+        $commentFormConfig = $commentForm->getConfig();
+        // Personnaliser le champ 'action' du formulaire avec l'URL appropriée
+        $commentFormConfig['config']['action'] = '/votre-chemin-pour-ajouter-un-commentaire';
+        $view->assign('commentForm', $commentFormConfig);
     } else {
         // Redirigez vers une page d'erreur ou effectuez une autre action appropriée
         // Par exemple, vous pouvez afficher une page 404

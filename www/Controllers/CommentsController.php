@@ -53,9 +53,10 @@ class CommentsController
            
 
            //ajouter le comment à la bdd
-           if ($commentAuthor && $content) {
+           if ($commentAuthor && $content && $id) {
                 // Ajouter le commentaire à la base de données
-               
+                $CommentsModel = Comments::getInstance();
+                
                 $comment = new Comments();
                 
                 //assigner les attributs
