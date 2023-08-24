@@ -1,5 +1,7 @@
-import Page2 from './views/Page2.js';
+import Step1 from './views/Step1.js';
+import Step2 from './views/Step2.js';
 
 export default {
-  '/': Page2,
+  '/step1': Step1,
+  '/step2': Step2,
 };

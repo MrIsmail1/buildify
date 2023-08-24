@@ -135,3 +135,8 @@
   controller: CommentsController
   action: report
   security: true
+
+/installer/db:
+  controller: InstallerController
+  action: setup
+  security: false

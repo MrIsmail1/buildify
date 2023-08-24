@@ -1,33 +1,69 @@
-import Component from '../components/Component.js';
-
 export default function generateStructure(structure) {
-  const element = document.createElement(structure.type);
-  if (structure.attributes) {
-    for (let attrName in structure.attributes) {
-      if (attrName.startsWith('data-')) {
-        element.dataset[attrName.replace('data-', '')] =
-          structure.attributes[attrName];
-      } else if (attrName === 'style') {
-        Object.assign(element.style, structure.attributes[attrName]);
-      } else element.setAttribute(attrName, structure.attributes[attrName]);
-    }
-  }
-  if (structure.events) {
-    for (let eventName in structure.events) {
-      element.addEventListener(eventName, structure.events[eventName]);
-    }
+  if (!structure) {
+    throw new Error('No structure provided');
   }
 
-  if (structure.children) {
-    for (let child of structure.children) {
-      let subChild;
-      if (typeof child === 'string') {
-        subChild = document.createTextNode(child);
-      } else {
-        subChild = generateStructure(child);
+  if (typeof structure.type === 'string') {
+    return generateDomElement(structure);
+  } else if (typeof structure.type === 'function') {
+    return generateComponent(structure);
+  } else {
+    throw new Error(`Unsupported structure type: ${structure.type}`);
+  }
+}
+
+function generateDomElement({ type, props, children }) {
+  const element = document.createElement(type);
+
+  if (props) {
+    applyProps(element, props);
+  }
+
+  if (children) {
+    appendChildren(element, children);
+  }
+
+  return element;
+}
+
+function applyProps(element, props) {
+  for (let propName in props) {
+    if (propName === 'style' && typeof props[propName] === 'object') {
+      // handle 'style' attribute separately
+      const styles = props[propName];
+      for (let styleName in styles) {
+        element.style[styleName] = styles[styleName];
       }
-      element.appendChild(subChild);
+    } else if (propName === 'className') {
+      // handle 'className' attribute separately
+      element.className = props[propName];
+    } else if (/on([A-Z].*)/.test(propName)) {
+      const eventName = propName.match(/on([A-Z].*)/)[1].toLowerCase();
+      element.addEventListener(eventName, props[propName]);
+    } else {
+      element.setAttribute(propName, props[propName]);
     }
   }
-  return element;
+}
+
+function appendChildren(element, children) {
+  for (let child of children) {
+    let childElement;
+
+    if (typeof child === 'string') {
+      childElement = document.createTextNode(child);
+    } else if (child instanceof HTMLElement) {
+      childElement = child;
+    } else {
+      // Assuming child is a structure object
+      childElement = generateStructure(child);
+    }
+
+    element.appendChild(childElement);
+  }
+}
+
+function generateComponent({ type, props }) {
+  const component = new type(props);
+  return component.display();
 }
