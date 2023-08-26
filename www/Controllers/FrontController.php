@@ -31,39 +31,10 @@ class FrontController
         }
      
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $commentAuthor = $_POST['author'];
-            $content = $_POST['content'];
-            
-            if ($commentAuthor && $content) {
-                $comment = new Comments();
-                $comment->setContent($content);
-                $comment->setCommentAuthor($commentAuthor);
-                $comment->setIdPage($page[0]["id"]);
-                $comment->setReported(false);
-                $comment->create();
-            }
-        }
-
-        //récupérer les comments de la page
-        
-        
-        $commentsModel = new Comments();
-        $comments = isset($page[0]["id"]) ? $commentsModel->getCommentsForPage($page[0]["id"]) : [];
-
-        $form = new CommentsConfig();
-        $formConfig = $form->getConfig();
-        $formConfig['config']['action'] = '/bdfy-admin/comments/add/' . $page[0]['id'];
-        
-        $view->assign('commentForm', $formConfig);
-
-        
-
-        //config pour la datatable des comments
-        //$dataTable = new CommentsTableConfig($comments);
+        ;
         //assigner à la vue
         $view->assign("page" , $page);
-        $view->assign("comments", $comments);
+        
 
 
 
@@ -104,7 +75,7 @@ class FrontController
     }
 
 
-     public function displayPage($slug) // ne fonctionne pas 
+    public function displayPage($slug) // ne fonctionne pas 
     {
         $PageModel = Page::getInstance();
         $page = $PageModel->getPageBySlug($slug);
@@ -120,5 +91,5 @@ class FrontController
         $view->assign('form', $form->getConfig());
     
         
-}
+    }
 }

@@ -9,7 +9,9 @@ use App\Models\Categorie;
 use App\Models\ArticleCategorie;
 use App\DataTable\ArticlesTableConfig;
 use App\Forms\ArticleConfig;
+use App\Forms\CommentsConfig;
 use App\Forms\EditArticleConfig;
+use App\Models\Comments;
 use App\Renderer\RealSingleArticleConfig;
 
 class ArticleController
@@ -34,7 +36,7 @@ class ArticleController
     
 
     public function AddArticle()
-{
+    {
     $categorieModel = Categorie::getInstance();
     $articleModel = new Article();  
     
@@ -139,29 +141,50 @@ class ArticleController
     }
 }
 
-    public function ViewSingleArticle()
+public function ViewSingleArticle()
 {
     $id = $_REQUEST['id'];
-    $articleModel = new Article();
+    $articleModel = new Article();   
+          
 
     // Récupération de l'article à partir de son ID
     $article = $articleModel->getArticleById($id);
 
-    // Vérifiez si l'article existe
+    
+
+
+    // Vérifier si l'article existe
     if ($article) {
-        // Stockez l'URL précédente dans une variable de session
+        // Stocker l'URL précédente dans une variable de session
         $_SESSION['previous_url'] = $_SERVER['HTTP_REFERER'];
-        // Créez une instance de vue pour afficher l'article
+        
+        if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {                      
+            CommentsController::addComment($id);
+        }
+        
+       
+        // Créer une instance de vue pour afficher l'article
         $view = new View("Articles/realSingleArticle", 'front');
         $view->assign('article', $article);
+        
+        $commentsForm = new CommentsConfig($id);
+
+        $commentsForArticles = CommentsController::getComments($id) ;
+
+        $comments = new CommentsConfig($commentsForArticles);
+
+        $view->assign('comments', $comments->getConfig());
+        $view->assign('commentsForm', $commentsForm->getConfig());
     } else {
-        // Redirigez vers une page d'erreur ou effectuez une autre action appropriée
+        // Rediriger vers une page d'erreur ou effectuez une autre action appropriée
         // Par exemple, vous pouvez afficher une page 404
         http_response_code(404);
         header("location: /404");
         exit;
     }
 }
+
+
 
 
 

@@ -1,10 +1,12 @@
 <?php
 namespace App\Controllers;
 
+use App\Core\Verificator;
 use App\Models\Comments;
 use App\Core\View;
 use App\Forms\CommentsConfig;
 use App\DataTable\CommentsTableConfig;
+use App\Forms\PageConfig;
 use App\Models\Page;
 
 
@@ -12,8 +14,24 @@ class CommentsController
 {
      
 
-    public function getComments()
+    public static function getComments($id)
     {
+        
+        $CommentsModel = Comments::getInstance();
+        // Instancier le modèle Comments
+        $comments = $CommentsModel->getCommentsForArticle($id);          
+            
+               
+        if ($comments) {
+            return $comments;
+        } else {
+            http_response_code(404);
+        }
+    }
+    
+    public function getAllComments()
+    {
+        
         $view = new View("Comments/comments", "back");
         $CommentsModel = Comments::getInstance();
         // Instancier le modèle Comments
@@ -22,65 +40,43 @@ class CommentsController
        
 
         $dataTable = new CommentsTableConfig($comments);         
-        $view->assign('dataTable', $dataTable->getConfig());
+        $view->assign('dataTable', $dataTable->getConfig());      
         
         
         
-        if ($comments) {
-            
-        } else {
-            http_response_code(404);
-        }
     }
-
     
 
-    public function addComment()
+    public static function addComment($id)
     {
-        $view = new View("/bdfy-admin/Comments/add", "back");
-        $form = new CommentsConfig();
-        $view->assign('form', $form->getConfig());
         
+        $commentsForm = new CommentsConfig($id);
 
-        if ((isset($_REQUEST['content']))) {
-           // Récupérer les données du formulaire
-                      
-           //$idUser = $CommentsModel->getIdUser();
-           $commentAuthor = $_POST['commentAuthor'];
-           $content = $_POST['content'];
-           $idPage = (int)$_REQUEST['id'];
+        
+        if ($commentsForm->isSubmit()) {
+            $errors = Verificator::form($commentsForm->getConfig(), $_POST);
+            
+            if (empty($errors)) {
+                $commentAuthor = $_POST["author"];
+                $content = $_POST["content"];
 
-           
-
-           //ajouter le comment à la bdd
-           if ($commentAuthor && $content) {
-                // Ajouter le commentaire à la base de données
-               
-                $comment = new Comments();
-                
-                //assigner les attributs
-                $CommentsModel->setContent($content);
-                $CommentsModel->setIdUser($userid);
-                $CommentsModel->setCommentAuthor($commentAuthor);
-                $CommentsModel->setIdPage($idPage);
-                //$CommentsModel->setCommentAuthor($_SESSION["user"]["firstname"]);
-                $CommentsModel->setReported(false);
-                
                 $CommentsModel = Comments::getInstance();
-                $CommentsModel->create($comment);
+                $CommentsModel->setContent($content);                
+                $CommentsModel->setCommentAuthor($commentAuthor);              
+                $CommentsModel->setIdArticle($id);
 
-                echo "Comment added successfully.";
-            } else {
-                echo "Please fill in all the required fields.";
+                $CommentsModel->create();
+                
+                header("Location: " . $_SERVER['REQUEST_URI']);
+                exit; 
+            }else {
+                $view->assign('errors', $errors);
             }
 
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                header("Location: " . $_SERVER['REQUEST_URI'], true, 303);
-            exit;
-            }
         }
     }
-
+    
+    
 
     public function DeleteComment(){
         $id = $_REQUEST["id"];

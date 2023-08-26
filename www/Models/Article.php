@@ -137,5 +137,15 @@ class Article extends Db
         return $this->categorie_id;
     }
 
+    // Dans la classe Article
+
+    public function getCommentsForArticle($id)
+    {
+        $commentsModel = new Comments(); // Instanciez le modèle de commentaires
+        return $commentsModel->read(["article_id" => $id]); // Utilisez le modèle pour récupérer les commentaires
+    }
+    
+    
+
     
 }
