@@ -108,13 +108,4 @@ abstract class Db
 
         $queryPrepared->execute($columns);
     }
-
-   /*  public function deleteByForeignKey($foreignKey, $foreignKeyValue)
-    {
-        $query = "DELETE FROM " . $this->table . " WHERE $foreignKey = :value";
-        $queryPrepared = $this->pdo->prepare($query);
-        $queryPrepared->execute(['value' => $foreignKeyValue]);
-        return $queryPrepared->rowCount();
-    } */
-
 }

@@ -34,8 +34,8 @@ class CommentsTableConfig extends DataTableAbs
             ],
             "data" => $this->comments,
             "actions" => [
-                "report" => "/bdfy-admin/comments/report?id=",
                 "delete" => "/bdfy-admin/comments/delete?id=",
+                "report" => "/bdfy-admin/comments/report?id=",
             ]
         ];
         

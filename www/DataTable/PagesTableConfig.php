@@ -35,6 +35,7 @@ class PagesTableConfig extends DataTableAbs
                 "view" => "/bdfy-admin/pages/view?id=",
                 "delete" => "/bdfy-admin/pages/delete?id=",
                 "edit" => "/bdfy-admin/pages/edit?id=",                
+               
             ]
         ];
     }

@@ -110,7 +110,7 @@
 
 /bdfy-admin/comments:
   controller: CommentsController
-  action: getAllComments
+  action: getComments
   security: true 
 
 
@@ -132,47 +132,3 @@
   action: report
   security : true
 
-/bdfy-admin/articles:
-  controller: ArticleController
-  action: ViewArticles
-  security: true
-
-/bdfy-admin/articles/add:
-  controller: ArticleController
-  action: AddArticle
-  security: true
-
-/bdfy-admin/articles/delete:
-  controller: ArticleController
-  action: DeleteArticle
-  security: true
-
-/bdfy-admin/articles/edit:
-  controller: ArticleController
-  action: EditArticle
-  security: true
-
-/article/singlearticle:
-  controller: ArticleController
-  action: ViewSingleArticle
-  security: false
-
-/bdfy-admin/categories:
-  controller: CategorieController
-  action: ViewCategories
-  security: true
-
-/bdfy-admin/categories/add:
-  controller: CategorieController
-  action: AddCategorie
-  security: true
-
-/bdfy-admin/categories/delete:
-  controller: CategorieController
-  action: DeleteCategorie
-  security: true
-  
-/bdfy-admin/categories/edit:
-  controller: CategorieController
-  action: EditCategorie
-  security: true
