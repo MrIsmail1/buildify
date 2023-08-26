@@ -1,38 +1,35 @@
--- Insérer des données fictives pour la table "user"
-INSERT INTO challenge_stack."user" (firstname, lastname, email, password, token, confirmation, role)
-VALUES ('John', 'Doe', 'john@example.com', 'hashed_password', 'token123', true, 'user'),
-       ('Jane', 'Smith', 'jane@example.com', 'hashed_password', 'token456', true, 'user'),
-       ('Alex', 'Johnson', 'alex@example.com', 'hashed_password', 'token789', true, 'admin');
+-- Table: challenge_stack.user
+INSERT INTO challenge_stack.user (id, firstname, lastname, email, password, token, confirmation, role)
+VALUES (1, 'John', 'Doe', 'john@example.com', 'password123', 'token123', true, 'user');
 
--- Insérer des données fictives pour la table "categorie"
-INSERT INTO challenge_stack.categorie (title)
-VALUES ('Science'), ('Technology'), ('Art');
+-- Table: challenge_stack.page
+INSERT INTO challenge_stack.page (id, pagetitle, pageauthor, content, user_id)
+VALUES (1, 'Welcome', 'Admin', 'Welcome to our website!', 1);
 
--- Insérer des données fictives pour la table "article"
-INSERT INTO challenge_stack.article (articletitle, content, user_id, articleauthor, slug, categorie_id)
-VALUES ('Introduction to Science', 'In this article, we explore the fundamental principles of science and its importance in our daily lives. Science is the systematic study of the natural world...', 1, 'John Doe', 'intro-to-science', 1),
-       ('Latest Tech Trends', 'Stay updated with the latest trends in technology. From artificial intelligence to blockchain, we cover the most exciting developments in the tech world...', 1, 'Jane Smith', 'tech-trends', 2),
-       ('The Art of Expression', 'Artistic expression takes various forms, including painting, sculpture, music, and literature. In this article, we delve into the rich history and diverse...', 2, 'Alex Johnson', 'art-expression', 3);
+-- Table: challenge_stack.template
+INSERT INTO challenge_stack.template (id, color, font_family, font_size, page_id)
+VALUES (1, '#FFFFFF', 'Arial', 12, 1);
 
--- Insérer des données fictives pour la table "comments"
-INSERT INTO challenge_stack.comments (content, idpage, comment_author, reported, article_id)
-VALUES ('Great article! I learned a lot.', 1, 'User123', false, 1),
-       ('Impressive insights. Keep it up!', 1, 'User456', false, 1),
-       ('I'm excited about these tech trends.', 2, 'User789', false, 2),
-       ('Art is truly a universal language.', 3, 'User123', false, 3);
+-- Table: challenge_stack.pagememento
+INSERT INTO challenge_stack.pagememento (id, pagetitle, content, slug, page_id, save_date)
+VALUES (1, 'Welcome', 'Initial content', 'welcome', 1, '2023-08-25');
 
--- Insérer des données fictives pour la table "page"
-INSERT INTO challenge_stack.page (pagetitle, pageauthor, content, slug, user_id, meta_description, seo_title)
-VALUES ('About Us', 'Admin', 'Welcome to our website! Learn more about our team and mission.', 'about-us', 1, 'Get to know our organization.', 'About Our Company'),
-       ('Tech News', 'Jane Smith', 'Stay updated with the latest tech news and innovations.', 'tech-news', 1, 'Stay informed about technology trends.', 'Latest Tech News');
+-- Table: challenge_stack.menu
+INSERT INTO challenge_stack.menu (id, name, items, active)
+VALUES (1, 'Main Menu', ARRAY['Home', 'About', 'Services'], true);
 
--- Insérer des données fictives pour la table "template"
-INSERT INTO challenge_stack.template (color, font_family, font_size, page_id)
-VALUES ('#333', 'Arial', 14, 1),
-       ('#E53935', 'Roboto', 16, 2);
+-- Table: challenge_stack.categorie
+INSERT INTO challenge_stack.categorie (id, title)
+VALUES (1, 'Technology');
 
--- Insérer des données fictives pour la table "menu"
-INSERT INTO challenge_stack.menu (name, items, active)
-VALUES ('Main Menu', ARRAY['Home', 'Articles', 'About Us'], true),
-       ('Technology Categories', ARRAY['Artificial Intelligence', 'Blockchain', 'Internet of Things'], true),
-       ('Art Categories', ARRAY['Painting', 'Sculpture', 'Music'], true);
+-- Table: challenge_stack.article
+INSERT INTO challenge_stack.article (id, articletitle, content, user_id, articleauthor, slug, categorie_id)
+VALUES (1, 'Introduction to Technology', 'This is an introduction to technology.', 1, 'Admin', 'intro-tech', 1);
+
+-- Table: challenge_stack.articlecategorie
+INSERT INTO challenge_stack.articlecategorie (article_id, categorie_id)
+VALUES (1, 1);
+
+-- Table: challenge_stack.comments
+INSERT INTO challenge_stack.comments (id, content, date, idpage, comment_author, reported, article_id)
+VALUES (1, 'Great article!', '2023-08-25 12:00:00', 1, 'User123', false, 1);
