@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\InstallerCore;
 use App\Core\View;
 use App\Models\Menu;
 use App\Models\Page;
@@ -108,19 +109,38 @@ class FrontController
     }
     public function home()
     {
-        /* $pageModel = Page::getInstance();
+        $pageModel = Page::getInstance();
         $homeExists = $pageModel->read(["slug" => "home"]);
-        $menuModel = new Menu;
-        $activeMenu = $menuModel->getActiveMenu();
-        $menu = new MenuConfig($activeMenu); */
-        /* if (count($homeExists) != 0) { */
-        $view = new View("Front/home", "front");
-
-        /* if (!empty($menu)) {
-                $view->assign('menu', $menu->getConfig());
-            }
+        $isInstalled = InstallerCore::checkInstalled();
+        if (!count($homeExists)) {
+            $view = new View("Front/home", "front");
+            $view->assign("isInstalled", $isInstalled);
         } else {
-            $page = $pageModel->findPageByUrl("home");
-        } */
+            $menuModel = new Menu;
+            $activeMenu = $menuModel->getActiveMenu();
+            $menu = new MenuConfig($activeMenu);
+            $view = new View("Front/index", "front");
+            $view->assign("page", $homeExists);
+            $templateModel = new Template();
+            $template = $templateModel->getTemplatePage($homeExists[0]["id"]);
+
+            $main = new MainConfig($homeExists, $template);
+            $menu = new MenuConfig($activeMenu);
+
+            $view->assign('main', $main->getConfig());
+            $view->assign('menu', $menu->getConfig());
+            $seoTitle = $homeExists[0]["seo_title"];
+            $metaDescription = $homeExists[0]["meta_description"];
+
+            ob_start(); // Démarrer la capture de la sortie
+
+            echo "<head>";
+            echo "<title>" . htmlentities($seoTitle) . "</title>";
+            echo "<meta name='description' content='" . htmlentities($metaDescription) . "'>";
+            echo "</head>";
+            $html = ob_get_clean(); // Récupérer la sortie capturée
+
+            $view->assign('html', $html);
+        }
     }
 }

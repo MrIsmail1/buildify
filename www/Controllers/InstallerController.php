@@ -18,7 +18,7 @@ class InstallerController
             ];
 
             if (InstallerCore::checkDbConnection($credentials)) {
-                InstallerCore::setInstalledFlag(true);
+                InstallerCore::setInstalledFlag(true, $credentials);
                 echo json_encode(['success' => true, 'message' => 'Les identifiants de la base de données sont valides']);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Les identifiants de la base de données sont invalides']);
@@ -38,7 +38,7 @@ class InstallerController
                     "email" => $_POST['email'],
                     "password" => $_POST['password'],
                 ];
-                if ($_POST['fakeData'] === "on") {
+                if (!empty($_POST['fakeData']) && $_POST['fakeData'] === "on") {
                     InstallerCore::initDbWithFakeData();
                 }
                 InstallerCore::createAdminUser($userInfo);

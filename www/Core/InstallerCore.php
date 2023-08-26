@@ -40,13 +40,17 @@ class InstallerCore
         $userModel->create();
     }
 
-    public static function setInstalledFlag($installed = false)
+    public static function setInstalledFlag($installed = false, $credentials)
     {
         // Load the existing config
         $config = require 'Config.php';
 
         // Update the 'installed' flag
         $config['installed'] = $installed;
+        $config['dbHost'] =  $credentials['host'];
+        $config['dbName'] =  $credentials['dbname'];
+        $config['dbUsername'] =  $credentials['username'];
+        $config['dbPassword'] =  $credentials['password'];
 
         // Write the updated config back to the file
         file_put_contents('Config.php', "<?php\n\nreturn " . var_export($config, true) . ";\n");
@@ -58,7 +62,10 @@ class InstallerCore
         return $config['installed'] ?? false;
     }
 
-    public static function initDbWithFakeData() {
-        
+    public static function initDbWithFakeData()
+    {
+        $query = file_get_contents('script.sql');
+        $db = Db::getInstance();
+        $db->createDatabase($query);
     }
 }

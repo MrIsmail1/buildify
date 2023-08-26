@@ -15,10 +15,14 @@
 
 <main class="p-10 bg-gray-100 min-h-screen">
     <section class="container mx-auto mb-10 bg-white p-10 rounded-lg shadow-lg">
-        <h2 class="text-3xl mb-5 border-b-2 border-gray-300 pb-2">Welcome to our CMS website!</h2>
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis, quod.
-
-        </p>
+        <?php if (htmlspecialchars(!$isInstalled)) :  ?>
+            <h2 class="text-3xl mb-5 border-b-2 border-gray-300 pb-2">Welcome to our CMS website!</h2>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis, quod.
+            </p>
+        <?php else : ?>
+            <h2 class="text-3xl mb-5 border-b-2 border-gray-300 pb-2">Bienvenue dans notre CMS</h2>
+            <p class="text-xl text-black font-bold">Aprés l'installation, créer une page Home a partir de votre dashboard pour remplacer cette page</p>
+        <?php endif; ?>
     </section>
 
     <!-- Other sections go here -->
