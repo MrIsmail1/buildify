@@ -18,3 +18,5 @@ RUN pecl install yamL
 RUN usermod -u 1000 www-data
 
 RUN a2enmod rewrite
+
+CMD apachectl -D FOREGROUND

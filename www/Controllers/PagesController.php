@@ -11,6 +11,7 @@ use App\Forms\PageConfig;
 use App\Forms\EditPageConfig;
 use App\Forms\TemplateConfig;
 use App\Models\Template;
+use App\Models\Article;
 use App\Renderer\MainConfig;
 
 class PagesController
@@ -174,8 +175,10 @@ class PagesController
         }
 
         $pageModel = Page::getInstance();
+        $articleModel = new Article();
+        $allarticle = $articleModel->getAllArticles();
         $page = $pageModel->getPageById($id);
-        $main = new MainConfig($page, $template);
+        $main = new MainConfig($page, $template, $allarticle);
         $view->assign('main', $main->getConfig());
     }
 
