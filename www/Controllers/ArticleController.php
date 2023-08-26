@@ -36,7 +36,7 @@ class ArticleController
     
 
     public function AddArticle()
-{
+    {
     $categorieModel = Categorie::getInstance();
     $articleModel = new Article();  
     
@@ -141,41 +141,50 @@ class ArticleController
     }
 }
 
-    public function ViewSingleArticle()
+public function ViewSingleArticle()
 {
     $id = $_REQUEST['id'];
-    $articleModel = new Article();
-    $commentsModel = new Comments();
-    
+    $articleModel = new Article();   
+          
 
     // Récupération de l'article à partir de son ID
     $article = $articleModel->getArticleById($id);
 
-    // Vérifiez si l'article existe
+    
+
+
+    // Vérifier si l'article existe
     if ($article) {
-        $comments = $commentsModel->getCommentsForArticle($id);
-
-        // Stockez l'URL précédente dans une variable de session
+        // Stocker l'URL précédente dans une variable de session
         $_SESSION['previous_url'] = $_SERVER['HTTP_REFERER'];
-
-        // Créez une instance de vue pour afficher l'article
+        
+        if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {                      
+            CommentsController::addComment($id);
+        }
+        
+       
+        // Créer une instance de vue pour afficher l'article
         $view = new View("Articles/realSingleArticle", 'front');
         $view->assign('article', $article);
-        $view->assign('comments', $comments);
+        
+        $commentsForm = new CommentsConfig($id);
 
-        $commentForm = new CommentsConfig();
-        $commentFormConfig = $commentForm->getConfig();
-        // Personnaliser le champ 'action' du formulaire avec l'URL appropriée
-        $commentFormConfig['config']['action'] = '/votre-chemin-pour-ajouter-un-commentaire';
-        $view->assign('commentForm', $commentFormConfig);
+        $commentsForArticles = CommentsController::getComments($id) ;
+
+        $comments = new CommentsConfig($commentsForArticles);
+
+        $view->assign('comments', $comments->getConfig());
+        $view->assign('commentsForm', $commentsForm->getConfig());
     } else {
-        // Redirigez vers une page d'erreur ou effectuez une autre action appropriée
+        // Rediriger vers une page d'erreur ou effectuez une autre action appropriée
         // Par exemple, vous pouvez afficher une page 404
         http_response_code(404);
         header("location: /404");
         exit;
     }
 }
+
+
 
 
 

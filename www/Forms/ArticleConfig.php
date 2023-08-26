@@ -61,8 +61,8 @@ class ArticleConfig extends FormAbs
                 "categorie_id" => [
                 "type" => "select",
                 "placeholder" => "Select a categorie...",
-                "options" => $options,
-                "value" => $this->categories[0],
+                "options" => $options ,
+                "value" => $this->categories[0] ,
             ],
 
 

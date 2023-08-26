@@ -13,6 +13,7 @@ use App\Forms\TemplateConfig;
 use App\Models\Template;
 use App\Models\Article;
 use App\Renderer\MainConfig;
+use App\Models\Categorie;
 
 class PagesController
 {
@@ -173,12 +174,11 @@ class PagesController
                 $view->assign('errors', $errors);
             }
         }
-
         $pageModel = Page::getInstance();
         $articleModel = new Article();
-        $allarticle = $articleModel->getAllArticles();
+        $allArticles = $articleModel->getAllArticles();
         $page = $pageModel->getPageById($id);
-        $main = new MainConfig($page, $template, $allarticle);
+        $main = new MainConfig($page, $template, $allArticles,$categorie);
         $view->assign('main', $main->getConfig());
     }
 

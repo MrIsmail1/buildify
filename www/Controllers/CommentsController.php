@@ -6,6 +6,7 @@ use App\Models\Comments;
 use App\Core\View;
 use App\Forms\CommentsConfig;
 use App\DataTable\CommentsTableConfig;
+use App\Forms\PageConfig;
 use App\Models\Page;
 
 
@@ -13,8 +14,24 @@ class CommentsController
 {
      
 
-    public function getComments()
+    public static function getComments($id)
     {
+        
+        $CommentsModel = Comments::getInstance();
+        // Instancier le modèle Comments
+        $comments = $CommentsModel->getCommentsForArticle($id);          
+            
+               
+        if ($comments) {
+            return $comments;
+        } else {
+            http_response_code(404);
+        }
+    }
+    
+    public function getAllComments()
+    {
+        
         $view = new View("Comments/comments", "back");
         $CommentsModel = Comments::getInstance();
         // Instancier le modèle Comments
@@ -23,41 +40,42 @@ class CommentsController
        
 
         $dataTable = new CommentsTableConfig($comments);         
-        $view->assign('dataTable', $dataTable->getConfig());
+        $view->assign('dataTable', $dataTable->getConfig());      
         
         
         
-        if ($comments) {
-            
-        } else {
-            http_response_code(404);
-        }
     }
-
     
 
-    public function addComment()
+    public static function addComment($id)
     {
         
-        $view = new View("/bdfy-admin/Comments/add", "back");
-        $form = new CommentsConfig();
-        $view->assign('form', $form->getConfig());
-        if ($form->isSubmit()) {
-            $errors = Verificator::form($form->getConfig(), $_POST);
+        $commentsForm = new CommentsConfig($id);
+
+        
+        if ($commentsForm->isSubmit()) {
+            $errors = Verificator::form($commentsForm->getConfig(), $_POST);
+            
             if (empty($errors)) {
+                $commentAuthor = $_POST["author"];
+                $content = $_POST["content"];
+
                 $CommentsModel = Comments::getInstance();
-                $CommentsModel->setContent($_POST["content"]);                
-                $CommentsModel->setCommentAuthor($_POST["commentAuthor"]);
-                $pageModel= new Page();
-                $slug= $_REQUEST['slug'];
-                $page= $pageModel->findSlug($slug);
-                $CommentsModel->setIdPage($page["id"]);
-                     
-            } else {
+                $CommentsModel->setContent($content);                
+                $CommentsModel->setCommentAuthor($commentAuthor);              
+                $CommentsModel->setIdArticle($id);
+
+                $CommentsModel->create();
+                
+                header("Location: " . $_SERVER['REQUEST_URI']);
+                exit; 
+            }else {
                 $view->assign('errors', $errors);
             }
+
         }
     }
+    
     
 
     public function DeleteComment(){

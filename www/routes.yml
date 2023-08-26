@@ -110,7 +110,7 @@
 
 /bdfy-admin/comments:
   controller: CommentsController
-  action: getComments
+  action: getAllComments
   security: true 
 
 
