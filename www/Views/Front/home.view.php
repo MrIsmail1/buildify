@@ -1,9 +1,15 @@
 <header class="bg-gradient-to-r from-blue-500 to-green-400 text-white p-10">
     <div class="container mx-auto flex justify-between items-center">
         <h1 class="text-4xl">Buildify</h1>
-        <button class="border rounded-md p-2 hover:-translate-y-1 animate-all">
-            <a href="/bdfy-admin/installer/step1" class="text-2xl">Install buildify !</a>
-        </button>
+        <?php if (!$isInstalled) :  ?>
+            <button class="border rounded-md p-2 hover:-translate-y-1 animate-all">
+                <a href="/bdfy-admin/installer/" class="text-2xl">Install buildify !</a>
+            </button>
+        <?php else : ?>
+            <button class="border rounded-md p-2 hover:-translate-y-1 animate-all">
+                <a href="/bdfy-admin/login" class="text-2xl">Login</a>
+            </button>
+        <?php endif; ?>
     </div>
 </header>
 

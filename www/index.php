@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Core\InstallerCore;
 use App\Core\Routing;
 
 session_start();
@@ -23,7 +24,7 @@ spl_autoload_register(function ($class) {
 $uriExploded = explode("?", $_SERVER["REQUEST_URI"]);
 $uri = rtrim(strtolower(trim($uriExploded[0])), "/");
 $uri = (empty($uri)) ? "/" : $uri;
-if (str_starts_with($uri, '/bdfy-admin/installer')) {
+if (str_starts_with($uri, '/bdfy-admin/installer') && !InstallerCore::checkInstalled()) {
     require("./Installer/installer.php");
 } else {
     $routing = new Routing();

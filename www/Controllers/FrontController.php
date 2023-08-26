@@ -108,18 +108,19 @@ class FrontController
     }
     public function home()
     {
-        $pageModel = Page::getInstance();
+        /* $pageModel = Page::getInstance();
         $homeExists = $pageModel->read(["slug" => "home"]);
         $menuModel = new Menu;
         $activeMenu = $menuModel->getActiveMenu();
-        $menu = new MenuConfig($activeMenu);
-        if (count($homeExists) != 0) {
-            $view = new View("Front/home", "front");
-            if (!empty($menu)) {
+        $menu = new MenuConfig($activeMenu); */
+        /* if (count($homeExists) != 0) { */
+        $view = new View("Front/home", "front");
+
+        /* if (!empty($menu)) {
                 $view->assign('menu', $menu->getConfig());
             }
         } else {
             $page = $pageModel->findPageByUrl("home");
-        }
+        } */
     }
 }

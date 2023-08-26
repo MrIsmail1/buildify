@@ -1,7 +1,7 @@
-import DomRenderer from '../core/DomRenderer.js';
 import { MiniReact } from '../core/React.js';
 
 let routerBasePath;
+let currentRouteInstance = null;
 
 export default function BrowserRouter(routes, rootElement, baseUrl = '') {
   routerBasePath = baseUrl;
@@ -9,10 +9,14 @@ export default function BrowserRouter(routes, rootElement, baseUrl = '') {
   function renderCurrentRoute() {
     const pathname = location.pathname.replace(routerBasePath, '');
     const RouteComponent = routes[pathname];
-    const Component = new RouteComponent({}, 'root');
-
-    return Component.display(Component.props);
+    if (RouteComponent) {
+      currentRouteInstance = new RouteComponent();
+      return currentRouteInstance.display();
+    } else {
+      window.location.href = '/bdfy-admin/installer/404Error';
+    }
   }
+
   MiniReact.render(renderCurrentRoute(), rootElement);
 
   const oldPushState = history.pushState;

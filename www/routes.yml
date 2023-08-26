@@ -140,3 +140,7 @@
   controller: InstallerController
   action: setup
   security: false
+/installer/launch:
+  controller: InstallerController
+  action: launchInstaller
+  security: false

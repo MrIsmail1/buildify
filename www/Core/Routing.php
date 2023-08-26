@@ -38,7 +38,6 @@ class Routing
                 break;
             }
         }
-
         if (!$routeFound) {
             http_response_code(404);
             sleep(2);
@@ -81,7 +80,8 @@ class Routing
 
         if (!file_exists("Controllers/" . $this->controller . ".php")) {
             http_response_code(404);
-            die("Le fichier Controllers/" . $this->controller . ".php n'existe pas");
+            sleep(2);
+            header("location:/404/not_found");
         }
 
         include "Controllers/" . $this->controller . ".php";
@@ -89,7 +89,8 @@ class Routing
         $controller = "\\App\\Controllers\\" . $this->controller;
         if (!class_exists($controller)) {
             http_response_code(404);
-            die("La class " . $controller . " n'existe pas");
+            sleep(2);
+            header("location:/404/not_found");
         }
 
         $object = new $controller();

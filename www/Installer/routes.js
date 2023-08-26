@@ -1,7 +1,7 @@
-import Step1 from './views/Step1.js';
-import Step2 from './views/Step2.js';
+import ErrorPage from './views/404.js';
+import Start from './views/Start.js';
 
 export default {
-  '/step1': Step1,
-  '/step2': Step2,
+  '/': Start,
+  '/404Error': ErrorPage,
 };

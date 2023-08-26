@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\InstallerCore;
 use PHPMailer\PHPMailer\PHPMailer;
 use App\Core\Verificator;
 use App\Core\View;
@@ -15,6 +16,10 @@ class AuthController
 {
     public function register(): void
     {
+        if (!InstallerCore::checkInstalled()) {
+            header('Location: /bdfy-admin/installer/');
+            exit;
+        }
         $form = new RegisterConfig();
         $view = new View("Auth/register", "front");
         $view->assign('form', $form->getConfig());
@@ -83,6 +88,10 @@ class AuthController
 
     public function login(): void
     {
+        if (!InstallerCore::checkInstalled()) {
+            header('Location: /bdfy-admin/installer/');
+            exit;
+        }
         // Check if user is already logged in
         if (isset($_COOKIE['token'])) {
             header('Location: /bdfy-admin/dashboard');

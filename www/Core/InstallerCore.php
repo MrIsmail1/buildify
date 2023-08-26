@@ -37,5 +37,28 @@ class InstallerCore
         $userModel->setRole("Admin");
         $token = $userModel->generateToken();
         $userModel->setToken($token);
+        $userModel->create();
+    }
+
+    public static function setInstalledFlag($installed = false)
+    {
+        // Load the existing config
+        $config = require 'Config.php';
+
+        // Update the 'installed' flag
+        $config['installed'] = $installed;
+
+        // Write the updated config back to the file
+        file_put_contents('Config.php', "<?php\n\nreturn " . var_export($config, true) . ";\n");
+    }
+
+    public static function checkInstalled()
+    {
+        $config = require 'Config.php';
+        return $config['installed'] ?? false;
+    }
+
+    public static function initDbWithFakeData() {
+        
     }
 }

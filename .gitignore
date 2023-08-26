@@ -8,6 +8,7 @@
 package-lock.json
 package.json
 /www/composer.lock
+/www/Config.php
 
 
 # Ignore les fichiers d'environnement spécifiques à chaque utilisateur

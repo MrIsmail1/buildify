@@ -9,7 +9,7 @@ export const MiniReact = {
       // Stockage d'une référence au nœud virtuel DOM associé à ce composant.
       this._virtualNode = null;
     }
-    // Méthode pour mettre à jour l'état du composant et déclencher un nouveau rendu.
+    // Méthode pour mettre à jour l'état du composant et déclencher un nouveau render.
     setState(newState) {
       const prevState = this.state;
       // Fusion de l'état précédent avec le nouvel état.
