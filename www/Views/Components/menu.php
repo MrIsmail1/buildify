@@ -11,6 +11,7 @@
                             <li class="<?= $item['class'] ?>">
                                 <a href="<?= $item['link'] ?>" id="<?= $item['id'] ?>" class="list-none text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"><?= $item['text'] ?></a>
                             </li>
+                            
                         <?php endforeach; ?>
                     </div>
                 </div>

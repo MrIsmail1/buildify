@@ -10,8 +10,8 @@ use App\Models\Comments;
 use App\Renderer\MainConfig;
 use App\Renderer\MenuConfig;
 use App\Forms\CommentsConfig;
-
-
+use App\Models\Article;
+use App\Models\Categorie;
 
 class FrontController
 {
@@ -31,39 +31,10 @@ class FrontController
         }
      
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $commentAuthor = $_POST['author'];
-            $content = $_POST['content'];
-            
-            if ($commentAuthor && $content) {
-                $comment = new Comments();
-                $comment->setContent($content);
-                $comment->setCommentAuthor($commentAuthor);
-                $comment->setIdPage($page[0]["id"]);
-                $comment->setReported(false);
-                $comment->create();
-            }
-        }
-
-        //récupérer les comments de la page
-        
-        
-        $commentsModel = new Comments();
-        $comments = isset($page[0]["id"]) ? $commentsModel->getCommentsForPage($page[0]["id"]) : [];
-
-        $form = new CommentsConfig();
-        $formConfig = $form->getConfig();
-        $formConfig['config']['action'] = '/bdfy-admin/comments/add/' . $page[0]['id'];
-        
-        $view->assign('commentForm', $formConfig);
-
-        
-
-        //config pour la datatable des comments
-        //$dataTable = new CommentsTableConfig($comments);
+        ;
         //assigner à la vue
         $view->assign("page" , $page);
-        $view->assign("comments", $comments);
+        
 
 
 
@@ -73,14 +44,20 @@ class FrontController
         $templateModel = new Template();
         $template = $templateModel->getTemplatePage($page[0]["id"]);
         
-        $main = new MainConfig($page, $template);
+        $articleModel = new Article();
+        $allarticle = $articleModel->getAllArticles();
+
+        $categorieModel = new Categorie();
+        $categorie = $categorieModel->getAllCategories();
+
+        $main = new MainConfig($page, $template,$allarticle, $categorie);
         $menu = new MenuConfig($activeMenu);
 
         $view->assign('main', $main->getConfig());
         $view->assign('menu', $menu->getConfig());
         
 
-
+        // Gérer la partie SEO
         $seoTitle= $page[0]["seo_title"];
         $metaDescription= $page[0]["meta_description"]; 
         
@@ -96,7 +73,9 @@ class FrontController
 
         
     }
-     public function displayPage($slug)
+
+
+    public function displayPage($slug) // ne fonctionne pas 
     {
         $PageModel = Page::getInstance();
         $page = $PageModel->getPageBySlug($slug);
@@ -112,5 +91,5 @@ class FrontController
         $view->assign('form', $form->getConfig());
     
         
-}
+    }
 }

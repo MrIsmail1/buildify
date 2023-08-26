@@ -31,7 +31,7 @@
                     <?php endif;?>
 
                     <?php if (isset($config["actions"]["report"])) : ?>
-                            <a href="<?= $config["actions"]["report"] . $row['id'] ?>"><i class="fas fa-exclamation-triangle"></i></a>                        
+                            <a href=    "<?= $config["actions"]["report"] . $row['id'] ?>"><i class="fas fa-exclamation-triangle"></i></a>                        
                     <?php endif;?>
                 </td>
             </tr>
