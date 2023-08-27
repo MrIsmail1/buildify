@@ -23,44 +23,33 @@ class FrontController
         $pageModel = new Page();
         $urlPath = ltrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
         $page = $pageModel->findPageByUrl($urlPath);
-
         if (!isset($page)) {
             http_response_code(404);
             header("location: /404");
             exit;
-        }
-     
-
-        ;
-        //assigner à la vue
-        $view->assign("page" , $page);
-        
-
-
-
-        //$menuModel = new Menu();
-        //$menu = $menuModel->getActiveMenu();
+        };
 
         $templateModel = new Template();
         $template = $templateModel->getTemplatePage($page[0]["id"]);
-        
+
         $articleModel = new Article();
         $allarticle = $articleModel->getAllArticles();
 
         $categorieModel = new Categorie();
         $categorie = $categorieModel->getAllCategories();
 
-        $main = new MainConfig($page, $template,$allarticle, $categorie);
+        $main = new MainConfig($page, $template, $allarticle, $categorie);
         $menu = new MenuConfig($activeMenu);
 
         $view->assign('main', $main->getConfig());
         $view->assign('menu', $menu->getConfig());
-        
+        $view->assign("page", $page);
+
 
         // Gérer la partie SEO
-        $seoTitle= $page[0]["seo_title"];
-        $metaDescription= $page[0]["meta_description"]; 
-        
+        $seoTitle = $page[0]["seo_title"];
+        $metaDescription = $page[0]["meta_description"];
+
         ob_start(); // Démarrer la capture de la sortie
 
         echo "<head>";
@@ -70,26 +59,5 @@ class FrontController
         $html = ob_get_clean(); // Récupérer la sortie capturée
 
         $view->assign('html', $html);
-
-        
-    }
-
-
-    public function displayPage($slug) // ne fonctionne pas 
-    {
-        $PageModel = Page::getInstance();
-        $page = $PageModel->getPageBySlug($slug);
-
-        $CommentsModel = Comments::getInstance();
-        $comments = $CommentsModel->getCommentsByPageId($page->getId());
-
-        $view = new View("Page/view", "front");
-        $view->assign("page", $page);
-        $view->assign("comments", $comments);
-
-        $form = new CommentsConfig();
-        $view->assign('form', $form->getConfig());
-    
-        
     }
 }
