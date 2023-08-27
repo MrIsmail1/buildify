@@ -61,43 +61,48 @@ class FrontController
     }
     public function home()
     {
-        $pageModel = Page::getInstance();
-        $homeExists = $pageModel->read(["slug" => "home"]);
         $isInstalled = InstallerCore::checkInstalled();
-        if (!count($homeExists)) {
+        if ($isInstalled) {
+            $pageModel = Page::getInstance();
+            $homeExists = $pageModel->read(["slug" => "home"]);
+            if (!count($homeExists)) {
+                $view = new View("Front/home", "front");
+                $view->assign("isInstalled", $isInstalled);
+            } else {
+                $menuModel = new Menu;
+                $activeMenu = $menuModel->getActiveMenu();
+                $menu = new MenuConfig($activeMenu);
+                $view = new View("Front/index", "front");
+                $view->assign("page", $homeExists);
+                $templateModel = new Template();
+                $template = $templateModel->getTemplatePage($homeExists[0]["id"]);
+                $articleModel = new Article();
+                $allarticle = $articleModel->getAllArticles();
+
+                $categorieModel = new Categorie();
+                $categorie = $categorieModel->getAllCategories();
+
+                $main = new MainConfig($homeExists, $template, $allarticle, $categorie);
+                $menu = new MenuConfig($activeMenu);
+
+                $view->assign('main', $main->getConfig());
+                $view->assign('menu', $menu->getConfig());
+                $seoTitle = $homeExists[0]["seo_title"];
+                $metaDescription = $homeExists[0]["meta_description"];
+
+                ob_start(); // Démarrer la capture de la sortie
+
+                echo "<head>";
+                echo "<title>" . htmlentities($seoTitle) . "</title>";
+                echo "<meta name='description' content='" . htmlentities($metaDescription) . "'>";
+                echo "</head>";
+                $html = ob_get_clean(); // Récupérer la sortie capturée
+
+                $view->assign('html', $html);
+            }
+        } else {
             $view = new View("Front/home", "front");
             $view->assign("isInstalled", $isInstalled);
-        } else {
-            $menuModel = new Menu;
-            $activeMenu = $menuModel->getActiveMenu();
-            $menu = new MenuConfig($activeMenu);
-            $view = new View("Front/index", "front");
-            $view->assign("page", $homeExists);
-            $templateModel = new Template();
-            $template = $templateModel->getTemplatePage($homeExists[0]["id"]);
-            $articleModel = new Article();
-            $allarticle = $articleModel->getAllArticles();
-
-            $categorieModel = new Categorie();
-            $categorie = $categorieModel->getAllCategories();
-
-            $main = new MainConfig($homeExists, $template, $allarticle, $categorie);
-            $menu = new MenuConfig($activeMenu);
-
-            $view->assign('main', $main->getConfig());
-            $view->assign('menu', $menu->getConfig());
-            $seoTitle = $homeExists[0]["seo_title"];
-            $metaDescription = $homeExists[0]["meta_description"];
-
-            ob_start(); // Démarrer la capture de la sortie
-
-            echo "<head>";
-            echo "<title>" . htmlentities($seoTitle) . "</title>";
-            echo "<meta name='description' content='" . htmlentities($metaDescription) . "'>";
-            echo "</head>";
-            $html = ob_get_clean(); // Récupérer la sortie capturée
-
-            $view->assign('html', $html);
         }
     }
 }
