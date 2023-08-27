@@ -7,10 +7,8 @@ use App\Core\View;
 use App\Models\Menu;
 use App\Models\Page;
 use App\Models\Template;
-use App\Models\Comments;
 use App\Renderer\MainConfig;
 use App\Renderer\MenuConfig;
-use App\Forms\CommentsConfig;
 use App\Models\Article;
 use App\Models\Categorie;
 
@@ -53,11 +51,11 @@ class FrontController
 
         ob_start(); // Démarrer la capture de la sortie
 
-            echo "<head>";
-            echo "<title>" . htmlentities($seoTitle) . "</title>";
-            echo "<meta name='description' content='" . htmlentities($metaDescription) . "'>";
-            echo "</head>";
-            $html = ob_get_clean(); // Récupérer la sortie capturée
+        echo "<head>";
+        echo "<title>" . htmlentities($seoTitle) . "</title>";
+        echo "<meta name='description' content='" . htmlentities($metaDescription) . "'>";
+        echo "</head>";
+        $html = ob_get_clean(); // Récupérer la sortie capturée
 
         $view->assign('html', $html);
     }
@@ -77,8 +75,13 @@ class FrontController
             $view->assign("page", $homeExists);
             $templateModel = new Template();
             $template = $templateModel->getTemplatePage($homeExists[0]["id"]);
+            $articleModel = new Article();
+            $allarticle = $articleModel->getAllArticles();
 
-            $main = new MainConfig($homeExists, $template);
+            $categorieModel = new Categorie();
+            $categorie = $categorieModel->getAllCategories();
+
+            $main = new MainConfig($homeExists, $template, $allarticle, $categorie);
             $menu = new MenuConfig($activeMenu);
 
             $view->assign('main', $main->getConfig());
