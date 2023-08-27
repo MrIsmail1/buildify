@@ -12,8 +12,13 @@ abstract class Db
 
     public function __construct()
     {
+        $config = require('Config.php');
         try {
-            $this->pdo = new PDO("pgsql:host=postgres-Database;dbname=Challenge_Stack;port=5432", "ESGI", "ESGI2023");
+            $this->pdo = new PDO(
+                "pgsql:host=" . $config['dbHost'] . ";dbname=" . $config['dbName'] . ";port=5432",
+                $config['dbUsername'],
+                $config['dbPassword']
+            );
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (\Exception $e) {
             die("Erreur SQL : " . $e->getMessage());
@@ -29,6 +34,14 @@ abstract class Db
             self::$instance = new static();
         }
         return self::$instance;
+    }
+    //Méthode pour créer la base de données
+    public function createDatabase($query) {
+        if(!empty($query)) {
+            $query = $this->pdo->exec($query);
+            return true;
+        }
+        return false;
     }
 
     // Méthode pour récupérer les enregistrements de la table
@@ -61,9 +74,9 @@ abstract class Db
             $params[":$key"] = $value;
         }
         foreach ($data as $key => $value) {
-        if (is_bool($value)) {
-            $data[$key] = $value ? 1 : 0;
-        }
+            if (is_bool($value)) {
+                $data[$key] = $value ? 1 : 0;
+            }
         }
         $query .= implode(", ", $set);
         $query .= " WHERE $idColumn=:$idColumn";
@@ -98,9 +111,9 @@ abstract class Db
         $columns = array_diff_key($columns, $columnsToExclude);
 
         foreach ($columns as $key => $value) {
-        if (is_bool($value)) {
-            $columns[$key] = $value ? 1 : 0;
-        }
+            if (is_bool($value)) {
+                $columns[$key] = $value ? 1 : 0;
+            }
         }
 
         $queryPrepared = $this->pdo->prepare("INSERT INTO " . $this->table . " (" . implode(",", array_keys($columns)) . ") 

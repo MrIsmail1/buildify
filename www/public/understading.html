@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      class Component {
+        constructor(props, rootId) {
+          this.props = props || {};
+          this.rootElement = document.getElementById(rootId);
+          this.state = {}; // An initial state
+        }
+
+        shouldUpdate(newProps, newState) {
+          return (
+            JSON.stringify(this.props) !== JSON.stringify(newProps) ||
+            JSON.stringify(this.state) !== JSON.stringify(newState)
+          );
+        }
+
+        setState(newState) {
+          if (this.shouldUpdate(this.props, newState)) {
+            this.state = newState;
+            this.display(this.props);
+          }
+        }
+
+        render() {
+          throw new Error("Method 'render()' must be implemented.");
+        }
+
+        display(newProps) {
+          this.props = newProps;
+          let result = this.render();
+          this.rootElement.innerHTML = result;
+          this.afterRender();
+        }
+
+        afterRender() {}
+      }
+
+      class ButtonComponent extends Component {
+        constructor(props, rootId) {
+          super(props, rootId);
+        }
+
+        render() {
+          return `<button id="${this.props.id}">${this.props.label}</button>`;
+        }
+
+        afterRender() {
+          document
+            .getElementById(this.props.id)
+            .addEventListener('click', this.props.onClick);
+        }
+      }
+
+      class CounterComponent extends Component {
+        constructor(props, rootId) {
+          super(props, rootId);
+          this.state = { counter: this.props.initialValue };
+          this.incrementButton = new ButtonComponent(
+            {
+              id: 'increment',
+              label: '+',
+              onClick: () => this.update('increment'),
+            },
+            'root'
+          );
+          this.decrementButton = new ButtonComponent(
+            {
+              id: 'decrement',
+              label: '-',
+              onClick: () => this.update('decrement'),
+            },
+            'root'
+          );
+        }
+
+        render() {
+          return `${this.decrementButton.render()}
+                  <span id="value">${this.state.counter}</span>
+                  ${this.incrementButton.render()}`;
+        }
+
+        update(operation) {
+          const newCounterValue =
+            operation === 'increment'
+              ? this.state.counter + 1
+              : this.state.counter - 1;
+          this.setState({ counter: newCounterValue });
+        }
+
+        afterRender() {
+          this.incrementButton.afterRender();
+          this.decrementButton.afterRender();
+        }
+      }
+
+      const counter = new CounterComponent({ initialValue: 30 }, 'root');
+      counter.display(counter.props);
+    </script>
+  </body>
+</html>

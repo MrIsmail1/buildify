@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\InstallerCore;
 use PHPMailer\PHPMailer\PHPMailer;
 use App\Core\Verificator;
 use App\Core\View;
@@ -15,6 +16,10 @@ class AuthController
 {
     public function register(): void
     {
+        if (!InstallerCore::checkInstalled()) {
+            header('Location: /bdfy-admin/installer/');
+            exit;
+        }
         $form = new RegisterConfig();
         $view = new View("Auth/register", "front");
         $view->assign('form', $form->getConfig());
@@ -72,7 +77,6 @@ class AuthController
                         $view->assign('errors', ['Echec d\'envoie d\'email !']);
                         http_response_code(404);
                     }
-
                 } else {
                     $view->assign('errors', ['L\'utilisateur existe déjà !']);
                 }
@@ -84,6 +88,10 @@ class AuthController
 
     public function login(): void
     {
+        if (!InstallerCore::checkInstalled()) {
+            header('Location: /bdfy-admin/installer/');
+            exit;
+        }
         // Check if user is already logged in
         if (isset($_COOKIE['token'])) {
             header('Location: /bdfy-admin/dashboard');
@@ -107,41 +115,42 @@ class AuthController
                     }
                 }
                 if ($user !== null && password_verify($_POST['password'], $user['password'])) {
-                // Check if user is confirmed
-                if ($user['confirmation'] === true) {
-                    $_SESSION["user"] = $user;
-                    $token = $userModel->generateToken();
-                    $userModel->update(['token' => $token], "id", $user['id']);
-                    setcookie('token', $token, time() + 3600, '/');
-                    header('Location: /bdfy-admin/dashboard');
-                    exit;
+                    // Check if user is confirmed
+                    if ($user['confirmation'] === true) {
+                        $_SESSION["user"] = $user;
+                        $token = $userModel->generateToken();
+                        $userModel->update(['token' => $token], "id", $user['id']);
+                        setcookie('token', $token, time() + 3600, '/');
+                        header('Location: /bdfy-admin/dashboard');
+                        exit;
+                    } else {
+                        $view->assign('errors', ['Account not confirmed. Please check your email for verification.']);
+                    }
                 } else {
-                    $view->assign('errors', ['Account not confirmed. Please check your email for verification.']);
+                    $view->assign('errors', ['Invalid email or password']);
                 }
-            } else {
-                $view->assign('errors', ['Invalid email or password']);
-            }
             } else {
                 $view->assign('errors', $errors);
             }
         }
     }
 
-    public function mailverification(): void {
+    public function mailverification(): void
+    {
 
         $view = new View("Auth/verif", "front");
         $token = $_GET['token'];
 
-        $userModel = User::getInstance(); 
+        $userModel = User::getInstance();
         $findUserByToken = $userModel->findUserByToken($token);
 
         if (!empty($findUserByToken)) {
             $confirmation = $findUserByToken[0]['confirmation'];
-            $id=$findUserByToken[0]['id'];
+            $id = $findUserByToken[0]['id'];
 
             if ($confirmation !== true) {
                 // Confirmation not yet done, you can update the confirmation status here if needed
-                $userModel->updateUserConfirmation(true,$id);
+                $userModel->updateUserConfirmation(true, $id);
                 // Redirect to dashboard
                 header('Location: /bdfy-admin/login');
                 exit;
@@ -150,22 +159,21 @@ class AuthController
                 header('Location: /bdfy-admin/login');
                 exit;
             }
-        } else { 
+        } else {
             $view->assign('errors', ['L\'utilisateur n\'existe pas !']);
             http_response_code(404);
         }
     }
 
     public function logout(): void
-        {
-            // Supprimer le cookie de token et la session utilisateur
-            setcookie('token', '', time() - 3600, '/');
-            session_unset();
-            session_destroy();
+    {
+        // Supprimer le cookie de token et la session utilisateur
+        setcookie('token', '', time() - 3600, '/');
+        session_unset();
+        session_destroy();
 
-            // Rediriger vers la page de connexion
-            header('Location: /bdfy-admin/login');
-            exit;
-        }
-
+        // Rediriger vers la page de connexion
+        header('Location: /bdfy-admin/login');
+        exit;
+    }
 }
