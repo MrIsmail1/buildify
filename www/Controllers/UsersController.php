@@ -150,7 +150,7 @@ class UsersController {
                 $userModel->updateFirstname($firstname,$id);
                 $userModel->updateLastname($lastname,$id);
                 $userModel->updateRole($role,$id);
-                header('Location: /bdfy-admin/users');
+                header('Location: /bdfy-admin/logout');
         }
     }
 }

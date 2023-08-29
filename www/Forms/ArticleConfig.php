@@ -62,7 +62,7 @@ class ArticleConfig extends FormAbs
                 "type" => "select",
                 "placeholder" => "Select a categorie...",
                 "options" => $options,
-                "value" => $this->categories[0],
+                "value" => !empty($this->categories) ? $this->categories[0] : "",
             ],
 
 

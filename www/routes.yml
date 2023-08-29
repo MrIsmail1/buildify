@@ -83,21 +83,25 @@
   controller: UsersController
   action: ViewUsers
   security: true
+  role: admin
 
 /bdfy-admin/users/add:
   controller: UsersController
   action: AddUser
   security: true
+  role: admin
 
 /bdfy-admin/users/delete:
   controller: UsersController
   action: DeleteUser
   security: true
+  role: admin
 
 /bdfy-admin/users/edit:
   controller: UsersController
   action: EditUser
   security: true
+  role: admin
 
 /bdfy-admin/logout:
   controller: AuthController
@@ -112,25 +116,33 @@
   controller: CommentsController
   action: getComments
   security: true 
+  role: admin
 
 
 /bdfy-admin/comments/add:
   controller: CommentsController
   action: addComment
   security: true
+  role: admin
 
 /bdfy-admin/comments/delete:
   controller: CommentsController
   action: DeleteComment
   security: true
+  role: admin
+
+
 /bdfy-admin/comments/edit:
   controller: CommentsController
   action: EditComment
   security: true
+  role: admin
+
 /bdfy-admin/comments/report:
   controller: CommentsController
   action: report
   security : true
+  role: admin
 
 /bdfy-admin/articles:
   controller: ArticleController
