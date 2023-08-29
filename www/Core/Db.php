@@ -36,8 +36,9 @@ abstract class Db
         return self::$instance;
     }
     //Méthode pour créer la base de données
-    public function createDatabase($query) {
-        if(!empty($query)) {
+    public function createDatabase($query)
+    {
+        if (!empty($query)) {
             $query = $this->pdo->exec($query);
             return true;
         }
@@ -72,10 +73,8 @@ abstract class Db
         foreach ($data as $key => $value) {
             $set[] = "$key=:$key";
             $params[":$key"] = $value;
-        }
-        foreach ($data as $key => $value) {
             if (is_bool($value)) {
-                $data[$key] = $value ? 1 : 0;
+                $params[":$key"] = $value ? 1 : 0;
             }
         }
         $query .= implode(", ", $set);
@@ -122,12 +121,11 @@ abstract class Db
         $queryPrepared->execute($columns);
     }
 
-   /*  public function deleteByForeignKey($foreignKey, $foreignKeyValue)
+    /*  public function deleteByForeignKey($foreignKey, $foreignKeyValue)
     {
         $query = "DELETE FROM " . $this->table . " WHERE $foreignKey = :value";
         $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->execute(['value' => $foreignKeyValue]);
         return $queryPrepared->rowCount();
     } */
-
 }

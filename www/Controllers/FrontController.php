@@ -16,48 +16,50 @@ class FrontController
 {
     public function index()
     {
-        $view = new View("Front/index", "front");
-        $menuModel = Menu::getInstance();
-        $activeMenu = $menuModel->getActiveMenu();
-        $pageModel = new Page();
+        $pageModel = Page::getInstance();
         $urlPath = ltrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
         $page = $pageModel->findPageByUrl($urlPath);
-        if (!isset($page)) {
+        if (!count($page)) {
             http_response_code(404);
-            header("location: /404");
+            header("location: /404/not_found");
             exit;
-        };
-
-        $templateModel = new Template();
-        $template = $templateModel->getTemplatePage($page[0]["id"]);
-
-        $articleModel = new Article();
-        $allarticle = $articleModel->getAllArticles();
-
-        $categorieModel = new Categorie();
-        $categorie = $categorieModel->getAllCategories();
-
-        $main = new MainConfig($page, $template, $allarticle, $categorie);
-        $menu = new MenuConfig($activeMenu);
-
-        $view->assign('main', $main->getConfig());
-        $view->assign('menu', $menu->getConfig());
-        $view->assign("page", $page);
+        } else {
+            $view = new View("Front/index", "front");
+            $menuModel = new Menu();
+            $activeMenu = $menuModel->getActiveMenu();
 
 
-        // Gérer la partie SEO
-        $seoTitle = $page[0]["seo_title"];
-        $metaDescription = $page[0]["meta_description"];
+            $templateModel = new Template();
+            $template = $templateModel->getTemplatePage($page[0]["id"]);
 
-        ob_start(); // Démarrer la capture de la sortie
+            $articleModel = new Article();
+            $allarticle = $articleModel->getAllArticles();
 
-        echo "<head>";
-        echo "<title>" . htmlentities($seoTitle) . "</title>";
-        echo "<meta name='description' content='" . htmlentities($metaDescription) . "'>";
-        echo "</head>";
-        $html = ob_get_clean(); // Récupérer la sortie capturée
+            $categorieModel = new Categorie();
+            $categorie = $categorieModel->getAllCategories();
 
-        $view->assign('html', $html);
+            $main = new MainConfig($page, $template, $allarticle, $categorie);
+            $menu = new MenuConfig($activeMenu);
+
+            $view->assign('main', $main->getConfig());
+            $view->assign('menu', $menu->getConfig());
+            $view->assign("page", $page);
+
+
+            // Gérer la partie SEO
+            $seoTitle = $page[0]["seo_title"];
+            $metaDescription = $page[0]["meta_description"];
+
+            ob_start(); // Démarrer la capture de la sortie
+
+            echo "<head>";
+            echo "<title>" . htmlentities($seoTitle) . "</title>";
+            echo "<meta name='description' content='" . htmlentities($metaDescription) . "'>";
+            echo "</head>";
+            $html = ob_get_clean(); // Récupérer la sortie capturée
+
+            $view->assign('html', $html);
+        }
     }
     public function home()
     {

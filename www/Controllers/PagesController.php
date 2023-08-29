@@ -96,22 +96,22 @@ class PagesController
                 $pageModel->setSeoTitle($_POST['seo_title']);
                 $pageModel->setMetaDescription($_POST['meta_description']);
 
-            // Prepare the data for the update
-            $data = [
-                'pagetitle' => $pageModel->getPageTitle(),
-                'content' => $pageModel->getContent(),
-                'slug' => $pageModel->getSlug(),
-                'seo_title' => $pageModel->getSeoTitle(),
-                'meta_description' => $pageModel->getMetaDescription()
-            ];
-            // Call the update function
-            $pageModel->update($data, 'id', $id);
-            header("location:/bdfy-admin/pages/edit?id={$id}");
-        } else {
-            $view->assign('errors', $errors);
+                // Prepare the data for the update
+                $data = [
+                    'pagetitle' => $pageModel->getPageTitle(),
+                    'content' => $pageModel->getContent(),
+                    'slug' => $pageModel->getSlug(),
+                    'seo_title' => $pageModel->getSeoTitle(),
+                    'meta_description' => $pageModel->getMetaDescription()
+                ];
+                // Call the update function
+                $pageModel->update($data, 'id', $id);
+                header("location:/bdfy-admin/pages/edit?id={$id}");
+            } else {
+                $view->assign('errors', $errors);
+            }
         }
     }
-}
 
     public function ViewHistory()
     {
@@ -175,11 +175,8 @@ class PagesController
             }
         }
         $pageModel = Page::getInstance();
-        $articleModel = new Article();
-        $allArticles = $articleModel->getAllArticles();
         $page = $pageModel->getPageById($id);
-        $main = new MainConfig($page, $template, $allArticles,$categorie);
+        $main = new MainConfig($page, $template, null, null);
         $view->assign('main', $main->getConfig());
     }
-
 }

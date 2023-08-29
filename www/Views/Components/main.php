@@ -6,7 +6,7 @@
     <div id="<?= $config["content"]["id"] ?>" class="<?= $config["content"]["class"] ?>">
         <?= $config["content"]["text"] ?>
     </div>
-    <?php if (count($config['articles'])) : ?>
+    <?php if (isset($config['articles']) && count(($config['articles']))) : ?>
         <h2 class="text-2xl font-semibold mt-6 mb-4">Articles récents</h2>
 
         <div>

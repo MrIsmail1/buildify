@@ -40,6 +40,9 @@ class MenuController
                     }
                     $items_pg_array = '{' . implode(",", $items) . '}';
                     $menuModel->setItems($items_pg_array);
+                    if (isset($_POST["active"]) && $_POST["active"] === "on") {
+                        $menuModel->setActive(true);
+                    }
                     $menuModel->create();
                 } else {
                     $view->assign('errors', ["Le nom du menu existe déjà"]);
@@ -76,13 +79,18 @@ class MenuController
                 }
                 $items_pg_array = '{' . implode(",", $items) . '}';
                 $menuModel->setItems($items_pg_array);
-                $active = isset($_POST['active']) && $_POST['active'] === 1 ? true : false;
-                $menuModel->setActive($active);
+                var_dump($_POST);
+                if (isset($_POST["active"]) && $_POST["active"] === "on") {
+                    $menuModel->setActive(true);
+                } else {
+                    $menuModel->setActive(false);
+                }
                 $data = [
                     'name' => $menuModel->getName(),
                     'items' => $menuModel->getItems(),
                     'active' => $menuModel->getActive(),
                 ];
+                var_dump($data);
                 $menuModel->update($data, 'id', $menu[0]["id"]);
             } else {
                 $view->assign('errors', $errors);

@@ -22,7 +22,7 @@ class MainConfig extends RenderAbs
     public function getConfig(): array
     {
         return [
-            
+
 
             "config" => [
                 "id" => "main",
@@ -43,5 +43,3 @@ class MainConfig extends RenderAbs
         ];
     }
 }
-
-

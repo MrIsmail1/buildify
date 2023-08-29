@@ -52,6 +52,7 @@ class EditMenuFormConfig extends FormAbs
                     "type" => "checkbox",
                     "class" => "",
                     "checked" => $this->menu[0]["active"],
+                    "value" => "on"
                 ]
             ]
         ];
@@ -69,12 +70,7 @@ class EditMenuFormConfig extends FormAbs
         }
 
         if ($this->menu) {
-            if ($this->menu[0]["active"]) {
-                $config['inputs']['active']['value'] = 1;    
-            }
-            else {
-                $config['inputs']['active']['value'] = 0;    
-            }
+            $config['inputs']['active']['checked'] = $this->menu[0]["active"];
             $itemsStr = trim($this->menu[0]['items'], '{}');
             $itemsArray = explode(',', $itemsStr);
             foreach ($itemsArray as $slug) {
