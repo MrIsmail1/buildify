@@ -117,6 +117,11 @@
   action: NotFound
   security: false
 
+/403/access_denied:
+  controller: ErrorController
+  action: AccessDenied
+  security: true
+
 /bdfy-admin/comments:
   controller: CommentsController
   action: getAllComments
@@ -127,7 +132,6 @@
   controller: CommentsController
   action: addComment
   security: true
-  role: admin
 
 /bdfy-admin/comments/delete:
   controller: CommentsController
@@ -140,7 +144,6 @@
   controller: CommentsController
   action: EditComment
   security: true
-  role: admin
 
 /bdfy-admin/comments/report:
   controller: CommentsController

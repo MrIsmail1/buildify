@@ -32,12 +32,11 @@ class Security
                 // If a role is specified for the route, check if the user has that role
                 if ($requiredRole !== null && strtolower($_SESSION["user"]["role"]) !== strtolower($requiredRole)) {
                     // User does not have the required role
-                    http_response_code(403);
-                    header("location: /404");
+                    header("location: /403/access_denied");
                 }
                 return true;
             } else {
-                header("location: /dashboard");
+                header("location: bdfy-admin/dashboard");
                 return false;
             }
         }

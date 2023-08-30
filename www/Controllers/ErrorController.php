@@ -13,4 +13,11 @@ class ErrorController
         http_response_code(404);
         return $view;
     }
+
+    public function AccessDenied() {
+        //Gére les erreurs 403
+        $view = new View("404/403", "back");
+        http_response_code(403);
+        return $view;        
+    }
 }
