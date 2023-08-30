@@ -5,7 +5,7 @@
 <div class="flex flex-col gap-y-10">
     <div class="">
         <!-- Bouton pour ajouter une nouvelle page -->
-        <button class="border bg-gray-800 text-white p-3 rounded-md hover:bg-gray-100"><a href="/bdfy-admin/articles/add">Ajouter un article</a></button>
+        <button class=""><a href="/bdfy-admin/articles/add" class="inline-block px-4 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-500 transition duration-300" >Ajouter un article</a></button>
     </div>
     <div>
         <?php $this->component("dataTable", $dataTable); ?>

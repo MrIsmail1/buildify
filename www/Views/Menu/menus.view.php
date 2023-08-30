@@ -5,14 +5,16 @@
             <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold text-center mb-4 md:mb-6">List of Menus</h2>
 
             <div class="max-w-sm md:max-w-3xl mx-auto overflow-hidden bg-white rounded-lg shadow-md">
-                <button class="border bg-gray-800 text-white p-3 rounded-md hover:bg-gray-100"><a href="/bdfy-admin/menus/add">Créer Menu</a></button>
+                <div class="flex justify-between items-center px-4 py-2 bg-blue-700">
+                    <a href="/bdfy-admin/menus/add" class="text-white rounded-md hover:bg-blue-500 transition duration-300">Créer Menu</a>
+                </div>
                 <?php if (empty($menus)) : ?>
                     <p class="p-4 text-center text-gray-500">Pas de résultat</p>
                 <?php else : ?>
                     <ul class="divide-y divide-gray-200">
                         <?php foreach ($menus as $menu) : ?>
                             <li>
-                                <div class="px-4 py-4 flex justify-between">
+                                <div class="px-4 py-4 flex justify-between items-center">
                                     <div class="flex-1 pr-4">
                                         <p class="text-sm font-semibold text-gray-500"><?= $menu["name"] ?></p>
                                         <p class="text-sm text-gray-500"><?= $menu["active"] ? 'Active' : 'Inactive' ?></p>

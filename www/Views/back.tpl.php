@@ -25,7 +25,6 @@
             <?php include $this->view; ?></div>
 
     </div>
-    <?php require __DIR__ . '/Layout/footer.php';    ?>
 
 </body>
 

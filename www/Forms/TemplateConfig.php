@@ -6,8 +6,6 @@ use App\Forms\Abstract\FormAbs;
 
 class TemplateConfig extends FormAbs
 {
-
-
     protected $method = "POST";
     private $template;
 
@@ -17,7 +15,6 @@ class TemplateConfig extends FormAbs
     }
 
     public function getConfig(): array
-
     {
         return [
             "config" => [
@@ -26,24 +23,24 @@ class TemplateConfig extends FormAbs
                 "action" => "",
                 "enctype" => "",
                 "submit" => "Enregistrer",
-                "buttonClass" => "flex w-1/2 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
+                "buttonClass" => "w-full py-2 bg-indigo-600 text-white rounded-md text-sm font-semibold hover:bg-indigo-500 focus:outline-none focus:ring focus:ring-indigo-200 focus:ring-opacity-50",
                 "class" => "space-y-6",
             ],
             "labels" => [
                 "color" => [
                     "for" => "color",
-                    "text" => "Choisir un couleur :",
-                    "class" => "block text-sm font-medium leading-6 text-gray-900"
+                    "text" => "Choisir une couleur :",
+                    "class" => "block text-sm font-medium text-gray-900"
                 ],
                 "font_family" => [
                     "for" => "font_family",
                     "text" => "Choisir la police :",
-                    "class" => "block text-sm font-medium leading-6 text-gray-900"
+                    "class" => "block text-sm font-medium text-gray-900"
                 ],
                 "font_size" => [
                     "for" => "font_size",
                     "text" => "Choisir la taille de la police :",
-                    "class" => "block text-sm font-medium leading-6 text-gray-900"
+                    "class" => "block text-sm font-medium text-gray-900"
                 ],
             ],
             "inputs" => [
@@ -51,6 +48,7 @@ class TemplateConfig extends FormAbs
                     "type" => "select",
                     "placeholder" => "Selectionner une couleur",
                     "value" => $this->template[0]["color"],
+                    "class" => "w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-200 focus:border-indigo-500 text-gray-900 text-sm",
                     "options" => [
                         "#FF0000" => "Red",
                         "#00FF00" => "Green",
@@ -63,6 +61,7 @@ class TemplateConfig extends FormAbs
                     "type" => "select",
                     "placeholder" => "Select a role...",
                     "value" => $this->template[0]["font_family"],
+                    "class" => "w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-200 focus:border-indigo-500 text-gray-900 text-sm",
                     "options" => [
                         "Arial, sans-serif" => "Arial",
                         "Helvetica, sans-serif" => "Helvetica",
@@ -75,6 +74,7 @@ class TemplateConfig extends FormAbs
                     "type" => "select",
                     "placeholder" => "Select a role...",
                     "value" => $this->template[0]["font_size"],
+                    "class" => "w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-200 focus:border-indigo-500 text-gray-900 text-sm",
                     "options" => [
                         "16" => "16px",
                         "18" => "18px",

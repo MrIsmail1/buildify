@@ -79,7 +79,6 @@ class MenuController
                 }
                 $items_pg_array = '{' . implode(",", $items) . '}';
                 $menuModel->setItems($items_pg_array);
-                var_dump($_POST);
                 if (isset($_POST["active"]) && $_POST["active"] === "on") {
                     $menuModel->setActive(true);
                 } else {
@@ -90,7 +89,6 @@ class MenuController
                     'items' => $menuModel->getItems(),
                     'active' => $menuModel->getActive(),
                 ];
-                var_dump($data);
                 $menuModel->update($data, 'id', $menu[0]["id"]);
             } else {
                 $view->assign('errors', $errors);
