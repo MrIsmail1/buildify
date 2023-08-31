@@ -23,7 +23,7 @@ class CategoriesTableConfig extends DataTableAbs
                 "id" => "categorieTable",
             ],
             "headers" => [
-                "title" => "Title",
+                "title" => "Titre",
             ],
             "tbody" => [
                 "title" => "title",

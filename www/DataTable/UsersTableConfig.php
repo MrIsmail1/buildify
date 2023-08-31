@@ -23,10 +23,10 @@ class UsersTableConfig extends DataTableAbs
                 "id" => "userTable",
             ],
             "headers" => [
-                "firstname" => "Firstname",
-                "lastname" => "Lastname",
+                "firstname" => "Nom",
+                "lastname" => "Prénom",
                 "email" => "Email",
-                "role" => "Roles",
+                "role" => "Role",
             ],
             "tbody" => [
                 "firstname" => "firstname",

@@ -11,7 +11,16 @@
         <?php foreach ($config['data'] as $row) : ?>
             <tr>
                 <?php foreach ($config["tbody"] as $tb) : ?>
-                    <td class="border-b border-gray-300 py-2 px-4"><?= $row[$tb] ?></td>
+                    <td class="border-b border-gray-300 py-2 px-4">
+                        <?php if ($tb === "pagetitle" && isset($row["slug"])) : ?>
+                            <a href="<?= "/" . $row["slug"] ?>" class="underline text-blue-500 hover:text-blue-800"><?= $row[$tb] ?></a>
+                        <?php elseif ($tb === "last_modified") : ?>
+                            <?php $date = new \DateTime($row["last_modified"]); ?>
+                            <?= $date->format('Y-m-d') ?>
+                        <?php else : ?>
+                            <?= $row[$tb] ?>
+                        <?php endif; ?>
+                    </td>
                 <?php endforeach; ?>
                 <td class="border-b border-gray-300 py-2 px-4">
                     <?php if (isset($config["actions"]["view"])) : ?>
