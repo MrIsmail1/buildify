@@ -1,4 +1,4 @@
-<nav id="<?= $config['config']['id'] ?>" class="bg-blue-700">
+<nav id="<?= htmlspecialchars($config['config']['id']) ?>" class="bg-blue-700">
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div class="relative flex items-center justify-between h-16">
             <!-- Titre du site en H1 -->
@@ -9,13 +9,13 @@
                 </div>
                 <div class="hidden sm:block sm:ml-6">
                     <div class="flex space-x-4">
-                        <ul>
-                            <?php foreach ($config['menu']['items'] as $item) : ?>
-                                <li class="<?= $item['class'] ?>">
-                                    <a href="<?= $item['link'] ?>" id="<?= $item['id'] ?>" class="list-none text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"><?= $item['text'] ?></a>
+                        <?php foreach ($config['menu']['items'] as $item) : ?>
+                            <ul>
+                                <li class="<?= htmlspecialchars($item['class']) ?>">
+                                    <a href="<?= htmlspecialchars($item['link']) ?>" id="<?= htmlspecialchars($item['id']) ?>" class="list-none text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"><?= htmlspecialchars($item['text']) ?></a>
                                 </li>
-                            <?php endforeach; ?>
-                        </ul>
+                            </ul>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>

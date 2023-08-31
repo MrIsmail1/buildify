@@ -16,10 +16,9 @@
             <div class="mt-8">
                 <div class="border rounded-md p-4 shadow-sm">
                     <h3 class="text-lg text-gray-600 mb-4">Dernières Pages</h3>
-                    <?php foreach ($lastPages as $page): ?>
+                    <?php foreach ($lastPages as $page) : ?>
                         <div class="border-b border-gray-200 mb-4 pb-4">
                             <p class="text-sm text-gray-700"><span class="font-bold">Titre : </span><?= $page['pagetitle'] ?></p>
-                            <p class="text-sm text-gray-700"><span class="font-bold">Contenu : </span><?= $page['content'] ?></p>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -27,7 +26,7 @@
             <div class="mt-8">
                 <div class="border rounded-md p-4 shadow-sm">
                     <h3 class="text-lg text-gray-600 mb-4">Derniers Commentaires</h3>
-                    <?php foreach ($lastComments as $comment): ?>
+                    <?php foreach ($lastComments as $comment) : ?>
                         <div class="border-b border-gray-200 mb-4 pb-4">
                             <p class="text-sm text-gray-700"><span class="font-bold">Auteur : </span><?= $comment['comment_author'] ?></p>
                             <p class="text-sm text-gray-700"><span class="font-bold">Commentaire : </span><?= $comment['content'] ?></p>
