@@ -38,10 +38,11 @@ class InstallerController
                     "email" => $_POST['email'],
                     "password" => $_POST['password'],
                 ];
+                InstallerCore::initDb();
+                InstallerCore::createAdminUser($userInfo);
                 if (!empty($_POST['fakeData']) && $_POST['fakeData'] === "on") {
                     InstallerCore::initDbWithFakeData();
                 }
-                InstallerCore::createAdminUser($userInfo);
                 echo json_encode(['success' => true, 'message' => 'Le compte admin a été créé avec succès']);
             } else {
                 echo json_encode(['error' => true, 'message' => 'Les données utilisateur sont invalides', 'errors' => $validationErrors]);

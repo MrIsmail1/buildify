@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Models\Installer;
 use App\Models\User;
 use PDO;
 
@@ -61,11 +62,16 @@ class InstallerCore
         $config = require 'Config.php';
         return $config['installed'] ?? false;
     }
-
-    public static function initDbWithFakeData()
+    public static function initDb()
     {
         $query = file_get_contents('script.sql');
-        $db = Db::getInstance();
-        $db->createDatabase($query);
+        $installerModel = new Installer();
+        $installerModel->createDatabase($query);
+    }
+    public static function initDbWithFakeData()
+    {
+        $query = file_get_contents('fakeData.sql');
+        $installerModel = new Installer();
+        $installerModel->createDatabase($query);
     }
 }

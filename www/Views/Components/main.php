@@ -33,6 +33,5 @@
                 </div>
             <?php endforeach; ?>
         </div>
+    <?php endif; ?>
 </div>
-<?php endif; ?>
-<script src="../../public/main.js" defer></script>

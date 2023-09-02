@@ -1,10 +1,8 @@
-<div class="bg-white py-6 sm:py-8 lg:py-12">
-    <div class="max-w-screen-xl px-4 md:px-6 mx-auto">
+<div class="bg-white">
+    <div class="max-w-screen-xl">
 
         <div class="mb-10 md:mb-16">
-            <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold text-center mb-4 md:mb-6">List of Menus</h2>
-
-            <div class="max-w-sm md:max-w-3xl mx-auto overflow-hidden bg-white rounded-lg shadow-md">
+            <div class="overflow-hidden bg-white rounded-lg shadow-md">
                 <div class="flex justify-between items-center px-4 py-2 bg-blue-700">
                     <a href="/bdfy-admin/menus/add" class="text-white rounded-md hover:bg-blue-500 transition duration-300">Créer Menu</a>
                 </div>

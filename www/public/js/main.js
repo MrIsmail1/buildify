@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const categorySelect = document.getElementById('category-select');
-  const filteredArticles = document.getElementById('filtered-articles');
+  const articlesContainer = document.getElementById('filtered-articles');
   const articleData = JSON.parse(
     articlesContainer.getAttribute('data-articles')
   );
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
-    filteredArticles.innerHTML = filteredArticleHtml;
+    articlesContainer.innerHTML = filteredArticleHtml;
   });
 
   categorySelect.dispatchEvent(new Event('change'));

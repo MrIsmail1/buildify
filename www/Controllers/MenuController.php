@@ -41,9 +41,14 @@ class MenuController
                     $items_pg_array = '{' . implode(",", $items) . '}';
                     $menuModel->setItems($items_pg_array);
                     if (isset($_POST["active"]) && $_POST["active"] === "on") {
+                        $active = $menuModel->getActiveMenu();
+                        if (count($active)) {
+                            $menuModel->update($active, 'id', $active[0]["id"]);
+                        }
                         $menuModel->setActive(true);
                     }
                     $menuModel->create();
+                    header("location:/bdfy-admin/menus ");
                 } else {
                     $view->assign('errors', ["Le nom du menu existe déjà"]);
                 }
@@ -89,6 +94,7 @@ class MenuController
                     'items' => $menuModel->getItems(),
                     'active' => $menuModel->getActive(),
                 ];
+                header("location:/bdfy-admin/menus ");
                 $menuModel->update($data, 'id', $menu[0]["id"]);
             } else {
                 $view->assign('errors', $errors);

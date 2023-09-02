@@ -21,3 +21,5 @@ Deny from all
 Order allow,deny
 Deny from all
 </Files>
+
+Options -Indexes

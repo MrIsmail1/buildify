@@ -1,19 +1,3 @@
--- Database: Challenge_Stack
-
--- DROP DATABASE IF EXISTS "Challenge_Stack";
-
-CREATE DATABASE "Challenge_Stack"
-    WITH
-    OWNER = "ESGI"
-    ENCODING = 'UTF8'
-    LC_COLLATE = 'en_US.utf8'
-    LC_CTYPE = 'en_US.utf8'
-    TABLESPACE = pg_default
-    CONNECTION LIMIT = -1
-    IS_TEMPLATE = False;
-
--- SCHEMA: challenge_stack
-
 -- DROP SCHEMA IF EXISTS challenge_stack ;
 
 CREATE SCHEMA IF NOT EXISTS challenge_stack
@@ -182,4 +166,3 @@ CREATE TABLE IF NOT EXISTS challenge_stack.comments
         ON UPDATE NO ACTION
         ON DELETE CASCADE
 );
-
