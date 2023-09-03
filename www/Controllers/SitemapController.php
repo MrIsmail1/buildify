@@ -14,21 +14,22 @@ class SitemapController
 
         $pageModel = Page::getInstance();
         $pages = $pageModel->getAllPages();
+       foreach ($pages as $page) {
+        $url = $page['slug'];
+        $lastModified = $page['last_modified'];
 
-        foreach ($pages as $page) {
-            $url = $page->getSlug();
-            $lastModified = $page->getLast_modified();
-
-            // Vérifier si l'URL complète commence par "http://localhost:8080/bdfy-admin" et l'exclure
-            if (strpos($url, 'http://localhost:8080/bdfy-admin') !== 0) {
-                echo '<url>';
-                echo '<loc>' . $url . '</loc>';
-                echo '<lastmod>' . $lastModified . '</lastmod>';
-                echo '</url>';
-            }
+        // Vérifier si l'URL complète commence par "http://localhost:8080/bdfy-admin" et l'exclure
+        if (strpos($url, 'http://localhost:8080/bdfy-admin') !== 0) {
+            echo '<url>';
+            echo '<loc>' . $url . '</loc>';
+            echo '<lastmod>' . $lastModified . '</lastmod>';
+            echo '</url>';
         }
+    }
+
 
         echo '</urlset>';
+        exit;
     }
 }
 

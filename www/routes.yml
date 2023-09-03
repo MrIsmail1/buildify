@@ -78,10 +78,10 @@
   action: DeleteMenu
   security: true
 
-/sitemap.xml:
+/bdfy-admin/sitemap.xml:
   controller: SitemapController
   action: ViewSitemap
-  security: false
+  security: true
 
 /bdfy-admin/users:
   controller: UsersController
